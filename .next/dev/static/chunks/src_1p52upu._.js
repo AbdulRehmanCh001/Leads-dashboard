@@ -2870,9 +2870,10 @@ function MetricColumn({ metric, open, onToggle, showDivider, isLast }) {
     }, this);
 }
 _c3 = MetricColumn;
-function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
+function SummaryPanel({ title, metrics }) {
     _s1();
     const [openKeys, setOpenKeys] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [breakdown, setBreakdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("department");
     const anyOpen = openKeys.length > 0;
     const allOpen = openKeys.length === metrics.length;
     const breakdownBtnRefs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])([]);
@@ -2931,7 +2932,7 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                 children: title
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 490,
+                                lineNumber: 487,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2950,7 +2951,7 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 504,
+                                                lineNumber: 501,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2958,12 +2959,12 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                     breakdownBtnRefs.current[0] = el;
                                                 },
                                                 type: "button",
-                                                onClick: ()=>onBreakdownChange("department"),
+                                                onClick: ()=>setBreakdown("department"),
                                                 className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:px-3 lg:py-0", breakdown === "department" ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]" : "text-[rgba(29,54,80,0.8)]"),
                                                 children: "Breakdown by Department"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 517,
+                                                lineNumber: 514,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2971,34 +2972,34 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                     breakdownBtnRefs.current[1] = el;
                                                 },
                                                 type: "button",
-                                                onClick: ()=>onBreakdownChange("region"),
+                                                onClick: ()=>setBreakdown("region"),
                                                 className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:px-3 lg:py-0", breakdown === "region" ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]" : "text-[rgba(29,54,80,0.8)]"),
                                                 children: "Breakdown by Region"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 532,
+                                                lineNumber: 529,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 503,
+                                        lineNumber: 500,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                    lineNumber: 502,
+                                    lineNumber: 499,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 493,
+                                lineNumber: 490,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 489,
+                        lineNumber: 486,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3011,18 +3012,18 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                 isLast: i === metrics.length - 1
                             }, m.title, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 554,
+                                lineNumber: 551,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 552,
+                        lineNumber: 549,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 488,
+                lineNumber: 485,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3039,38 +3040,37 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                 size: 14
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 579,
+                                lineNumber: 576,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 573,
+                            lineNumber: 570,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 567,
+                    lineNumber: 564,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 566,
+                lineNumber: 563,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-        lineNumber: 487,
+        lineNumber: 484,
         columnNumber: 5
     }, this);
 }
-_s1(SummaryPanel, "gHrDVVVv80NqnxwD7PTCAHu2akw=");
+_s1(SummaryPanel, "wl0oZWlOduwklV6s5Dl5mk+C+5k=");
 _c4 = SummaryPanel;
 function SummarySection() {
     _s2();
     const [mode, setMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("open");
-    const [breakdown, setBreakdown] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("department");
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         className: "flex flex-col gap-3 rounded-[14px] border border-[#DBDDE2] bg-white p-3 lg:gap-4 lg:p-4",
         children: [
@@ -3091,7 +3091,7 @@ function SummarySection() {
                                                 children: "Summary of current workload "
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 597,
+                                                lineNumber: 593,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3099,24 +3099,24 @@ function SummarySection() {
                                                 children: "Summary of current workload and completed outcomes"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 598,
+                                                lineNumber: 594,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 596,
+                                        lineNumber: 592,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dashboard$2f$FilterScopeBadge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterScopeBadge"], {}, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 602,
+                                        lineNumber: 598,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 595,
+                                lineNumber: 591,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3127,7 +3127,7 @@ function SummarySection() {
                                         children: "Track performance against last month and the 6-month median."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 605,
+                                        lineNumber: 601,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3135,19 +3135,19 @@ function SummarySection() {
                                         children: "Track current performance against last month and the median over the previous 6 months."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 608,
+                                        lineNumber: 604,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 604,
+                                lineNumber: 600,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 594,
+                        lineNumber: 590,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3157,18 +3157,18 @@ function SummarySection() {
                             onChange: setMode
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 615,
+                            lineNumber: 611,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 614,
+                        lineNumber: 610,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 593,
+                lineNumber: 589,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3177,52 +3177,46 @@ function SummarySection() {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryPanel, {
                             title: "Open Leads this month",
-                            metrics: openMetrics,
-                            breakdown: breakdown,
-                            onBreakdownChange: setBreakdown
+                            metrics: openMetrics
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 622,
+                            lineNumber: 618,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryPanel, {
                             title: "Closed Leads this month",
-                            metrics: closedMetrics,
-                            breakdown: breakdown,
-                            onBreakdownChange: setBreakdown
+                            metrics: closedMetrics
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 628,
+                            lineNumber: 622,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 621,
+                    lineNumber: 617,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryPanel, {
                     title: mode === "open" ? "Open Leads this month" : "Closed Leads this month",
-                    metrics: mode === "open" ? openMetrics : closedMetrics,
-                    breakdown: breakdown,
-                    onBreakdownChange: setBreakdown
+                    metrics: mode === "open" ? openMetrics : closedMetrics
                 }, void 0, false, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 636,
+                    lineNumber: 628,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 619,
+                lineNumber: 615,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-        lineNumber: 592,
+        lineNumber: 588,
         columnNumber: 5
     }, this);
 }
-_s2(SummarySection, "7spX+t/XOLMUrr7h55TiJDaCL9M=");
+_s2(SummarySection, "va08YsW7AaVjnq0LjpLbfw3tytM=");
 _c5 = SummarySection;
 var _c, _c1, _c2, _c3, _c4, _c5;
 __turbopack_context__.k.register(_c, "Trend");

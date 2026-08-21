@@ -131,7 +131,7 @@ const columns = [
     {
         key: "region",
         label: "Region",
-        className: "min-w-[200px]"
+        className: "min-w-[200px] text-left"
     },
     {
         key: "department",
@@ -497,7 +497,7 @@ function LeadRegister() {
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy",
+                                                    className: "h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy",
                                                     children: lead.region
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/dashboard/LeadRegister.tsx",

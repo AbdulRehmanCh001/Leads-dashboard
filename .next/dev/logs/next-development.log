@@ -1,5 +1,12 @@
-{"timestamp":"00:00:00.526","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:02.226","source":"Server","level":"WARN","message":"⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using \"http://localhost:3000\". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase"}
-{"timestamp":"00:00:02.859","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:00:04.576","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:00:06.912","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:00.680","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:26.687","source":"Server","level":"WARN","message":"⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using \"http://localhost:3000\". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase"}
+{"timestamp":"00:00:27.677","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:29.446","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:01:51.186","source":"Server","level":"LOG","message":"✓ Compiled in 52ms"}
+{"timestamp":"00:01:51.504","source":"Server","level":"LOG","message":"✓ Compiled in 56ms"}
+{"timestamp":"00:02:01.969","source":"Server","level":"LOG","message":"✓ Compiled in 38ms"}
+{"timestamp":"00:02:28.545","source":"Server","level":"LOG","message":"✓ Compiled in 36ms"}
+{"timestamp":"00:04:50.782","source":"Server","level":"LOG","message":"✓ Compiled in 33ms"}
+{"timestamp":"00:04:51.023","source":"Server","level":"LOG","message":"✓ Compiled in 19ms"}
+{"timestamp":"00:06:08.461","source":"Server","level":"LOG","message":"✓ Compiled in 27ms"}
+{"timestamp":"00:06:08.823","source":"Server","level":"LOG","message":"✓ Compiled in 19ms"}

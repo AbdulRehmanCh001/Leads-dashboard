@@ -436,15 +436,12 @@ function MetricColumn({
 function SummaryPanel({
   title,
   metrics,
-  breakdown,
-  onBreakdownChange,
 }: {
   title: string;
   metrics: Metric[];
-  breakdown: Breakdown;
-  onBreakdownChange: (b: Breakdown) => void;
 }) {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [breakdown, setBreakdown] = useState<Breakdown>("department");
   const anyOpen = openKeys.length > 0;
   const allOpen = openKeys.length === metrics.length;
   const breakdownBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -519,7 +516,7 @@ function SummaryPanel({
                     breakdownBtnRefs.current[0] = el;
                   }}
                   type="button"
-                  onClick={() => onBreakdownChange("department")}
+                  onClick={() => setBreakdown("department")}
                   className={cn(
                     "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:px-3 lg:py-0",
                     breakdown === "department"
@@ -534,7 +531,7 @@ function SummaryPanel({
                     breakdownBtnRefs.current[1] = el;
                   }}
                   type="button"
-                  onClick={() => onBreakdownChange("region")}
+                  onClick={() => setBreakdown("region")}
                   className={cn(
                     "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:px-3 lg:py-0",
                     breakdown === "region"
@@ -586,7 +583,6 @@ function SummaryPanel({
 
 export function SummarySection() {
   const [mode, setMode] = useState<LeadMode>("open");
-  const [breakdown, setBreakdown] = useState<Breakdown>("department");
 
   return (
     <section className="flex flex-col gap-3 rounded-[14px] border border-[#DBDDE2] bg-white p-3 lg:gap-4 lg:p-4">
@@ -622,14 +618,10 @@ export function SummarySection() {
             <SummaryPanel
               title="Open Leads this month"
               metrics={openMetrics}
-              breakdown={breakdown}
-              onBreakdownChange={setBreakdown}
             />
             <SummaryPanel
               title="Closed Leads this month"
               metrics={closedMetrics}
-              breakdown={breakdown}
-              onBreakdownChange={setBreakdown}
             />
           </>
         ) : (
@@ -640,8 +632,6 @@ export function SummarySection() {
                 : "Closed Leads this month"
             }
             metrics={mode === "open" ? openMetrics : closedMetrics}
-            breakdown={breakdown}
-            onBreakdownChange={setBreakdown}
           />
         )}
       </div>

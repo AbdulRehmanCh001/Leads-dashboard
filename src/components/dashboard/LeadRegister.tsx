@@ -109,7 +109,7 @@ const columns = [
   { key: "lead", label: "Lead", className: "min-w-[196px] lg:min-w-[226px]" },
   { key: "customer", label: "Customer", className: "min-w-[200px]" },
   { key: "product", label: "Product", className: "min-w-[200px]" },
-  { key: "region", label: "Region", className: "min-w-[200px]" },
+  { key: "region", label: "Region", className: "min-w-[200px] text-left" },
   { key: "department", label: "Department", className: "min-w-[200px]" },
   { key: "state", label: "State", className: "min-w-[100px] text-center" },
   { key: "age", label: "Age / Cycle", className: "min-w-[100px] text-center" },
@@ -342,7 +342,7 @@ export function LeadRegister() {
                     <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
                       {lead.product}
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
                       {lead.region}
                     </td>
                     <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
