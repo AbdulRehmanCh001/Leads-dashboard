@@ -3141,7 +3141,7 @@ function TopBar() {
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "font-[family-name:var(--font-geist)] text-sm font-semibold text-[#6A7282]",
+                                className: "text-sm font-semibold text-[#6A7282]",
                                 children: "REGION"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/TopBar.tsx",
@@ -3149,7 +3149,7 @@ function TopBar() {
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "font-[family-name:var(--font-geist)] text-base font-semibold text-icr-navy",
+                                className: "text-base font-semibold text-icr-navy",
                                 children: region
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/TopBar.tsx",
@@ -3214,7 +3214,7 @@ function TopBar() {
                 className: "flex items-center gap-4 lg:gap-3",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: "hidden h-9 w-[280px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 font-[family-name:var(--font-geist)] text-xs text-[#6C7C8D] lg:flex",
+                        className: "hidden h-9 w-[280px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:flex",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$icons$2f$index$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["IconSearch"], {
                                 size: 14

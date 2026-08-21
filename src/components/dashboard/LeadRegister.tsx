@@ -238,7 +238,7 @@ export function LeadRegister() {
               automatically.
             </p>
           </div>
-          <label className="flex h-8 w-full shrink-0 items-center gap-2 overflow-hidden rounded-[7px] border border-[#E6EBF1] bg-white px-2.5 font-[family-name:var(--font-geist)] text-xs text-[#6C7C8D] lg:h-9 lg:w-[280px] lg:rounded-lg">
+          <label className="flex h-8 w-full shrink-0 items-center gap-2 overflow-hidden rounded-[7px] border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:h-9 lg:w-[280px] lg:rounded-lg">
             <IconSearch size={14} />
             <input
               type="search"

@@ -1,8 +1,46 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Book"),
+    local("Gotham"),
+    url("/fonts/Gotham-Book.woff2") format("woff2"),
+    url("/fonts/Gotham-Book.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Medium"),
+    local("Gotham"),
+    url("/fonts/Gotham-Medium.woff2") format("woff2"),
+    url("/fonts/Gotham-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    local("Gotham Bold"),
+    local("Gotham"),
+    url("/fonts/Gotham-Bold.woff2") format("woff2"),
+    url("/fonts/Gotham-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #f9fafb;
   --foreground: #1d3650;
+  --font-gotham: "Gotham", "Gotham Book", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
 @theme inline {
@@ -26,8 +64,8 @@
   --color-icr-bar: #c98a55;
   --color-icr-bar-prev: #e5e7eb;
 
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
-  --font-geist: var(--font-geist-sans), "Geist", var(--font-inter), sans-serif;
+  --font-sans: var(--font-gotham);
+  --font-geist: var(--font-gotham);
 
   --radius-sm: 8px;
   --radius-md: 10px;
@@ -48,7 +86,7 @@
     min-height: 100%;
     background: var(--color-icr-bg);
     color: var(--color-icr-muted);
-    font-family: var(--font-sans);
+    font-family: var(--font-gotham);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -57,8 +95,11 @@
   }
 
   button,
-  input {
+  input,
+  textarea,
+  select {
     font: inherit;
+    font-family: inherit;
   }
 
   button {

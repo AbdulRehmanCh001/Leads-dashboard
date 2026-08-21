@@ -66,10 +66,10 @@ export function TopBar() {
           className="flex items-center gap-2 rounded-[10px] border border-[#E9EBEE] bg-white px-3 py-2 text-icr-navy"
         >
           <IconGlobe size={20} />
-          <span className="font-[family-name:var(--font-geist)] text-sm font-semibold text-[#6A7282]">
+          <span className="text-sm font-semibold text-[#6A7282]">
             REGION
           </span>
-          <span className="font-[family-name:var(--font-geist)] text-base font-semibold text-icr-navy">
+          <span className="text-base font-semibold text-icr-navy">
             {region}
           </span>
           <span
@@ -113,7 +113,7 @@ export function TopBar() {
       </div>
 
       <div className="flex items-center gap-4 lg:gap-3">
-        <label className="hidden h-9 w-[280px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 font-[family-name:var(--font-geist)] text-xs text-[#6C7C8D] lg:flex">
+        <label className="hidden h-9 w-[280px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:flex">
           <IconSearch size={14} />
           <input
             type="search"
