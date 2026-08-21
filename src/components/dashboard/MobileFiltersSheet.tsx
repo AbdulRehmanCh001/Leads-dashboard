@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   DEPARTMENT_ALL,
   PRODUCT_ALL,
@@ -145,6 +145,34 @@ export function MobileFiltersSheet() {
   const [baselineMenu, setBaselineMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [visible, setVisible] = useState(false);
+  const periodBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [periodPill, setPeriodPill] = useState({
+    left: 0,
+    width: 0,
+    ready: false,
+  });
+
+  function measurePeriodPill() {
+    const idx = periods.indexOf(period);
+    const btn = periodBtnRefs.current[idx];
+    if (!btn) return;
+    setPeriodPill({
+      left: btn.offsetLeft,
+      width: btn.offsetWidth,
+      ready: true,
+    });
+  }
+
+  useLayoutEffect(() => {
+    if (!filtersOpen) return;
+    measurePeriodPill();
+  }, [period, filtersOpen, visible]);
+
+  useEffect(() => {
+    if (!filtersOpen) return;
+    window.addEventListener("resize", measurePeriodPill);
+    return () => window.removeEventListener("resize", measurePeriodPill);
+  }, [period, filtersOpen]);
 
   useEffect(() => {
     if (filtersOpen) {
@@ -238,19 +266,30 @@ export function MobileFiltersSheet() {
               <div className="text-sm font-medium leading-[18.9px] text-[rgba(29,54,80,0.80)]">
                 Time period
               </div>
-              <div className="flex w-full rounded-[10px] border border-[rgba(13,24,61,0.10)] bg-white p-0.5">
-                {periods.map((p) => {
+              <div className="relative flex w-full rounded-[10px] border border-[rgba(13,24,61,0.10)] bg-white p-0.5">
+                <span
+                  aria-hidden
+                  className={cn(
+                    "pointer-events-none absolute top-0.5 bottom-0.5 rounded-lg bg-icr-tint outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)] transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    periodPill.ready ? "opacity-100" : "opacity-0",
+                  )}
+                  style={{ left: periodPill.left, width: periodPill.width }}
+                />
+                {periods.map((p, i) => {
                   const active = period === p;
                   return (
                     <button
                       key={p}
+                      ref={(el) => {
+                        periodBtnRefs.current[i] = el;
+                      }}
                       type="button"
                       onClick={() => setPeriod(p)}
                       className={cn(
-                        "flex h-[30px] flex-1 items-center justify-center rounded-lg px-1 text-center text-xs font-medium leading-[16.8px]",
+                        "relative z-10 flex h-[30px] flex-1 items-center justify-center rounded-lg px-1 text-center text-xs font-medium leading-[16.8px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
                         active
-                          ? "bg-icr-tint text-icr-orange outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)]"
-                          : "bg-transparent text-[rgba(29,54,80,0.65)]",
+                          ? "text-icr-orange"
+                          : "text-[rgba(29,54,80,0.65)]",
                       )}
                     >
                       {p}

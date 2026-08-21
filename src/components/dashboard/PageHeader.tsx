@@ -40,6 +40,7 @@ export function PageHeader() {
       <div className="hidden items-center gap-2 rounded-lg border border-[#E9EBEE] bg-white px-3 py-2.5 text-[12px] text-[#6C7C8D] lg:inline-flex">
         <button
           type="button"
+          onClick={() => window.location.reload()}
           className="inline-flex items-center gap-2 font-medium leading-5 text-[#6C7C8D]"
         >
           <IconRefresh size={12} />
@@ -51,6 +52,7 @@ export function PageHeader() {
         <button
           type="button"
           aria-label="Refresh"
+          onClick={() => window.location.reload()}
           className="inline-flex items-center justify-center rounded-lg border border-[rgba(13,24,61,0.10)] bg-white px-3 py-[9px]"
         >
           <IconRefresh size={12} className="text-[#6C7C8D]" />
@@ -68,9 +70,11 @@ export function PageHeader() {
             height={20}
             className="size-5"
           />
-          <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-[5px] bg-icr-orange px-1.5 text-[10px] leading-[14px] text-white">
-            {activeCount}
-          </span>
+          {activeCount > 0 ? (
+            <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-[5px] bg-icr-orange px-1.5 text-[10px] leading-[14px] text-white">
+              {activeCount}
+            </span>
+          ) : null}
         </button>
       </div>
     </div>

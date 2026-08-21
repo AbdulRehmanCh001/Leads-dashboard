@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FilterScopeBadge } from "@/components/dashboard/FilterScopeBadge";
 import {
   IconArrowDown,
   IconArrowUp,
   IconChevronDown,
+  IconChevronRight,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -218,19 +219,51 @@ function ModeToggle({
     { id: "closed", label: "Closed Leads" },
     { id: "both", label: "Both" },
   ];
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [pill, setPill] = useState({
+    left: 0,
+    width: 0,
+    ready: false,
+    animate: false,
+  });
+
+  useLayoutEffect(() => {
+    const idx = options.findIndex((o) => o.id === mode);
+    const btn = btnRefs.current[idx];
+    if (!btn) return;
+    const left = btn.offsetLeft;
+    const width = btn.offsetWidth;
+    setPill((prev) => ({
+      left,
+      width,
+      ready: true,
+      animate: prev.ready,
+    }));
+  }, [mode]);
 
   return (
-    <div className="inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
-      {options.map((opt) => (
+    <div className="relative inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute top-1 bottom-1 rounded-[7px] border border-[#F6861F] bg-icr-tint",
+          pill.animate &&
+            "transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          pill.ready ? "opacity-100" : "opacity-0",
+        )}
+        style={{ left: pill.left, width: pill.width }}
+      />
+      {options.map((opt, i) => (
         <button
           key={opt.id}
+          ref={(el) => {
+            btnRefs.current[i] = el;
+          }}
           type="button"
           onClick={() => onChange(opt.id)}
           className={cn(
-            "flex-1 rounded-[7px] border border-transparent px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-200 lg:flex-none",
-            mode === opt.id
-              ? "border-[#F6861F] bg-icr-tint text-icr-orange"
-              : "text-[rgba(29,54,80,0.8)]",
+            "relative z-10 flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none",
+            mode === opt.id ? "text-icr-orange" : "text-[rgba(29,54,80,0.8)]",
           )}
         >
           {opt.label}
@@ -243,11 +276,9 @@ function ModeToggle({
 function CollapseToggle({
   open,
   onClick,
-  accent,
 }: {
   open: boolean;
   onClick: () => void;
-  accent?: boolean;
 }) {
   return (
     <button
@@ -255,15 +286,17 @@ function CollapseToggle({
       aria-expanded={open}
       onClick={onClick}
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded p-1.5 transition-colors duration-200",
-        accent || open
-          ? "bg-[rgba(246,134,31,0.12)] text-icr-orange"
-          : "bg-transparent text-icr-navy lg:bg-[#F8F9FA]",
+        "inline-flex shrink-0 items-center justify-center rounded text-icr-navy",
+        "p-0 lg:bg-[#F8F9FA] lg:p-1.5",
+        open && "lg:bg-[rgba(246,134,31,0.12)] lg:text-icr-orange",
       )}
     >
+      <span className="inline-flex lg:hidden">
+        {open ? <IconChevronDown size={12} /> : <IconChevronRight size={12} />}
+      </span>
       <span
         className={cn(
-          "inline-flex transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "hidden transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:inline-flex",
           open && "rotate-180",
         )}
       >
@@ -284,11 +317,11 @@ function MetricColumn({
 }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 last:border-b-0 lg:gap-3 lg:border-r lg:border-b-0 lg:px-4 lg:pb-4 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0">
-      <div className="flex items-center gap-0 lg:justify-between lg:gap-2">
+      <div className="flex items-center gap-1.5 lg:justify-between lg:gap-2">
         <div className="min-w-0 text-xs font-medium leading-[16.2px] text-[rgba(29,54,80,0.8)] lg:flex-1 lg:text-sm lg:leading-[18.9px]">
           {metric.title}
         </div>
-        <CollapseToggle open={open} onClick={onToggle} accent={open} />
+        <CollapseToggle open={open} onClick={onToggle} />
       </div>
 
       <div className="flex flex-col gap-3">
@@ -387,14 +420,42 @@ function MetricColumn({
 function SummaryPanel({
   title,
   metrics,
+  breakdown,
+  onBreakdownChange,
 }: {
   title: string;
   metrics: Metric[];
+  breakdown: Breakdown;
+  onBreakdownChange: (b: Breakdown) => void;
 }) {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [breakdown, setBreakdown] = useState<Breakdown>("department");
   const anyOpen = openKeys.length > 0;
   const allOpen = openKeys.length === metrics.length;
+  const breakdownBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [breakdownPill, setBreakdownPill] = useState({
+    left: 0,
+    width: 0,
+    ready: false,
+    animate: false,
+  });
+
+  useLayoutEffect(() => {
+    const idx = breakdown === "department" ? 0 : 1;
+    const btn = breakdownBtnRefs.current[idx];
+    if (!btn) return;
+    const left = btn.offsetLeft;
+    const width = btn.offsetWidth;
+    setBreakdownPill((prev) => ({
+      left,
+      width,
+      ready: true,
+      animate: prev.ready,
+    }));
+  }, [breakdown]);
+
+  useEffect(() => {
+    setOpenKeys([]);
+  }, [title]);
 
   function toggleOne(title: string) {
     setOpenKeys((curr) =>
@@ -423,26 +484,45 @@ function SummaryPanel({
             )}
           >
             <div className="min-h-0 overflow-hidden">
-              <div className="inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.15)] bg-white p-1 lg:w-auto lg:overflow-hidden lg:p-0">
-                <button
-                  type="button"
-                  onClick={() => setBreakdown("department")}
+              <div className="relative inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.15)] bg-white p-1 lg:w-auto lg:overflow-hidden lg:p-0">
+                <span
+                  aria-hidden
                   className={cn(
-                    "h-auto flex-1 rounded-[7px] border border-transparent px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-200 lg:h-8 lg:flex-none lg:rounded-none lg:border-0 lg:px-3 lg:py-0",
+                    "pointer-events-none absolute top-1 bottom-1 rounded-[7px] border border-[#F6861F] bg-icr-tint lg:hidden",
+                    breakdownPill.animate &&
+                      "transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    breakdownPill.ready ? "opacity-100" : "opacity-0",
+                  )}
+                  style={{
+                    left: breakdownPill.left,
+                    width: breakdownPill.width,
+                  }}
+                />
+                <button
+                  ref={(el) => {
+                    breakdownBtnRefs.current[0] = el;
+                  }}
+                  type="button"
+                  onClick={() => onBreakdownChange("department")}
+                  className={cn(
+                    "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:px-3 lg:py-0",
                     breakdown === "department"
-                      ? "border-[#F6861F] bg-icr-tint text-icr-orange lg:border-0 lg:bg-[rgba(246,134,31,0.08)]"
+                      ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]"
                       : "text-[rgba(29,54,80,0.8)]",
                   )}
                 >
                   Breakdown by Department
                 </button>
                 <button
+                  ref={(el) => {
+                    breakdownBtnRefs.current[1] = el;
+                  }}
                   type="button"
-                  onClick={() => setBreakdown("region")}
+                  onClick={() => onBreakdownChange("region")}
                   className={cn(
-                    "h-auto flex-1 rounded-[7px] border border-transparent px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-200 lg:h-8 lg:flex-none lg:rounded-none lg:border-0 lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:px-3 lg:py-0",
+                    "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:px-3 lg:py-0",
                     breakdown === "region"
-                      ? "border-[#F6861F] bg-icr-tint text-icr-orange lg:border-0 lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:bg-[rgba(246,134,31,0.08)]"
+                      ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]"
                       : "text-[rgba(29,54,80,0.8)]",
                   )}
                 >
@@ -488,8 +568,7 @@ function SummaryPanel({
 
 export function SummarySection() {
   const [mode, setMode] = useState<LeadMode>("open");
-  const showOpen = mode === "open" || mode === "both";
-  const showClosed = mode === "closed" || mode === "both";
+  const [breakdown, setBreakdown] = useState<Breakdown>("department");
 
   return (
     <section className="flex flex-col gap-3 rounded-[14px] border border-[#DBDDE2] bg-white p-3 lg:gap-4 lg:p-4">
@@ -520,12 +599,33 @@ export function SummarySection() {
       </div>
 
       <div className="flex flex-col gap-4">
-        {showOpen ? (
-          <SummaryPanel title="Open Leads this month" metrics={openMetrics} />
-        ) : null}
-        {showClosed ? (
-          <SummaryPanel title="Closed Leads this month" metrics={closedMetrics} />
-        ) : null}
+        {mode === "both" ? (
+          <>
+            <SummaryPanel
+              title="Open Leads this month"
+              metrics={openMetrics}
+              breakdown={breakdown}
+              onBreakdownChange={setBreakdown}
+            />
+            <SummaryPanel
+              title="Closed Leads this month"
+              metrics={closedMetrics}
+              breakdown={breakdown}
+              onBreakdownChange={setBreakdown}
+            />
+          </>
+        ) : (
+          <SummaryPanel
+            title={
+              mode === "open"
+                ? "Open Leads this month"
+                : "Closed Leads this month"
+            }
+            metrics={mode === "open" ? openMetrics : closedMetrics}
+            breakdown={breakdown}
+            onBreakdownChange={setBreakdown}
+          />
+        )}
       </div>
     </section>
   );

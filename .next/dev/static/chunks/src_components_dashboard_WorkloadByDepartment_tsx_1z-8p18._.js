@@ -164,6 +164,157 @@ const departments = [
         ]
     }
 ];
+function WorkloadTooltip({ dept }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "pointer-events-none absolute top-0 left-1/2 z-30 w-full min-w-[148px] origin-top -translate-x-1/2 scale-[0.98] rounded-2xl border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mb-2 text-[10px] font-medium leading-[14px] tracking-[0.04em] text-[#6A7282] uppercase",
+                children: dept.name
+            }, void 0, false, {
+                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                lineNumber: 122,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-col gap-1.5",
+                children: dept.details.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between gap-3",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-end gap-1 text-[10px] leading-[14px] text-icr-navy",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-medium",
+                                        children: row.count
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 132,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-normal",
+                                        children: row.label
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 133,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                lineNumber: 131,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center gap-1 whitespace-nowrap text-[10px] leading-[14px] text-[#617285]",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-medium text-icr-navy",
+                                        children: row.avg
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 136,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-normal",
+                                        children: "Avg time"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 137,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                lineNumber: 135,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, row.label, true, {
+                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                        lineNumber: 127,
+                        columnNumber: 11
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                lineNumber: 125,
+                columnNumber: 7
+            }, this),
+            dept.artifacts ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-2.5 flex flex-col gap-1.5 border-t border-[#E8EEF4] pt-2.5",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-xs font-medium leading-[14.4px] text-icr-navy",
+                        children: "Artifacts"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                        lineNumber: 144,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap items-center gap-1.5 text-[10px] leading-[14px] text-icr-navy",
+                        children: dept.artifacts.map((a, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "inline-flex items-center gap-1.5",
+                                children: [
+                                    i > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "size-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 151,
+                                        columnNumber: 19
+                                    }, this) : null,
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "inline-flex items-end gap-1",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-medium",
+                                                children: a.count
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                lineNumber: 154,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-normal",
+                                                children: a.label
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                lineNumber: 155,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 153,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, a.label, true, {
+                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                lineNumber: 149,
+                                columnNumber: 15
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                        lineNumber: 147,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                lineNumber: 143,
+                columnNumber: 9
+            }, this) : null
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+        lineNumber: 121,
+        columnNumber: 5
+    }, this);
+}
+_c = WorkloadTooltip;
 function ChevronBtn({ open, onClick }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
         type: "button",
@@ -176,27 +327,27 @@ function ChevronBtn({ open, onClick }) {
                 size: 12
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                lineNumber: 144,
+                lineNumber: 191,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-            lineNumber: 138,
+            lineNumber: 185,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-        lineNumber: 127,
+        lineNumber: 174,
         columnNumber: 5
     }, this);
 }
-_c = ChevronBtn;
+_c1 = ChevronBtn;
 function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted }) {
     const Arrow = dept.up ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$icons$2f$index$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IconArrowUp"] : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$icons$2f$index$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IconArrowDown"];
     const detailsVisible = showDetails && open;
     const pad = isFirst ? "lg:pr-4" : "lg:px-4";
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("flex min-w-0 flex-1 flex-col rounded-lg transition-colors duration-200", highlighted && "bg-[rgba(246,134,31,0.06)]"),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("group/dept relative flex min-w-0 flex-1 flex-col rounded-lg transition-colors duration-200", highlighted && "bg-[rgba(246,134,31,0.06)]", "hover:z-30"),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex flex-col gap-3",
@@ -214,12 +365,12 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                     className: "size-[18px]"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 179,
+                                    lineNumber: 227,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 178,
+                                lineNumber: 226,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -227,7 +378,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                 children: dept.name
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 187,
+                                lineNumber: 235,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ChevronBtn, {
@@ -235,13 +386,13 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                 onClick: onToggle
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 197,
+                                lineNumber: 245,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 177,
+                        lineNumber: 225,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -258,7 +409,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                 children: dept.velocity
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 203,
+                                                lineNumber: 251,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -266,13 +417,13 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                 children: "Velocity Time"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 254,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 202,
+                                        lineNumber: 250,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -283,7 +434,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                 children: "Baseline Median"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 259,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -291,99 +442,115 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                 children: dept.baseline
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 260,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 258,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 201,
+                                lineNumber: 249,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex flex-wrap items-center gap-2 border-t border-[#DBDDE2] py-2",
+                                className: "relative border-t border-[#DBDDE2] py-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex items-end gap-1",
+                                        className: "flex flex-wrap items-center gap-2",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "text-xs font-medium leading-[14.4px] tracking-[-0.36px] text-icr-navy",
-                                                children: dept.active
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 218,
-                                                columnNumber: 15
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy",
-                                                children: "Active"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 221,
-                                                columnNumber: 15
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 217,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "inline-flex items-center gap-0.5 font-medium",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-end gap-1",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Arrow, {
-                                                        size: 12
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-xs font-medium leading-[14.4px] tracking-[-0.36px] text-icr-navy",
+                                                        children: dept.active
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                        lineNumber: 227,
+                                                        lineNumber: 267,
                                                         columnNumber: 17
                                                     }, this),
-                                                    dept.change
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy",
+                                                        children: "Active"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                        lineNumber: 270,
+                                                        columnNumber: 17
+                                                    }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 226,
+                                                lineNumber: 266,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "font-normal",
-                                                children: "vs last month"
-                                            }, void 0, false, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "inline-flex items-center gap-0.5 font-medium",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Arrow, {
+                                                                size: 12
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                                lineNumber: 276,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            dept.change
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                        lineNumber: 275,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "font-normal",
+                                                        children: "vs last month"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                                        lineNumber: 279,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                lineNumber: 230,
+                                                lineNumber: 274,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 225,
+                                        lineNumber: 265,
                                         columnNumber: 13
-                                    }, this)
+                                    }, this),
+                                    !detailsVisible ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(WorkloadTooltip, {
+                                        dept: dept
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
+                                        lineNumber: 282,
+                                        columnNumber: 32
+                                    }, this) : null
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 216,
+                                lineNumber: 264,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 200,
+                        lineNumber: 248,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                lineNumber: 176,
+                lineNumber: 224,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -408,7 +575,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                             children: row.count
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 258,
+                                                            lineNumber: 309,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -416,13 +583,13 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                             children: row.label
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 261,
+                                                            lineNumber: 312,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                    lineNumber: 257,
+                                                    lineNumber: 308,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -433,7 +600,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                             children: row.avg
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 266,
+                                                            lineNumber: 317,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -441,24 +608,24 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                             children: "Avg time"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 267,
+                                                            lineNumber: 318,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                    lineNumber: 265,
+                                                    lineNumber: 316,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, row.label, true, {
                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                            lineNumber: 253,
+                                            lineNumber: 304,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 251,
+                                    lineNumber: 302,
                                     columnNumber: 15
                                 }, this),
                                 dept.artifacts ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -469,7 +636,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                             children: "Artifacts"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                            lineNumber: 275,
+                                            lineNumber: 326,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -481,7 +648,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                             className: "h-[2.5px] w-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 282,
+                                                            lineNumber: 333,
                                                             columnNumber: 27
                                                         }, this) : null,
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -492,7 +659,7 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                                     children: a.count
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                                    lineNumber: 285,
+                                                                    lineNumber: 336,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -500,30 +667,30 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                                                     children: a.label
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                                    lineNumber: 288,
+                                                                    lineNumber: 339,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                            lineNumber: 284,
+                                                            lineNumber: 335,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, a.label, true, {
                                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                                    lineNumber: 280,
+                                                    lineNumber: 331,
                                                     columnNumber: 23
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                            lineNumber: 278,
+                                            lineNumber: 329,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 274,
+                                    lineNumber: 325,
                                     columnNumber: 17
                                 }, this) : null,
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -535,51 +702,51 @@ function DeptColumn({ dept, open, onToggle, showDetails, isFirst, highlighted })
                                             children: "Filter in Lead Register"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                            lineNumber: 302,
+                                            lineNumber: 353,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$icons$2f$index$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IconChevronDown"], {
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                            lineNumber: 305,
+                                            lineNumber: 356,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 298,
+                                    lineNumber: 349,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                            lineNumber: 250,
+                            lineNumber: 301,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 243,
+                        lineNumber: 294,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                    lineNumber: 242,
+                    lineNumber: 293,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                lineNumber: 236,
+                lineNumber: 287,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-        lineNumber: 170,
+        lineNumber: 217,
         columnNumber: 5
     }, this);
 }
-_c1 = DeptColumn;
+_c2 = DeptColumn;
 function WorkloadByDepartment() {
     _s();
     const { department, departmentActive } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dashboard$2f$DashboardFilters$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDashboardFilters"])();
@@ -612,7 +779,7 @@ function WorkloadByDepartment() {
         setOpenKeys(departments.map((d)=>d.name));
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-        className: "flex flex-col gap-4 rounded-2xl border border-[#DBDDE2] bg-white pt-4 lg:rounded-2xl",
+        className: "relative z-0 flex flex-col gap-4 overflow-visible rounded-2xl border border-[#DBDDE2] bg-white pt-4 lg:rounded-2xl",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex flex-col gap-3 px-3 lg:flex-row lg:items-center lg:gap-2.5 lg:px-4",
@@ -625,18 +792,18 @@ function WorkloadByDepartment() {
                                 children: "Workload by department"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 349,
+                                lineNumber: 400,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dashboard$2f$FilterScopeBadge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterScopeBadge"], {}, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 352,
+                                lineNumber: 403,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 348,
+                        lineNumber: 399,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -647,7 +814,7 @@ function WorkloadByDepartment() {
                                 children: "24"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 355,
+                                lineNumber: 406,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -655,7 +822,7 @@ function WorkloadByDepartment() {
                                 children: "Awaiting Project number"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 358,
+                                lineNumber: 409,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -664,12 +831,12 @@ function WorkloadByDepartment() {
                                     className: "h-[2.5px] w-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 362,
+                                    lineNumber: 413,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 361,
+                                lineNumber: 412,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -680,7 +847,7 @@ function WorkloadByDepartment() {
                                         children: "Oldest"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 365,
+                                        lineNumber: 416,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -688,34 +855,34 @@ function WorkloadByDepartment() {
                                         children: "4d"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 366,
+                                        lineNumber: 417,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 364,
+                                lineNumber: 415,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 354,
+                        lineNumber: 405,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                lineNumber: 347,
+                lineNumber: 398,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex flex-col gap-2",
+                className: "relative flex flex-col gap-2 overflow-visible",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-col items-stretch px-0 lg:flex-row lg:items-start lg:px-4",
+                        className: "flex flex-col items-stretch overflow-visible px-0 lg:flex-row lg:items-start lg:px-4",
                         children: departments.map((dept, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("min-w-0 flex-1 border-b border-[#DBDDE2] px-3 py-4 last:border-b-0 lg:border-b-0 lg:px-0 lg:py-0", i > 0 && "lg:border-l lg:border-[#DBDDE2]"),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("relative min-w-0 flex-1 overflow-visible border-b border-[#DBDDE2] px-3 py-4 last:border-b-0 lg:border-b-0 lg:px-0 lg:py-0", i > 0 && "lg:border-l lg:border-[#DBDDE2]"),
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DeptColumn, {
                                     dept: dept,
                                     open: openKeys.includes(dept.name),
@@ -725,21 +892,21 @@ function WorkloadByDepartment() {
                                     highlighted: departmentActive && department === dept.name
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 381,
+                                    lineNumber: 432,
                                     columnNumber: 15
                                 }, this)
                             }, dept.name, false, {
                                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                lineNumber: 374,
+                                lineNumber: 425,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 372,
+                        lineNumber: 423,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-white px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t",
+                        className: "relative z-0 flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-white px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
                             onClick: toggleAll,
@@ -752,35 +919,35 @@ function WorkloadByDepartment() {
                                         size: 14
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                        lineNumber: 408,
+                                        lineNumber: 459,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                                    lineNumber: 402,
+                                    lineNumber: 453,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                            lineNumber: 394,
+                            lineNumber: 445,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                        lineNumber: 393,
+                        lineNumber: 444,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-                lineNumber: 371,
+                lineNumber: 422,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/WorkloadByDepartment.tsx",
-        lineNumber: 346,
+        lineNumber: 397,
         columnNumber: 5
     }, this);
 }
@@ -789,11 +956,12 @@ _s(WorkloadByDepartment, "hC+J23ObAw72FYD8rJkAilvVTfo=", false, function() {
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dashboard$2f$DashboardFilters$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDashboardFilters"]
     ];
 });
-_c2 = WorkloadByDepartment;
-var _c, _c1, _c2;
-__turbopack_context__.k.register(_c, "ChevronBtn");
-__turbopack_context__.k.register(_c1, "DeptColumn");
-__turbopack_context__.k.register(_c2, "WorkloadByDepartment");
+_c3 = WorkloadByDepartment;
+var _c, _c1, _c2, _c3;
+__turbopack_context__.k.register(_c, "WorkloadTooltip");
+__turbopack_context__.k.register(_c1, "ChevronBtn");
+__turbopack_context__.k.register(_c2, "DeptColumn");
+__turbopack_context__.k.register(_c3, "WorkloadByDepartment");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

@@ -116,6 +116,53 @@ const departments: Dept[] = [
   },
 ];
 
+function WorkloadTooltip({ dept }: { dept: Dept }) {
+  return (
+    <div className="pointer-events-none absolute top-0 left-1/2 z-30 w-full min-w-[148px] origin-top -translate-x-1/2 scale-[0.98] rounded-2xl border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100">
+      <div className="mb-2 text-[10px] font-medium leading-[14px] tracking-[0.04em] text-[#6A7282] uppercase">
+        {dept.name}
+      </div>
+      <div className="flex flex-col gap-1.5">
+        {dept.details.map((row) => (
+          <div
+            key={row.label}
+            className="flex items-center justify-between gap-3"
+          >
+            <div className="flex items-end gap-1 text-[10px] leading-[14px] text-icr-navy">
+              <span className="font-medium">{row.count}</span>
+              <span className="font-normal">{row.label}</span>
+            </div>
+            <div className="flex items-center gap-1 whitespace-nowrap text-[10px] leading-[14px] text-[#617285]">
+              <span className="font-medium text-icr-navy">{row.avg}</span>
+              <span className="font-normal">Avg time</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      {dept.artifacts ? (
+        <div className="mt-2.5 flex flex-col gap-1.5 border-t border-[#E8EEF4] pt-2.5">
+          <div className="text-xs font-medium leading-[14.4px] text-icr-navy">
+            Artifacts
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5 text-[10px] leading-[14px] text-icr-navy">
+            {dept.artifacts.map((a, i) => (
+              <span key={a.label} className="inline-flex items-center gap-1.5">
+                {i > 0 ? (
+                  <span className="size-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]" />
+                ) : null}
+                <span className="inline-flex items-end gap-1">
+                  <span className="font-medium">{a.count}</span>
+                  <span className="font-normal">{a.label}</span>
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function ChevronBtn({
   open,
   onClick,
@@ -169,8 +216,9 @@ function DeptColumn({
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-1 flex-col rounded-lg transition-colors duration-200",
+        "group/dept relative flex min-w-0 flex-1 flex-col rounded-lg transition-colors duration-200",
         highlighted && "bg-[rgba(246,134,31,0.06)]",
+        "hover:z-30",
       )}
     >
       <div className="flex flex-col gap-3">
@@ -213,22 +261,25 @@ function DeptColumn({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 border-t border-[#DBDDE2] py-2">
-            <div className="flex items-end gap-1">
-              <span className="text-xs font-medium leading-[14.4px] tracking-[-0.36px] text-icr-navy">
-                {dept.active}
-              </span>
-              <span className="text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
-                Active
-              </span>
+          <div className="relative border-t border-[#DBDDE2] py-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-end gap-1">
+                <span className="text-xs font-medium leading-[14.4px] tracking-[-0.36px] text-icr-navy">
+                  {dept.active}
+                </span>
+                <span className="text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+                  Active
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]">
+                <span className="inline-flex items-center gap-0.5 font-medium">
+                  <Arrow size={12} />
+                  {dept.change}
+                </span>
+                <span className="font-normal">vs last month</span>
+              </div>
             </div>
-            <div className="inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]">
-              <span className="inline-flex items-center gap-0.5 font-medium">
-                <Arrow size={12} />
-                {dept.change}
-              </span>
-              <span className="font-normal">vs last month</span>
-            </div>
+            {!detailsVisible ? <WorkloadTooltip dept={dept} /> : null}
           </div>
         </div>
       </div>
@@ -343,7 +394,7 @@ export function WorkloadByDepartment() {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-2xl border border-[#DBDDE2] bg-white pt-4 lg:rounded-2xl">
+    <section className="relative z-0 flex flex-col gap-4 overflow-visible rounded-2xl border border-[#DBDDE2] bg-white pt-4 lg:rounded-2xl">
       <div className="flex flex-col gap-3 px-3 lg:flex-row lg:items-center lg:gap-2.5 lg:px-4">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
           <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
@@ -368,13 +419,13 @@ export function WorkloadByDepartment() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col items-stretch px-0 lg:flex-row lg:items-start lg:px-4">
+      <div className="relative flex flex-col gap-2 overflow-visible">
+        <div className="flex flex-col items-stretch overflow-visible px-0 lg:flex-row lg:items-start lg:px-4">
           {departments.map((dept, i) => (
             <div
               key={dept.name}
               className={cn(
-                "min-w-0 flex-1 border-b border-[#DBDDE2] px-3 py-4 last:border-b-0 lg:border-b-0 lg:px-0 lg:py-0",
+                "relative min-w-0 flex-1 overflow-visible border-b border-[#DBDDE2] px-3 py-4 last:border-b-0 lg:border-b-0 lg:px-0 lg:py-0",
                 i > 0 && "lg:border-l lg:border-[#DBDDE2]",
               )}
             >
@@ -390,7 +441,7 @@ export function WorkloadByDepartment() {
           ))}
         </div>
 
-        <div className="flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-white px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t">
+        <div className="relative z-0 flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-white px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t">
           <button
             type="button"
             onClick={toggleAll}
