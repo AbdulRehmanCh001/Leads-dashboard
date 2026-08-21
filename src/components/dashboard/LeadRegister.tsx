@@ -1,0 +1,462 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
+import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
+import type { LeadDetail } from "@/components/dashboard/LeadDetailDrawer";
+import {
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+  IconSearch,
+  IconSort,
+  IconWarning,
+  IconXCircle,
+} from "@/components/icons";
+import { cn } from "@/lib/utils";
+
+const LeadDetailDrawer = dynamic(
+  () =>
+    import("@/components/dashboard/LeadDetailDrawer").then((m) => ({
+      default: m.LeadDetailDrawer,
+    })),
+  { ssr: false },
+);
+
+const leads: LeadDetail[] = [
+  {
+    id: "QF-1048",
+    title: "Offshore flange reinforcement",
+    customer: "Northshore Energy",
+    product: "Quickflange",
+    region: "EMEA",
+    department: "Intake",
+    age: "0d",
+    status: "At Risk",
+  },
+  {
+    id: "TW-2331",
+    title: "Composite repair assessment",
+    customer: "Ardent Chemicals",
+    product: "Techwrap",
+    region: "APAC",
+    department: "Intake",
+    age: "1d",
+    status: "Within SLA",
+  },
+  {
+    id: "QF-1052",
+    title: "Pipeline connection review",
+    customer: "Maritech Group",
+    product: "Quickflange",
+    region: "North America",
+    department: "Sales",
+    age: "1d",
+    status: "Breached",
+  },
+  {
+    id: "QF-1039",
+    title: "Platform tie-in package",
+    customer: "Raven Industrial",
+    product: "Quickflange",
+    region: "North America",
+    department: "Commercial",
+    age: "5d",
+    status: "Within SLA",
+  },
+  {
+    id: "TW-2318",
+    title: "Cooling line repair scope",
+    customer: "Delta Offshore",
+    product: "Techwrap",
+    region: "EMEA",
+    department: "Engineering",
+    age: "6d",
+    status: "Within SLA",
+  },
+  {
+    id: "QF-1027",
+    title: "Emergency clamp calculation",
+    customer: "Helix Process",
+    product: "Techwrap",
+    region: "North America",
+    department: "Commercial",
+    age: "7d",
+    status: "At Risk",
+  },
+  {
+    id: "TW-2299",
+    title: "Storage line integrity review",
+    customer: "Pelagic Resources",
+    product: "Techwrap",
+    region: "EMEA",
+    department: "Operations",
+    age: "8d",
+    status: "Within SLA",
+  },
+];
+
+const deptDot: Record<string, string> = {
+  Intake: "#DAB729",
+  Sales: "#F6861F",
+  Commercial: "#9FB98E",
+  Engineering: "#B49475",
+  Operations: "#C0A3AD",
+  "Collaborative review": "#C0A3AD",
+};
+
+const columns = [
+  { key: "lead", label: "Lead", className: "min-w-[196px] lg:min-w-[226px]" },
+  { key: "customer", label: "Customer", className: "min-w-[200px]" },
+  { key: "product", label: "Product", className: "min-w-[200px]" },
+  { key: "region", label: "Region", className: "min-w-[200px]" },
+  { key: "department", label: "Department", className: "min-w-[200px]" },
+  { key: "state", label: "State", className: "min-w-[100px] text-center" },
+  { key: "age", label: "Age / Cycle", className: "min-w-[100px] text-center" },
+  { key: "status", label: "Status", className: "min-w-[120px] text-center" },
+  { key: "action", label: "Action", className: "w-[80px] text-center" },
+] as const;
+
+const actionStickyClass =
+  "sticky right-0 z-20 lg:static lg:z-auto lg:shadow-none after:pointer-events-none after:absolute after:inset-y-0 after:left-full after:w-4 lg:after:hidden";
+
+function StatusBadge({ status }: { status: LeadDetail["status"] }) {
+  if (status === "At Risk") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FCF3E0] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#DD9800]">
+        <IconWarning size={9} />
+        At Risk
+      </span>
+    );
+  }
+  if (status === "Breached") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FCE0E0] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#EC0004]">
+        <IconXCircle size={9} />
+        Breached
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center rounded-full bg-[#ECF0F5] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#617385]">
+      Within SLA
+    </span>
+  );
+}
+
+function FilterChip({
+  label,
+  onRemove,
+}: {
+  label: string;
+  onRemove: () => void;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1 overflow-hidden rounded-[10px] border border-icr-orange bg-[#FFFAF5] py-1.5 pr-1.5 pl-3 text-xs font-medium leading-[17.4px] text-icr-orange">
+      {label}
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={`Remove ${label}`}
+        className="inline-flex size-5 items-center justify-center rounded-lg text-icr-orange"
+      >
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+          <path
+            d="M3.5 3.5l5 5M8.5 3.5l-5 5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+    </span>
+  );
+}
+
+export function LeadRegister() {
+  const {
+    region,
+    department,
+    product,
+    regionActive,
+    departmentActive,
+    productActive,
+    clearRegion,
+    clearDepartment,
+    clearProduct,
+  } = useDashboardFilters();
+
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<LeadDetail | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const hasFilters = regionActive || departmentActive || productActive;
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return leads.filter((lead) => {
+      if (regionActive && lead.region !== region) return false;
+      if (departmentActive && lead.department !== department) return false;
+      if (productActive && lead.product !== product) return false;
+      if (!q) return true;
+      return (
+        lead.id.toLowerCase().includes(q) ||
+        lead.customer.toLowerCase().includes(q) ||
+        lead.title.toLowerCase().includes(q)
+      );
+    });
+  }, [
+    query,
+    region,
+    department,
+    product,
+    regionActive,
+    departmentActive,
+    productActive,
+  ]);
+
+  function openLead(lead: LeadDetail) {
+    setSelected(lead);
+    setDrawerOpen(true);
+  }
+
+  function closeDrawer() {
+    setDrawerOpen(false);
+  }
+
+  return (
+    <>
+      <section className="flex min-w-0 flex-col gap-6 overflow-hidden rounded-[14px] border border-[rgba(13,24,61,0.15)] bg-white py-3 lg:py-4">
+        <div className="flex flex-col gap-2.5 px-3 lg:flex-row lg:items-start lg:gap-2.5 lg:px-4">
+          <div className="min-w-0 flex-1">
+            <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
+              Lead register
+            </h2>
+            <p className="m-0 text-xs leading-[16.8px] text-[rgba(29,54,80,0.65)]">
+              Full list of leads. Selecting a section above filters this table
+              automatically.
+            </p>
+          </div>
+          <label className="flex h-8 w-full shrink-0 items-center gap-2 overflow-hidden rounded-[7px] border border-[#E6EBF1] bg-white px-2.5 font-[family-name:var(--font-geist)] text-xs text-[#6C7C8D] lg:h-9 lg:w-[280px] lg:rounded-lg">
+            <IconSearch size={14} />
+            <input
+              type="search"
+              placeholder="Search leads or customers…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full border-none bg-transparent text-icr-navy outline-none placeholder:text-[#6C7C8D]"
+            />
+          </label>
+        </div>
+
+        {hasFilters ? (
+          <div className="flex flex-wrap items-center gap-2 px-3 lg:px-4">
+            {regionActive ? (
+              <FilterChip
+                label={`Region: ${region}`}
+                onRemove={clearRegion}
+              />
+            ) : null}
+            {departmentActive ? (
+              <FilterChip
+                label={`Department: ${department}`}
+                onRemove={clearDepartment}
+              />
+            ) : null}
+            {productActive ? (
+              <FilterChip
+                label={`Product: ${product}`}
+                onRemove={clearProduct}
+              />
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="min-w-0 overflow-x-auto">
+          <table className="w-full min-w-[1100px] border-collapse">
+            <thead>
+              <tr>
+                {columns.map((col) => (
+                  <th
+                    key={col.key}
+                    className={cn(
+                      "h-[39px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-3 text-left text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385]",
+                      col.key === "lead" || col.key === "customer"
+                        ? "px-4"
+                        : "px-3",
+                      col.key === "action" && "px-4 text-center",
+                      col.className,
+                      col.key === "action" &&
+                        cn(
+                          actionStickyClass,
+                          "bg-[#F8F9FA] shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#F8F9FA] after:bg-[#F8F9FA] lg:shadow-none",
+                        ),
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1",
+                        (col.key === "state" ||
+                          col.key === "age" ||
+                          col.key === "status" ||
+                          col.key === "action") &&
+                          "justify-center",
+                      )}
+                    >
+                      {col.label}
+                      {col.key !== "action" ? (
+                        <IconSort className="opacity-80" />
+                      ) : null}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="px-4 py-10 text-center text-sm text-[#617385]"
+                  >
+                    No leads match the current filters.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((lead) => (
+                  <tr key={lead.id} className="group">
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
+                      <div className="flex h-9 flex-col justify-start gap-0">
+                        <span className="text-xs font-medium leading-[17.4px] text-icr-navy lg:text-sm lg:leading-[20.3px]">
+                          {lead.id}
+                        </span>
+                        <span className="text-xs leading-[16.8px] text-[#9AA1A8]">
+                          {lead.title}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      {lead.customer}
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      {lead.product}
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      {lead.region}
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      <span className="inline-flex items-center gap-1.5">
+                        <span
+                          className="size-1.5 shrink-0 rounded-full lg:hidden"
+                          style={{
+                            backgroundColor:
+                              deptDot[lead.department] ?? "#617385",
+                          }}
+                        />
+                        {lead.department}
+                      </span>
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E9FDF3] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#0D9B91]">
+                        <span className="size-1.5 rounded-full bg-[#0D9B91]" />
+                        Active
+                      </span>
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      {lead.age}
+                    </td>
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle">
+                      <StatusBadge status={lead.status} />
+                    </td>
+                    <td
+                      className={cn(
+                        actionStickyClass,
+                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-4 py-4 text-center align-middle shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#fff] after:bg-white lg:shadow-none",
+                      )}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => openLead(lead)}
+                        className="inline-flex h-8 w-12 items-center justify-center rounded-xl bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
+                        aria-label={`Open ${lead.id}`}
+                      >
+                        <IconChevronRight size={12} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="flex min-w-0 flex-col items-stretch gap-3 px-2 lg:flex-row lg:items-center lg:justify-between lg:px-4 lg:py-3 lg:pr-3">
+          <div className="hidden items-center gap-2.5 text-base text-[#434343] lg:inline-flex">
+            Show by:
+            <button
+              type="button"
+              className="inline-flex h-10 w-[122px] items-center justify-between rounded-xl border border-[#E9EBEE] bg-[#F8FAFB] px-3 text-base text-[#7E848A] opacity-75"
+            >
+              7 items
+              <IconChevronDown size={12} />
+            </button>
+          </div>
+          <div className="mx-auto flex h-11 max-w-full items-center justify-center gap-2 overflow-x-auto px-2 lg:mx-0">
+            <button
+              type="button"
+              className="grid size-10 shrink-0 place-items-center text-[#5C5F6A]"
+              aria-label="Previous page"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              <IconChevronLeft size={12} />
+            </button>
+            {[1, 2].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setPage(n)}
+                className={cn(
+                  "grid size-10 shrink-0 place-items-center rounded-full text-xs font-medium capitalize leading-6",
+                  page === n ? "bg-icr-navy text-white" : "text-[#474B57]",
+                )}
+              >
+                {n}
+              </button>
+            ))}
+            <span className="grid size-10 shrink-0 place-items-center text-sm font-medium text-[#474B57]">
+              …
+            </span>
+            {[23, 24].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setPage(n)}
+                className={cn(
+                  "grid size-10 shrink-0 place-items-center rounded-full text-xs font-medium capitalize leading-6",
+                  page === n ? "bg-icr-navy text-white" : "text-[#474B57]",
+                )}
+              >
+                {n}
+              </button>
+            ))}
+            <button
+              type="button"
+              className="grid size-10 shrink-0 place-items-center text-[#0E1422]"
+              aria-label="Next page"
+              onClick={() => setPage((p) => Math.min(24, p + 1))}
+            >
+              <IconChevronRight size={12} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <LeadDetailDrawer
+        lead={selected}
+        open={drawerOpen}
+        onClose={closeDrawer}
+      />
+    </>
+  );
+}

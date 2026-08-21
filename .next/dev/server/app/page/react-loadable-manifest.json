@@ -1,0 +1,27 @@
+{
+  "[project]/src/components/dashboard/PortfolioOverview.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/PortfolioOverview.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_PortfolioOverview_tsx_1dyvnqq._.js"
+    ]
+  },
+  "[project]/src/components/dashboard/WorkloadByDepartment.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/WorkloadByDepartment.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_WorkloadByDepartment_tsx_1z-8p18._.js"
+    ]
+  },
+  "[project]/src/components/dashboard/LeadRegister.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/LeadRegister.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_LeadDetailDrawer_tsx_0ff-a_0._.js",
+      "static/chunks/src_components_dashboard_LeadRegister_tsx_1yqbqmq._.js"
+    ]
+  },
+  "[project]/src/components/dashboard/MobileFiltersSheet.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/components/dashboard/MobileFiltersSheet.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_components_dashboard_MobileFiltersSheet_tsx_1-n11dk._.js"
+    ]
+  }
+}
