@@ -2591,10 +2591,18 @@ function CollapseToggle({ open, onClick }) {
     }, this);
 }
 _c2 = CollapseToggle;
-function MetricColumn({ metric, open, onToggle }) {
+function MetricColumn({ metric, open, onToggle, showDivider, isLast }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex min-w-0 flex-1 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 last:border-b-0 lg:gap-3 lg:border-r lg:border-b-0 lg:px-4 lg:pb-4 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0",
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("relative flex min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:h-full lg:gap-3 lg:border-b-0 lg:px-4 lg:pb-4", !showDivider && "lg:pl-0", isLast && "border-b-0 lg:pr-0"),
         children: [
+            showDivider ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                "aria-hidden": true,
+                className: "pointer-events-none absolute inset-y-0 left-0 hidden w-px bg-[#DBDDE2] lg:block"
+            }, void 0, false, {
+                fileName: "[project]/src/components/dashboard/SummarySection.tsx",
+                lineNumber: 331,
+                columnNumber: 9
+            }, this) : null,
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center gap-1.5 lg:justify-between lg:gap-2",
                 children: [
@@ -2603,7 +2611,7 @@ function MetricColumn({ metric, open, onToggle }) {
                         children: metric.title
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 321,
+                        lineNumber: 337,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CollapseToggle, {
@@ -2611,13 +2619,13 @@ function MetricColumn({ metric, open, onToggle }) {
                         onClick: onToggle
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 324,
+                        lineNumber: 340,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 320,
+                lineNumber: 336,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2631,7 +2639,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                 children: metric.value
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 329,
+                                lineNumber: 345,
                                 columnNumber: 11
                             }, this),
                             metric.aside ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2639,7 +2647,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                 children: metric.aside
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 333,
+                                lineNumber: 349,
                                 columnNumber: 13
                             }, this) : null,
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Trend, {
@@ -2647,13 +2655,13 @@ function MetricColumn({ metric, open, onToggle }) {
                                 kind: metric.trendKind
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 337,
+                                lineNumber: 353,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 328,
+                        lineNumber: 344,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2664,7 +2672,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                 children: "Baseline Median"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 340,
+                                lineNumber: 356,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2672,19 +2680,19 @@ function MetricColumn({ metric, open, onToggle }) {
                                 children: metric.baseline
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 341,
+                                lineNumber: 357,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 339,
+                        lineNumber: 355,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 327,
+                lineNumber: 343,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2699,7 +2707,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                 children: "Current month breakdown"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 358,
+                                lineNumber: 374,
                                 columnNumber: 13
                             }, this),
                             metric.hint ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2713,7 +2721,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                                 className: "mx-0.5 inline-block size-[2.5px] self-center rounded-full bg-[rgba(29,54,80,0.45)]"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 368,
+                                                lineNumber: 384,
                                                 columnNumber: 25
                                             }, this) : null,
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -2721,7 +2729,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                                 children: count
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 370,
+                                                lineNumber: 386,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2729,19 +2737,19 @@ function MetricColumn({ metric, open, onToggle }) {
                                                 children: rest.join(" ")
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 371,
+                                                lineNumber: 387,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, part, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 366,
+                                        lineNumber: 382,
                                         columnNumber: 21
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 362,
+                                lineNumber: 378,
                                 columnNumber: 15
                             }, this) : null,
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2757,7 +2765,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                                         children: item.value
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                        lineNumber: 384,
+                                                        lineNumber: 400,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2765,13 +2773,13 @@ function MetricColumn({ metric, open, onToggle }) {
                                                         children: item.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                        lineNumber: 385,
+                                                        lineNumber: 401,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 383,
+                                                lineNumber: 399,
                                                 columnNumber: 19
                                             }, this),
                                             item.right ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2783,7 +2791,7 @@ function MetricColumn({ metric, open, onToggle }) {
                                                             children: item.right.split(" ")[0]
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                            lineNumber: 391,
+                                                            lineNumber: 407,
                                                             columnNumber: 27
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2791,13 +2799,13 @@ function MetricColumn({ metric, open, onToggle }) {
                                                             children: "vs last month"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                            lineNumber: 396,
+                                                            lineNumber: 412,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                    lineNumber: 390,
+                                                    lineNumber: 406,
                                                     columnNumber: 25
                                                 }, this) : item.right.includes("Baseline") ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
@@ -2806,58 +2814,58 @@ function MetricColumn({ metric, open, onToggle }) {
                                                             children: item.right.replace(" Baseline", "")
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                            lineNumber: 400,
+                                                            lineNumber: 416,
                                                             columnNumber: 27
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Baseline"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                            lineNumber: 403,
+                                                            lineNumber: 419,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                    lineNumber: 399,
+                                                    lineNumber: 415,
                                                     columnNumber: 25
                                                 }, this) : item.right
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 388,
+                                                lineNumber: 404,
                                                 columnNumber: 21
                                             }, this) : null
                                         ]
                                     }, `${metric.title}-${item.label}`, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 379,
+                                        lineNumber: 395,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 377,
+                                lineNumber: 393,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 352,
+                        lineNumber: 368,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 351,
+                    lineNumber: 367,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 345,
+                lineNumber: 361,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-        lineNumber: 319,
+        lineNumber: 323,
         columnNumber: 5
     }, this);
 }
@@ -2923,7 +2931,7 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                 children: title
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 474,
+                                lineNumber: 490,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2942,7 +2950,7 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 488,
+                                                lineNumber: 504,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2955,7 +2963,7 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                 children: "Breakdown by Department"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 501,
+                                                lineNumber: 517,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2968,51 +2976,53 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                                 children: "Breakdown by Region"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 516,
+                                                lineNumber: 532,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 487,
+                                        lineNumber: 503,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                    lineNumber: 486,
+                                    lineNumber: 502,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 477,
+                                lineNumber: 493,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 473,
+                        lineNumber: 489,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-col items-stretch lg:flex-row lg:items-start",
-                        children: metrics.map((m)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricColumn, {
+                        className: "grid grid-cols-1 lg:grid-cols-5 lg:items-stretch",
+                        children: metrics.map((m, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MetricColumn, {
                                 metric: m,
                                 open: openKeys.includes(m.title),
-                                onToggle: ()=>toggleOne(m.title)
+                                onToggle: ()=>toggleOne(m.title),
+                                showDivider: i > 0,
+                                isLast: i === metrics.length - 1
                             }, m.title, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 538,
+                                lineNumber: 554,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 536,
+                        lineNumber: 552,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 472,
+                lineNumber: 488,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3029,29 +3039,29 @@ function SummaryPanel({ title, metrics, breakdown, onBreakdownChange }) {
                                 size: 14
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 561,
+                                lineNumber: 579,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 555,
+                            lineNumber: 573,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 549,
+                    lineNumber: 567,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 548,
+                lineNumber: 566,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-        lineNumber: 471,
+        lineNumber: 487,
         columnNumber: 5
     }, this);
 }
@@ -3081,7 +3091,7 @@ function SummarySection() {
                                                 children: "Summary of current workload "
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 579,
+                                                lineNumber: 597,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3089,24 +3099,24 @@ function SummarySection() {
                                                 children: "Summary of current workload and completed outcomes"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                                lineNumber: 580,
+                                                lineNumber: 598,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 578,
+                                        lineNumber: 596,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dashboard$2f$FilterScopeBadge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterScopeBadge"], {}, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 584,
+                                        lineNumber: 602,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 577,
+                                lineNumber: 595,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3117,7 +3127,7 @@ function SummarySection() {
                                         children: "Track performance against last month and the 6-month median."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 587,
+                                        lineNumber: 605,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3125,19 +3135,19 @@ function SummarySection() {
                                         children: "Track current performance against last month and the median over the previous 6 months."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                        lineNumber: 590,
+                                        lineNumber: 608,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                                lineNumber: 586,
+                                lineNumber: 604,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 576,
+                        lineNumber: 594,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3147,18 +3157,18 @@ function SummarySection() {
                             onChange: setMode
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 597,
+                            lineNumber: 615,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                        lineNumber: 596,
+                        lineNumber: 614,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 575,
+                lineNumber: 593,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3172,7 +3182,7 @@ function SummarySection() {
                             onBreakdownChange: setBreakdown
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 604,
+                            lineNumber: 622,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryPanel, {
@@ -3182,13 +3192,13 @@ function SummarySection() {
                             onBreakdownChange: setBreakdown
                         }, void 0, false, {
                             fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                            lineNumber: 610,
+                            lineNumber: 628,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 603,
+                    lineNumber: 621,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SummaryPanel, {
                     title: mode === "open" ? "Open Leads this month" : "Closed Leads this month",
@@ -3197,18 +3207,18 @@ function SummarySection() {
                     onBreakdownChange: setBreakdown
                 }, void 0, false, {
                     fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                    lineNumber: 618,
+                    lineNumber: 636,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-                lineNumber: 601,
+                lineNumber: 619,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/dashboard/SummarySection.tsx",
-        lineNumber: 574,
+        lineNumber: 592,
         columnNumber: 5
     }, this);
 }

@@ -1,27 +1,8 @@
-{"timestamp":"00:00:00.749","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:05.838","source":"Server","level":"WARN","message":"⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using \"http://localhost:3000\". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase"}
-{"timestamp":"00:00:07.042","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:00:34.025","source":"Server","level":"LOG","message":"✓ Compiled in 62ms"}
-{"timestamp":"00:00:49.694","source":"Server","level":"LOG","message":"✓ Compiled in 32ms"}
-{"timestamp":"00:00:49.978","source":"Server","level":"LOG","message":"✓ Compiled in 26ms"}
-{"timestamp":"00:02:59.896","source":"Server","level":"LOG","message":"✓ Compiled in 59ms"}
-{"timestamp":"00:03:43.507","source":"Server","level":"LOG","message":"✓ Compiled in 47ms"}
-{"timestamp":"00:03:43.799","source":"Server","level":"LOG","message":"✓ Compiled in 31ms"}
-{"timestamp":"00:04:18.562","source":"Server","level":"LOG","message":"✓ Compiled in 30ms"}
-{"timestamp":"00:04:19.331","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:05:59.440","source":"Server","level":"LOG","message":"✓ Compiled in 56ms"}
-{"timestamp":"00:05:59.744","source":"Server","level":"LOG","message":"✓ Compiled in 28ms"}
-{"timestamp":"00:06:30.110","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:08:13.558","source":"Server","level":"LOG","message":"✓ Compiled in 30ms"}
-{"timestamp":"00:08:19.754","source":"Server","level":"LOG","message":"✓ Compiled in 96ms"}
-{"timestamp":"00:08:20.113","source":"Server","level":"LOG","message":"✓ Compiled in 14ms"}
-{"timestamp":"00:10:07.424","source":"Server","level":"LOG","message":"✓ Compiled in 32ms"}
-{"timestamp":"00:10:08.725","source":"Server","level":"LOG","message":"✓ Compiled in 18ms"}
-{"timestamp":"00:10:15.495","source":"Server","level":"LOG","message":"✓ Compiled in 29ms"}
-{"timestamp":"00:10:15.938","source":"Server","level":"LOG","message":"✓ Compiled in 11ms"}
-{"timestamp":"00:11:07.669","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:12:41.027","source":"Server","level":"LOG","message":"✓ Compiled in 84ms"}
-{"timestamp":"00:12:58.582","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:13:45.843","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:16:31.329","source":"Server","level":"LOG","message":"✓ Compiled in 31ms"}
-{"timestamp":"00:18:00.426","source":"Server","level":"LOG","message":"✓ Compiled in 34ms"}
+{"timestamp":"00:00:00.683","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:01.390","source":"Server","level":"WARN","message":"⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using \"http://localhost:3000\". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase"}
+{"timestamp":"00:00:04.857","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:17.314","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:20.513","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:02:59.815","source":"Server","level":"LOG","message":"✓ Compiled in 51ms"}
+{"timestamp":"00:03:07.331","source":"Server","level":"LOG","message":"✓ Compiled in 35ms"}
+{"timestamp":"00:04:03.235","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}

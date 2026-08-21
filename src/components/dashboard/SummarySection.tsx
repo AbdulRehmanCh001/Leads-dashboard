@@ -310,13 +310,29 @@ function MetricColumn({
   metric,
   open,
   onToggle,
+  showDivider,
+  isLast,
 }: {
   metric: Metric;
   open: boolean;
   onToggle: () => void;
+  showDivider: boolean;
+  isLast: boolean;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 last:border-b-0 lg:gap-3 lg:border-r lg:border-b-0 lg:px-4 lg:pb-4 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0">
+    <div
+      className={cn(
+        "relative flex min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:h-full lg:gap-3 lg:border-b-0 lg:px-4 lg:pb-4",
+        !showDivider && "lg:pl-0",
+        isLast && "border-b-0 lg:pr-0",
+      )}
+    >
+      {showDivider ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 hidden w-px bg-[#DBDDE2] lg:block"
+        />
+      ) : null}
       <div className="flex items-center gap-1.5 lg:justify-between lg:gap-2">
         <div className="min-w-0 text-xs font-medium leading-[16.2px] text-[rgba(29,54,80,0.8)] lg:flex-1 lg:text-sm lg:leading-[18.9px]">
           {metric.title}
@@ -533,13 +549,15 @@ function SummaryPanel({
           </div>
         </div>
 
-        <div className="flex flex-col items-stretch lg:flex-row lg:items-start">
-          {metrics.map((m) => (
+        <div className="grid grid-cols-1 lg:grid-cols-5 lg:items-stretch">
+          {metrics.map((m, i) => (
             <MetricColumn
               key={m.title}
               metric={m}
               open={openKeys.includes(m.title)}
               onToggle={() => toggleOne(m.title)}
+              showDivider={i > 0}
+              isLast={i === metrics.length - 1}
             />
           ))}
         </div>
