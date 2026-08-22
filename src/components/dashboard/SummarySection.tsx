@@ -312,8 +312,8 @@ function CollapseToggle({
       </span>
       <span
         className={cn(
-          "hidden lg:inline-flex",
-          chevronMotion,
+          "hidden origin-center transition-transform motion-reduce:transition-none lg:inline-flex",
+          collapseEase,
           open && "rotate-180",
         )}
       >
@@ -523,6 +523,10 @@ function SummaryPanel({
   const [collectiveOpen, setCollectiveOpen] = useState(false);
   const [breakdown, setBreakdown] = useState<Breakdown>("department");
   const anyIndividual = openKeys.length > 0;
+  const mobileAllOpen =
+    metrics.length > 0 && openKeys.length === metrics.length;
+  const showBreakdownTabs = mobileAllOpen;
+  const showBreakdownTabsDesktop = collectiveOpen || anyIndividual;
   const collectiveRef = useRef<HTMLDivElement>(null);
   const [collectiveHeight, setCollectiveHeight] = useState(0);
   const breakdownBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -556,7 +560,7 @@ function SummaryPanel({
       ready: true,
       animate: prev.ready,
     }));
-  }, [breakdown, collectiveOpen, anyIndividual]);
+  }, [breakdown, collectiveOpen, anyIndividual, mobileAllOpen]);
 
   useEffect(() => {
     setOpenKeys([]);
@@ -571,6 +575,17 @@ function SummaryPanel({
     );
   }
 
+  function toggleFooterBreakdown() {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (isDesktop) {
+      setCollectiveOpen((v) => !v);
+      return;
+    }
+    setOpenKeys((curr) =>
+      curr.length === metrics.length ? [] : metrics.map((m) => m.title),
+    );
+  }
+
   return (
     <div className="flex w-full flex-col overflow-hidden rounded-[14px] border border-[#DBDDE2] bg-white pt-3">
       <div className="flex flex-col gap-2 px-3 lg:gap-4">
@@ -581,11 +596,14 @@ function SummaryPanel({
           <div
             className={cn(
               collapseGrid,
-              "grid-rows-[1fr] transition-opacity motion-reduce:transition-none",
+              "transition-opacity motion-reduce:transition-none",
               collapseEase,
-              collectiveOpen || anyIndividual
-                ? "opacity-100 lg:opacity-100"
-                : "opacity-100 lg:pointer-events-none lg:grid-rows-[0fr] lg:opacity-0",
+              showBreakdownTabs
+                ? "grid-rows-[1fr] opacity-100"
+                : "pointer-events-none grid-rows-[0fr] opacity-0",
+              showBreakdownTabsDesktop
+                ? "lg:pointer-events-auto lg:grid-rows-[1fr] lg:opacity-100"
+                : "lg:pointer-events-none lg:grid-rows-[0fr] lg:opacity-0",
             )}
           >
             <div className="min-h-0 overflow-hidden">
@@ -655,7 +673,7 @@ function SummaryPanel({
       </div>
 
       <div
-        className="overflow-hidden motion-reduce:transition-none"
+        className="hidden overflow-hidden motion-reduce:transition-none lg:block"
         style={{
           height: collectiveOpen ? collectiveHeight : 0,
           transition: `height ${collapseMs}ms ease-in-out`,
@@ -680,13 +698,35 @@ function SummaryPanel({
       <div className="flex h-9 items-center gap-3 rounded-b-[13px] border-t border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.005),rgba(246,134,31,0.005)),#fff] py-2 pr-0.5 pl-3 lg:h-[49px] lg:rounded-b-[14px]">
         <button
           type="button"
-          onClick={() => setCollectiveOpen((v) => !v)}
+          onClick={toggleFooterBreakdown}
           className="inline-flex items-center gap-1.5 text-[10px] font-[500] leading-[17.44px] text-icr-orange lg:text-xs"
         >
-          {collectiveOpen
-            ? "Hide Current month breakdown"
-            : "View Current month breakdown"}
-          <span className={cn(chevronMotion, collectiveOpen && "rotate-180")}>
+          <span className="lg:hidden">
+            {mobileAllOpen
+              ? "Hide Current month breakdown"
+              : "View Current month breakdown"}
+          </span>
+          <span className="hidden lg:inline">
+            {collectiveOpen
+              ? "Hide Current month breakdown"
+              : "View Current month breakdown"}
+          </span>
+          <span
+            className={cn(
+              chevronMotion,
+              "lg:hidden",
+              mobileAllOpen && "rotate-180",
+            )}
+          >
+            <IconArrowDown size={14} />
+          </span>
+          <span
+            className={cn(
+              chevronMotion,
+              "hidden lg:inline-flex",
+              collectiveOpen && "rotate-180",
+            )}
+          >
             <IconArrowDown size={14} />
           </span>
         </button>

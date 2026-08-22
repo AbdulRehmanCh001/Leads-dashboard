@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
 import type { LeadDetail } from "@/components/dashboard/LeadDetailDrawer";
 import {
@@ -109,7 +109,7 @@ const columns = [
   {
     key: "lead",
     label: "Lead",
-    className: "min-w-[196px] lg:min-w-0 lg:w-[18%]",
+    className: "min-w-[164px] w-[164px] lg:min-w-0 lg:w-[18%]",
   },
   {
     key: "customer",
@@ -154,7 +154,10 @@ const columns = [
 ] as const;
 
 const actionStickyClass =
-  "sticky right-0 z-20 lg:static lg:z-auto lg:shadow-none after:pointer-events-none after:absolute after:inset-y-0 after:left-full after:w-4 lg:after:hidden";
+  "relative sticky right-0 z-20 lg:static lg:z-auto";
+
+const actionStickyShadow =
+  "before:pointer-events-none before:absolute before:inset-y-0 before:right-full before:w-3 before:bg-gradient-to-l before:from-[rgba(16,24,40,0.14)] before:to-transparent shadow-[-4px_0_11px_rgba(0,0,0,0.12)] lg:before:hidden lg:shadow-none";
 
 function StatusBadge({ status }: { status: LeadDetail["status"] }) {
   if (status === "At Risk") {
@@ -226,6 +229,8 @@ export function LeadRegister() {
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<LeadDetail | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showActionShadow, setShowActionShadow] = useState(true);
+  const tableScrollRef = useRef<HTMLDivElement>(null);
 
   const hasFilters = regionActive || departmentActive || productActive;
 
@@ -252,6 +257,25 @@ export function LeadRegister() {
     productActive,
   ]);
 
+  useEffect(() => {
+    const el = tableScrollRef.current;
+    if (!el) return;
+
+    function updateShadow() {
+      if (!el) return;
+      const remaining = el.scrollWidth - el.clientWidth - el.scrollLeft;
+      setShowActionShadow(remaining > 2);
+    }
+
+    updateShadow();
+    el.addEventListener("scroll", updateShadow, { passive: true });
+    window.addEventListener("resize", updateShadow);
+    return () => {
+      el.removeEventListener("scroll", updateShadow);
+      window.removeEventListener("resize", updateShadow);
+    };
+  }, [filtered.length]);
+
   function openLead(lead: LeadDetail) {
     setSelected(lead);
     setDrawerOpen(true);
@@ -264,7 +288,7 @@ export function LeadRegister() {
   return (
     <>
       <section className="flex min-w-0 flex-col gap-6 overflow-hidden rounded-[14px] border border-[rgba(13,24,61,0.15)] bg-white py-3 lg:py-4">
-        <div className="flex flex-col gap-2.5 px-3 lg:flex-row lg:items-start lg:gap-2.5 lg:px-4">
+        <div className="flex flex-col gap-2.5 px-[10px] lg:flex-row lg:items-start lg:gap-2.5 lg:px-4">
           <div className="min-w-0 flex-1">
             <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
               Lead register
@@ -309,7 +333,10 @@ export function LeadRegister() {
           </div>
         ) : null}
 
-        <div className="min-w-0 overflow-x-auto lg:overflow-x-hidden">
+        <div
+          ref={tableScrollRef}
+          className="min-w-0 overflow-x-auto lg:overflow-x-hidden"
+        >
           <table className="w-full min-w-[1100px] border-collapse lg:min-w-0 lg:table-fixed">
             <thead>
               <tr>
@@ -328,7 +355,8 @@ export function LeadRegister() {
                       col.key === "action" &&
                         cn(
                           actionStickyClass,
-                          "bg-[#F8F9FA] shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#F8F9FA] after:bg-[#F8F9FA] lg:shadow-none",
+                          "bg-[#F8F9FA]",
+                          showActionShadow && actionStickyShadow,
                         ),
                     )}
                   >
@@ -364,7 +392,7 @@ export function LeadRegister() {
               ) : (
                 filtered.map((lead) => (
                   <tr key={lead.id} className="group">
-                    <td className="h-[68px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
                       <div className="flex min-w-0 flex-col justify-start gap-0">
                         <span className="truncate text-xs font-medium leading-[17.4px] text-icr-navy lg:text-sm lg:leading-[20.3px]">
                           {lead.id}
@@ -374,7 +402,7 @@ export function LeadRegister() {
                         </span>
                       </div>
                     </td>
-                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle whitespace-nowrap text-[10px] font-medium leading-[15px] text-icr-navy lg:max-w-0 lg:truncate">
                       {lead.customer}
                     </td>
                     <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
@@ -410,7 +438,8 @@ export function LeadRegister() {
                     <td
                       className={cn(
                         actionStickyClass,
-                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-2 py-4 text-center align-middle shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#fff] after:bg-white lg:shadow-none",
+                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-2 py-4 text-center align-middle",
+                        showActionShadow && actionStickyShadow,
                       )}
                     >
                       <button

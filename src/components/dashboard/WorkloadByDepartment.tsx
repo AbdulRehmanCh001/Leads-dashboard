@@ -3,11 +3,20 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { FilterScopeBadge } from "@/components/dashboard/FilterScopeBadge";
-import { IconArrowDown, IconArrowUp, IconChevronDown } from "@/components/icons";
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconChevronDown,
+  IconChevronRight,
+} from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 const collapseMs = 500;
 const collapseEase = "duration-500 ease-in-out";
+const collapseGrid = cn(
+  "grid transition-[grid-template-rows] motion-reduce:transition-none",
+  collapseEase,
+);
 const chevronMotion = cn(
   "inline-flex origin-center transition-transform motion-reduce:transition-none",
   collapseEase,
@@ -124,7 +133,7 @@ const departments: Dept[] = [
 
 function WorkloadTooltip({ dept }: { dept: Dept }) {
   return (
-    <div className="pointer-events-none absolute top-full left-0 z-30 mt-1 w-max min-w-[148px] origin-top scale-[0.98] rounded-[10px] border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100">
+    <div className="pointer-events-none absolute top-full left-0 z-30 mt-1 hidden w-max min-w-[148px] origin-top scale-[0.98] rounded-[10px] border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100 lg:block">
       <div className="mb-2 text-[10px] font-medium leading-[14px] tracking-[0.04em] text-[#6A7282] uppercase">
         {dept.name}
       </div>
@@ -169,12 +178,12 @@ function WorkloadTooltip({ dept }: { dept: Dept }) {
   );
 }
 
-function ChevronIcon({ open }: { open: boolean }) {
+function DesktopChevron({ open }: { open: boolean }) {
   return (
     <span
       aria-hidden
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded p-1.5",
+        "hidden shrink-0 items-center justify-center rounded p-1.5 lg:inline-flex",
         open
           ? "bg-[rgba(246,134,31,0.12)] text-icr-orange ring-1 ring-icr-orange"
           : "bg-[#F8F9FA] text-icr-navy",
@@ -191,15 +200,80 @@ function columnPad(isFirst: boolean, isLast: boolean) {
   return cn(!isFirst && "lg:pl-4", !isLast && "lg:pr-4");
 }
 
+function MobileBreakdown({ dept }: { dept: Dept }) {
+  return (
+    <div className="flex flex-col gap-3 rounded-lg bg-[#F8F9FA] px-3 py-3">
+      <div className="flex flex-col gap-2">
+        {dept.details.map((row) => (
+          <div
+            key={row.label}
+            className="flex items-center justify-between gap-2"
+          >
+            <div className="flex items-end gap-1">
+              <span className="text-[10px] font-medium leading-[14px] tracking-[-0.4px] text-icr-navy">
+                {row.count}
+              </span>
+              <span className="text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+                {row.label}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]">
+              <span className="font-[500] text-icr-navy">{row.avg}</span>
+              <span className="font-[400]">Avg time</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {dept.artifacts ? (
+        <div className="flex flex-col gap-2">
+          <div className="text-xs font-medium leading-[14.4px] text-icr-navy">
+            Artifacts
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {dept.artifacts.map((a, i) => (
+              <div key={a.label} className="flex items-center gap-2">
+                {i > 0 ? (
+                  <span className="h-[2.5px] w-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]" />
+                ) : null}
+                <div className="flex items-end gap-1">
+                  <span className="text-[10px] font-medium leading-[14px] text-icr-navy">
+                    {a.count}
+                  </span>
+                  <span className="text-[10px] leading-[14px] text-icr-navy">
+                    {a.label}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        className="inline-flex w-full items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-navy"
+      >
+        <span className="min-w-0 flex-1 text-left">Filter in Lead Register</span>
+        <IconChevronDown size={14} />
+      </button>
+    </div>
+  );
+}
+
 function DeptColumn({
   dept,
   detailsOpen,
+  individualOpen,
+  onToggleIndividual,
   isFirst,
   isLast,
   highlighted,
 }: {
   dept: Dept;
   detailsOpen: boolean;
+  individualOpen: boolean;
+  onToggleIndividual: () => void;
   isFirst: boolean;
   isLast: boolean;
   highlighted: boolean;
@@ -216,7 +290,11 @@ function DeptColumn({
       )}
     >
       <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-1 py-1">
+        <button
+          type="button"
+          onClick={onToggleIndividual}
+          className="flex w-full items-center gap-1 py-1 text-left lg:pointer-events-none"
+        >
           <span className="inline-flex size-[18px] shrink-0">
             <img
               src={dept.icon}
@@ -228,7 +306,7 @@ function DeptColumn({
           </span>
           <div
             className={cn(
-              "min-w-0 flex-1 truncate text-xs font-medium leading-[16.8px]",
+              "min-w-0 truncate text-xs font-medium leading-[16.8px]",
               highlighted
                 ? "text-icr-orange"
                 : "text-[rgba(29,54,80,0.80)] lg:text-icr-navy",
@@ -236,23 +314,29 @@ function DeptColumn({
           >
             {dept.name}
           </div>
-          <ChevronIcon open={detailsOpen} />
-        </div>
+          <span className="inline-flex shrink-0 text-icr-navy lg:hidden">
+            {individualOpen ? (
+              <IconChevronDown size={12} />
+            ) : (
+              <IconChevronRight size={12} />
+            )}
+          </span>
+          <DesktopChevron open={detailsOpen} />
+        </button>
 
         <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-end gap-1">
-              <span className="text-lg font-medium leading-[24.3px] text-icr-navy lg:text-xl lg:leading-[27px] lg:tracking-[-0.6px]">
-                {dept.velocity}
-              </span>
-              <span className="pb-0.5 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
-                Velocity Time
-              </span>
-            </div>
-            <div className="flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467]">
-              <span className="font-[400]">Baseline Median</span>
-              <span className="font-[500]">{dept.baseline}</span>
-            </div>
+          <div className="flex items-end gap-1">
+            <span className="text-lg font-medium leading-[24.3px] text-icr-navy lg:text-xl lg:leading-[27px] lg:tracking-[-0.6px]">
+              {dept.velocity}
+            </span>
+            <span className="pb-0.5 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+              Velocity Time
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1 border-t border-[#DBDDE2] pt-2 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467] lg:border-0 lg:pt-0">
+            <span className="font-[400]">Baseline Median</span>
+            <span className="font-[500]">{dept.baseline}</span>
           </div>
 
           <div className="relative border-t border-[#DBDDE2] pt-2">
@@ -281,6 +365,20 @@ function DeptColumn({
               </div>
             </div>
             {!detailsOpen ? <WorkloadTooltip dept={dept} /> : null}
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            collapseGrid,
+            "lg:hidden",
+            individualOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+        >
+          <div className="min-h-0 overflow-hidden">
+            <div className="pt-1">
+              <MobileBreakdown dept={dept} />
+            </div>
           </div>
         </div>
       </div>
@@ -365,6 +463,7 @@ function BreakdownCell({
 export function WorkloadByDepartment() {
   const { department, departmentActive } = useDashboardFilters();
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
   const detailsRef = useRef<HTMLDivElement>(null);
   const [detailsHeight, setDetailsHeight] = useState(0);
 
@@ -380,9 +479,16 @@ export function WorkloadByDepartment() {
     return () => ro.disconnect();
   }, []);
 
+  function toggleIndividual(name: string) {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    setOpenKeys((curr) =>
+      curr.includes(name) ? curr.filter((n) => n !== name) : [...curr, name],
+    );
+  }
+
   return (
     <section className="relative z-0 flex flex-col overflow-visible rounded-[10px] border border-[#DBDDE2] bg-white pt-4">
-      <div className="flex flex-col gap-3 px-3 lg:flex-row lg:items-center lg:gap-2.5 lg:px-4">
+      <div className="flex flex-col gap-2 px-3 lg:flex-row lg:items-center lg:gap-2.5 lg:px-4">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
           <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
             Workload by department
@@ -419,6 +525,8 @@ export function WorkloadByDepartment() {
               <DeptColumn
                 dept={dept}
                 detailsOpen={detailsOpen}
+                individualOpen={openKeys.includes(dept.name)}
+                onToggleIndividual={() => toggleIndividual(dept.name)}
                 isFirst={i === 0}
                 isLast={i === departments.length - 1}
                 highlighted={departmentActive && department === dept.name}
@@ -429,7 +537,7 @@ export function WorkloadByDepartment() {
       </div>
 
       <div
-        className="overflow-hidden motion-reduce:transition-none"
+        className="hidden overflow-hidden motion-reduce:transition-none lg:block"
         style={{
           height: detailsOpen ? detailsHeight : 0,
           transition: `height ${collapseMs}ms ease-in-out`,
@@ -460,7 +568,7 @@ export function WorkloadByDepartment() {
         </div>
       </div>
 
-      <div className="flex h-9 items-center gap-3 border-t border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.005),rgba(246,134,31,0.005)),#fff] py-2 pr-0.5 pl-3 lg:h-[49px]">
+      <div className="hidden h-9 items-center gap-3 border-t border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.005),rgba(246,134,31,0.005)),#fff] py-2 pr-0.5 pl-3 lg:flex lg:h-[49px]">
         <button
           type="button"
           onClick={() => setDetailsOpen((v) => !v)}

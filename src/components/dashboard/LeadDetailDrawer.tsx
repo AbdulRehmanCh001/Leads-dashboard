@@ -19,6 +19,9 @@ import {
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
+const DRAWER_MS = 400;
+const DRAWER_EASE = "cubic-bezier(0.32, 0.72, 0, 1)";
+
 export type LeadDetail = {
   id: string;
   title: string;
@@ -169,18 +172,21 @@ export function LeadDetailDrawer({
   useEffect(() => {
     if (open) {
       setMounted(true);
-      const id = requestAnimationFrame(() => {
-        requestAnimationFrame(() => setVisible(true));
-      });
-      return () => cancelAnimationFrame(id);
+      return;
     }
     setVisible(false);
-    const t = window.setTimeout(() => setMounted(false), 320);
+    const t = window.setTimeout(() => setMounted(false), DRAWER_MS);
     return () => window.clearTimeout(t);
   }, [open]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!mounted || !open) return;
+    const id = window.setTimeout(() => setVisible(true), 16);
+    return () => window.clearTimeout(id);
+  }, [mounted, open]);
+
+  useEffect(() => {
+    if (!mounted) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -191,26 +197,29 @@ export function LeadDetailDrawer({
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, onClose]);
+  }, [mounted, onClose]);
 
   if (!mounted || !lead) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-x-hidden" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true">
       <button
         type="button"
         aria-label="Close overlay"
         className={cn(
-          "absolute inset-0 bg-[rgba(29,54,80,0.28)] transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "absolute inset-0 bg-[rgba(29,54,80,0.28)] transition-opacity",
           visible ? "opacity-100" : "opacity-0",
         )}
+        style={{ transitionDuration: `${DRAWER_MS}ms`, transitionTimingFunction: DRAWER_EASE }}
         onClick={onClose}
       />
       <aside
         className={cn(
-          "absolute top-0 right-0 flex h-full w-full max-w-[448px] flex-col overflow-x-hidden overflow-y-auto bg-white p-4 pb-[90px] shadow-[-8px_0_32px_rgba(16,24,40,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "absolute top-0 right-0 flex h-full w-full max-w-none flex-col overflow-x-hidden overflow-y-auto bg-white p-4 pb-[90px] shadow-[-8px_0_32px_rgba(16,24,40,0.12)] will-change-transform lg:max-w-[448px]",
+          "transition-transform",
           visible ? "translate-x-0" : "translate-x-full",
         )}
+        style={{ transitionDuration: `${DRAWER_MS}ms`, transitionTimingFunction: DRAWER_EASE }}
       >
         <div className="flex w-full flex-col items-center gap-3.5">
           <div className="flex w-full max-w-[416px] flex-col gap-2">

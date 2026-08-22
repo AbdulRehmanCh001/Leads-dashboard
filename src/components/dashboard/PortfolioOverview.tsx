@@ -238,11 +238,11 @@ function ChartCard({
       </h3>
 
       <div className="px-3 lg:hidden">
-        <div className="relative" style={{ height: GRID_LINE_HEIGHT }}>
-          <div className="absolute inset-0 z-0">
+        <div className="relative">
+          <div className="pointer-events-none absolute inset-0 z-0">
             <ChartGridLines />
           </div>
-          <div className="relative z-[1] flex h-full flex-col items-stretch justify-center gap-[26px]">
+          <div className="relative z-[1] flex flex-col items-stretch gap-[26px]">
             {items.map((item) => (
               <button
                 type="button"

@@ -65,14 +65,22 @@ export function PageHeader() {
           type="button"
           aria-expanded={filtersOpen}
           onClick={toggleFilters}
-          className="inline-flex items-center gap-0.5 rounded-[10px] border border-icr-orange bg-[linear-gradient(0deg,rgba(255,255,255,0.95),rgba(255,255,255,0.95)),#F6861F] px-2 py-1"
+          className={cn(
+            "inline-flex items-center gap-0.5 rounded-[10px] border px-2 py-[5px]",
+            activeCount > 0
+              ? "border-icr-orange bg-icr-tint"
+              : "border-[rgba(13,24,61,0.10)] bg-white",
+          )}
         >
           <img
             src="/assets/icons/filter.svg"
             alt=""
             width={20}
             height={20}
-            className="size-5"
+            className={cn(
+              "size-5",
+              activeCount > 0 ? "opacity-100" : "opacity-70",
+            )}
           />
           {activeCount > 0 ? (
             <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-[5px] bg-icr-orange px-1.5 text-[10px] leading-[14px] text-white">
