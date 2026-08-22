@@ -13,7 +13,6 @@ import { FilterDatePicker } from "@/components/dashboard/FilterDatePicker";
 import {
   IconChevronDown,
   IconGlobe,
-  IconInfo,
   IconRefresh,
 } from "@/components/icons";
 import { useMobileNav } from "@/components/dashboard/MobileNav";
@@ -451,7 +450,13 @@ export function FilterBar() {
           <span className="group/baseline relative inline-flex items-center gap-1 rounded-l-[10px] bg-[#E8EEF4] py-[14px] pr-3 pl-[14px] text-[12px] font-medium leading-4 text-[#617385]">
             Baseline Median
             <span className="relative inline-flex">
-              <IconInfo size={12} className="cursor-help" />
+              <img
+                src="/assets/icons/help.svg"
+                alt=""
+                width={12}
+                height={12}
+                className="size-3 cursor-help"
+              />
               <span className="pointer-events-none invisible absolute top-[calc(100%+10px)] left-1/2 z-50 w-[280px] -translate-x-1/2 opacity-0 transition-opacity duration-150 group-hover/baseline:visible group-hover/baseline:opacity-100">
                 <span className="relative block rounded-2xl bg-white px-4 py-3 text-left text-[12px] font-normal leading-[18px] text-icr-navy shadow-[0_8px_28px_rgba(16,24,40,0.18)]">
                   <span

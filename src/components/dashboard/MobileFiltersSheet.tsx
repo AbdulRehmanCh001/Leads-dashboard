@@ -16,7 +16,6 @@ import { useMobileNav } from "@/components/dashboard/MobileNav";
 import {
   IconChevronDown,
   IconClose,
-  IconInfo,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +27,9 @@ const baselines = [
   "Previous 3 months",
   "Previous 12 months",
 ] as const;
+
+const BASELINE_HELP =
+  "Past Average shows the middle value of the period selected for all metrics, not including the current time period. It provides a comparison against today's number to see if current performance is normal or unusual.";
 
 const departmentChips = [
   "Intake",
@@ -144,8 +146,10 @@ export function MobileFiltersSheet() {
   const [toDate, setToDate] = useState("09-10-2025");
   const [baselineMenu, setBaselineMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
+  const [baselineHelpOpen, setBaselineHelpOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [customShown, setCustomShown] = useState(false);
+  const baselineHelpRef = useRef<HTMLDivElement>(null);
   const periodBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [periodPill, setPeriodPill] = useState({
     left: 0,
@@ -193,11 +197,23 @@ export function MobileFiltersSheet() {
       setDraftProduct(product);
       setBaselineMenu(false);
       setRegionMenu(false);
+      setBaselineHelpOpen(false);
       const id = requestAnimationFrame(() => setVisible(true));
       return () => cancelAnimationFrame(id);
     }
     setVisible(false);
   }, [filtersOpen, region, department, product]);
+
+  useEffect(() => {
+    if (!baselineHelpOpen) return;
+    function onPointerDown(event: MouseEvent) {
+      if (!baselineHelpRef.current?.contains(event.target as Node)) {
+        setBaselineHelpOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [baselineHelpOpen]);
 
   useEffect(() => {
     if (!filtersOpen) return;
@@ -272,8 +288,8 @@ export function MobileFiltersSheet() {
           </button>
         </div>
 
-        <div className="mt-2 min-h-0 flex-1 overflow-y-auto border-t border-[rgba(13,24,61,0.10)] pt-4">
-          <div className="flex flex-col gap-6 pb-2">
+        <div className="mt-3 min-h-0 flex-1 overflow-y-auto border-t border-[rgba(13,24,61,0.10)] pt-4">
+          <div className="flex flex-col gap-[24px] pb-2">
             <div className="flex flex-col gap-1">
               <div className="text-sm font-medium leading-[18.9px] text-[rgba(29,54,80,0.80)]">
                 Time period
@@ -342,21 +358,61 @@ export function MobileFiltersSheet() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div
+              ref={baselineHelpRef}
+              className="relative flex flex-col gap-1"
+            >
               <div className="inline-flex items-center gap-1 text-sm font-medium leading-[18.9px] text-[rgba(29,54,80,0.80)]">
                 Baseline Median
-                <IconInfo size={14} className="text-[#4A5E73]" />
+                <button
+                  type="button"
+                  aria-label="Baseline Median info"
+                  aria-expanded={baselineHelpOpen}
+                  onClick={() => {
+                    setBaselineMenu(false);
+                    setRegionMenu(false);
+                    setBaselineHelpOpen((v) => !v);
+                  }}
+                  className="inline-flex size-3.5 items-center justify-center"
+                >
+                  <img
+                    src="/assets/icons/help.svg"
+                    alt=""
+                    width={14}
+                    height={14}
+                    className="size-3.5"
+                  />
+                </button>
               </div>
-              <SheetSelect
-                value={baseline}
-                open={baselineMenu}
-                onToggle={() => {
-                  setRegionMenu(false);
-                  setBaselineMenu((v) => !v);
-                }}
-                options={baselines}
-                onSelect={setBaseline}
-              />
+              <div className="relative">
+                <SheetSelect
+                  value={baseline}
+                  open={baselineMenu}
+                  onToggle={() => {
+                    setRegionMenu(false);
+                    setBaselineHelpOpen(false);
+                    setBaselineMenu((v) => !v);
+                  }}
+                  options={baselines}
+                  onSelect={setBaseline}
+                />
+                <div
+                  className={cn(
+                    "absolute bottom-full left-1/2 z-30 mb-2 w-[70%] -translate-x-1/2 transition-opacity duration-150",
+                    baselineHelpOpen
+                      ? "pointer-events-auto opacity-100"
+                      : "pointer-events-none opacity-0",
+                  )}
+                >
+                  <div className="relative rounded-2xl bg-white px-4 py-3 text-left text-[10px] font-normal leading-[18px] text-icr-navy shadow-[0_8px_28px_rgba(16,24,40,0.18)]">
+                    <span
+                      className="absolute top-full left-1/2 -mt-px -translate-x-1/2 border-x-[7px] border-t-[8px] border-x-transparent border-t-white"
+                      aria-hidden
+                    />
+                    {BASELINE_HELP}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -368,6 +424,7 @@ export function MobileFiltersSheet() {
                 open={regionMenu}
                 onToggle={() => {
                   setBaselineMenu(false);
+                  setBaselineHelpOpen(false);
                   setRegionMenu((v) => !v);
                 }}
                 options={REGION_OPTIONS}
@@ -375,7 +432,7 @@ export function MobileFiltersSheet() {
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <div className="text-sm font-medium leading-[18.9px] text-[rgba(29,54,80,0.80)]">
                 Department
               </div>
@@ -419,7 +476,7 @@ export function MobileFiltersSheet() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <div className="text-sm font-medium leading-[18.9px] text-[rgba(29,54,80,0.80)]">
                 Products
               </div>

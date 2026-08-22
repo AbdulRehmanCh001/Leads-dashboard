@@ -660,13 +660,13 @@ function SummaryPanel({
           {metrics.map((m, i) => (
             <div key={m.title} className="min-w-0 lg:h-full">
               <MetricTop
-                metric={m}
+              metric={m}
                 individualOpen={openKeys.includes(m.title)}
                 collectiveOpen={collectiveOpen}
-                onToggle={() => toggleOne(m.title)}
-                showDivider={i > 0}
-                isLast={i === metrics.length - 1}
-              />
+              onToggle={() => toggleOne(m.title)}
+              showDivider={i > 0}
+              isLast={i === metrics.length - 1}
+            />
             </div>
           ))}
         </div>
