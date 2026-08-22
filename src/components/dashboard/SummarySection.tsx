@@ -205,7 +205,7 @@ function Trend({ value, kind }: { value: string; kind: TrendKind }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 self-end whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px]",
+        "inline-flex shrink-0 items-center gap-0.5 self-end whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px] lg:gap-1",
         trendColor(kind),
       )}
     >
@@ -423,13 +423,12 @@ function MetricTop({
   return (
     <div
       className={cn(
-        "flex h-full min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:gap-3 lg:border-b-0 lg:px-4",
+        "flex h-full min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:gap-3 lg:border-b-0 lg:px-4 lg:pt-2",
         "transition-[padding] motion-reduce:transition-none",
         collapseEase,
-        collectiveOpen ? "pb-0" : "pb-3",
+        collectiveOpen ? "pb-0 lg:pb-0" : "pb-3 lg:pb-4",
         showDivider && "lg:border-l lg:border-[#DBDDE2]",
-        !showDivider && "lg:pl-0",
-        isLast && "border-b-0 lg:pr-0",
+        isLast && "border-b-0",
       )}
     >
       <div className="flex items-center gap-1.5 lg:justify-between lg:gap-2">
@@ -439,13 +438,13 @@ function MetricTop({
         <CollapseToggle open={individualOpen} onClick={onToggle} />
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-end gap-2">
-          <div className="text-lg font-medium leading-[24.3px] text-icr-navy lg:text-2xl lg:leading-[32.4px]">
+      <div className="flex min-w-0 flex-col gap-3">
+        <div className="flex min-w-0 flex-wrap items-end gap-2 lg:flex-nowrap lg:gap-1">
+          <div className="shrink-0 text-lg font-medium leading-[24.3px] tracking-normal text-icr-navy lg:text-2xl lg:leading-[32.4px] lg:tracking-[-0.05em]">
             {metric.value}
           </div>
           {metric.aside ? (
-            <div className="pb-0.5 text-xs leading-3 text-[#475467] lg:text-sm lg:leading-[14px]">
+            <div className="shrink pb-0.5 text-xs leading-3 whitespace-nowrap text-[#475467] lg:text-sm lg:leading-none lg:tracking-[-0.05em]">
               {metric.aside}
             </div>
           ) : null}
@@ -501,8 +500,6 @@ function CollectiveCell({
       <div
         className={cn(
           "px-0 py-3 lg:px-4 lg:py-3",
-          !showDivider && "lg:pl-0",
-          isLast && "lg:pr-0",
         )}
       >
         {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
@@ -588,8 +585,8 @@ function SummaryPanel({
 
   return (
     <div className="flex w-full flex-col overflow-hidden rounded-[14px] border border-[#DBDDE2] bg-white pt-3">
-      <div className="flex flex-col gap-2 px-3 lg:gap-4">
-        <div className="flex flex-col items-stretch gap-2 lg:h-8 lg:flex-row lg:items-center lg:justify-between lg:gap-3">
+      <div className="flex flex-col gap-2 px-3 lg:gap-4 lg:px-0">
+        <div className="flex flex-col items-stretch gap-2 lg:h-8 lg:flex-row lg:items-center lg:justify-between lg:gap-3 lg:px-4">
           <h3 className="m-0 text-xs font-medium leading-[15px] text-icr-navy lg:text-sm lg:leading-[17.5px]">
             {title}
           </h3>
@@ -681,7 +678,7 @@ function SummaryPanel({
       >
         <div ref={collectiveRef}>
           <div className="border-t border-[#DBDDE2] bg-[#F8F9FA]">
-            <div className="grid grid-cols-1 px-3 lg:grid-cols-5 lg:items-stretch">
+            <div className="grid grid-cols-1 lg:grid-cols-5 lg:items-stretch">
               {metrics.map((m, i) => (
                 <CollectiveCell
                   key={m.title}

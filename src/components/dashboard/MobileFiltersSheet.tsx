@@ -331,12 +331,17 @@ export function MobileFiltersSheet() {
                   customOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
                 )}
               >
-                <div className="min-h-0 overflow-hidden">
+                <div
+                  className={cn(
+                    "min-h-0",
+                    customShown ? "overflow-visible" : "overflow-hidden",
+                  )}
+                >
                   <div
                     className={cn(
                       "mt-2 grid grid-cols-2 gap-3 will-change-transform transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none",
                       customShown
-                        ? "translate-y-0 opacity-100"
+                        ? "relative z-30 translate-y-0 opacity-100"
                         : "translate-y-[10px] opacity-0",
                     )}
                   >
