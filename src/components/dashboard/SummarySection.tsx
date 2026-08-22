@@ -10,6 +10,17 @@ import {
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
+const collapseMs = 500;
+const collapseEase = "duration-500 ease-in-out";
+const collapseGrid = cn(
+  "grid transition-[grid-template-rows] motion-reduce:transition-none",
+  collapseEase,
+);
+const chevronMotion = cn(
+  "inline-flex origin-center transition-transform motion-reduce:transition-none",
+  collapseEase,
+);
+
 type LeadMode = "open" | "closed" | "both";
 type Breakdown = "department" | "region";
 type TrendKind = "up" | "down-good" | "bad";
@@ -194,15 +205,15 @@ function Trend({ value, kind }: { value: string; kind: TrendKind }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 self-end whitespace-nowrap text-[10px] leading-[14px]",
+        "inline-flex items-center gap-1 self-end whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px]",
         trendColor(kind),
       )}
     >
-      <span className="inline-flex items-center gap-0.5 font-medium">
+      <span className="inline-flex items-center gap-0.5 font-[500]">
         <Arrow size={12} />
         {value}
       </span>
-      <span className="font-normal">vs last month</span>
+      <span className="font-[400]">vs last month</span>
     </span>
   );
 }
@@ -242,11 +253,11 @@ function ModeToggle({
   }, [mode]);
 
   return (
-    <div className="relative inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
+    <div className="relative inline-flex w-full rounded-[8px] border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute top-1 bottom-1 rounded-[7px] border border-[#F6861F] bg-icr-tint",
+          "pointer-events-none absolute top-1 bottom-1 rounded-[6px] border border-[#F6861F] bg-icr-tint",
           pill.animate &&
             "transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
           pill.ready ? "opacity-100" : "opacity-0",
@@ -262,7 +273,7 @@ function ModeToggle({
           type="button"
           onClick={() => onChange(opt.id)}
           className={cn(
-            "relative z-10 flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none",
+            "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none",
             mode === opt.id ? "text-icr-orange" : "text-[rgba(29,54,80,0.8)]",
           )}
         >
@@ -288,15 +299,21 @@ function CollapseToggle({
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded text-icr-navy",
         "p-0 lg:bg-[#F8F9FA] lg:p-1.5",
-        open && "lg:bg-[rgba(246,134,31,0.12)] lg:text-icr-orange",
+        open &&
+          "lg:border lg:border-icr-orange lg:bg-[rgba(246,134,31,0.12)] lg:text-icr-orange",
       )}
     >
       <span className="inline-flex lg:hidden">
-        {open ? <IconChevronDown size={12} /> : <IconChevronRight size={12} />}
+        {open ? (
+          <IconChevronDown size={12} />
+        ) : (
+          <IconChevronRight size={12} />
+        )}
       </span>
       <span
         className={cn(
-          "hidden transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:inline-flex",
+          "hidden lg:inline-flex",
+          chevronMotion,
           open && "rotate-180",
         )}
       >
@@ -306,15 +323,99 @@ function CollapseToggle({
   );
 }
 
-function MetricColumn({
+function BreakdownHint({ hint }: { hint: string }) {
+  return (
+    <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+      {hint.split(" · ").map((part, i) => {
+        const [count, ...rest] = part.split(" ");
+        return (
+          <span key={part} className="inline-flex items-end gap-1">
+            {i > 0 ? (
+              <span className="mx-0.5 inline-block size-[2.5px] self-center rounded-full bg-[rgba(29,54,80,0.45)]" />
+            ) : null}
+            <span className="font-[500]">{count}</span>
+            <span className="font-[400]">{rest.join(" ")}</span>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function BreakdownItems({
   metric,
-  open,
+  tone = "colored",
+}: {
+  metric: Metric;
+  tone?: "muted" | "colored";
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      {metric.items.map((item) => (
+        <div
+          className="flex items-center justify-between gap-2 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy lg:text-xs lg:leading-[18px]"
+          key={`${metric.title}-${item.label}`}
+        >
+          <div className="flex items-end gap-1">
+            <span className="font-[500]">{item.value}</span>
+            <span className="font-[400]">{item.label}</span>
+          </div>
+          {item.right ? (
+            <div className="flex items-center gap-1 whitespace-nowrap text-right">
+              {item.trend ? (
+                tone === "muted" ? (
+                  <span className="font-[400] text-[rgba(29,54,80,0.70)]">
+                    {item.right}
+                  </span>
+                ) : (
+                  <>
+                    <span className={cn("font-[500]", trendColor(item.trend))}>
+                      {item.right.split(" ")[0]}
+                    </span>
+                    <span className="font-[400] text-[rgba(29,54,80,0.70)]">
+                      vs last month
+                    </span>
+                  </>
+                )
+              ) : item.right.includes("Baseline") ? (
+                <>
+                  <span
+                    className={cn(
+                      tone === "muted"
+                        ? "font-[400] text-[rgba(29,54,80,0.70)]"
+                        : "font-[500] text-[rgba(29,54,80,0.70)]",
+                    )}
+                  >
+                    {item.right.replace(" Baseline", "")}
+                  </span>
+                  <span className="font-[400] text-[rgba(29,54,80,0.70)]">
+                    Baseline
+                  </span>
+                </>
+              ) : (
+                <span className="font-[400] text-[rgba(29,54,80,0.70)]">
+                  {item.right}
+                </span>
+              )}
+            </div>
+          ) : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MetricTop({
+  metric,
+  individualOpen,
+  collectiveOpen,
   onToggle,
   showDivider,
   isLast,
 }: {
   metric: Metric;
-  open: boolean;
+  individualOpen: boolean;
+  collectiveOpen: boolean;
   onToggle: () => void;
   showDivider: boolean;
   isLast: boolean;
@@ -322,22 +423,20 @@ function MetricColumn({
   return (
     <div
       className={cn(
-        "relative flex min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:h-full lg:gap-3 lg:border-b-0 lg:px-4 lg:pb-4",
+        "flex h-full min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:gap-3 lg:border-b-0 lg:px-4",
+        "transition-[padding] motion-reduce:transition-none",
+        collapseEase,
+        collectiveOpen ? "pb-0" : "pb-3",
+        showDivider && "lg:border-l lg:border-[#DBDDE2]",
         !showDivider && "lg:pl-0",
         isLast && "border-b-0 lg:pr-0",
       )}
     >
-      {showDivider ? (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 hidden w-px bg-[#DBDDE2] lg:block"
-        />
-      ) : null}
       <div className="flex items-center gap-1.5 lg:justify-between lg:gap-2">
         <div className="min-w-0 text-xs font-medium leading-[16.2px] text-[rgba(29,54,80,0.8)] lg:flex-1 lg:text-sm lg:leading-[18.9px]">
           {metric.title}
         </div>
-        <CollapseToggle open={open} onClick={onToggle} />
+        <CollapseToggle open={individualOpen} onClick={onToggle} />
       </div>
 
       <div className="flex flex-col gap-3">
@@ -352,82 +451,62 @@ function MetricColumn({
           ) : null}
           <Trend value={metric.trend} kind={metric.trendKind} />
         </div>
-        <div className="flex items-center gap-1 pb-1 text-[10px] leading-[14px] text-[#475467] lg:pb-0">
-          <span className="font-normal">Baseline Median</span>
-          <span className="font-medium">{metric.baseline}</span>
+        <div className="flex items-center gap-1 pb-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467] lg:pb-0">
+          <span className="font-[400]">Baseline Median</span>
+          <span className="font-[500]">{metric.baseline}</span>
         </div>
       </div>
 
       <div
         className={cn(
-          "grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          collapseGrid,
+          individualOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <div className="min-h-0 overflow-hidden">
           <div
             className={cn(
-              "rounded-lg bg-[linear-gradient(0deg,rgba(255,255,255,0.97),rgba(255,255,255,0.97)),#1D3650] px-4 pt-1 pb-3 transition-opacity duration-300 lg:rounded-none lg:bg-transparent lg:px-0 lg:pt-3 lg:pb-0 lg:border-t lg:border-[#DBDDE2]",
-              open ? "opacity-100" : "opacity-0",
+              "bg-[#F8F9FA] px-3 pt-2 pb-[22px] lg:px-4",
+              collectiveOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg",
             )}
           >
-            <div className="mb-2 hidden text-[10px] font-medium tracking-wide text-[#6A7282] uppercase lg:block">
+            <div className="mb-2 text-[10px] font-medium tracking-wide text-[#6A7282] uppercase">
               Current month breakdown
             </div>
-            {metric.hint ? (
-              <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] leading-[14px] text-icr-navy">
-                {metric.hint.split(" · ").map((part, i) => {
-                  const [count, ...rest] = part.split(" ");
-                  return (
-                    <span key={part} className="inline-flex items-end gap-1">
-                      {i > 0 ? (
-                        <span className="mx-0.5 inline-block size-[2.5px] self-center rounded-full bg-[rgba(29,54,80,0.45)]" />
-                      ) : null}
-                      <strong className="font-medium">{count}</strong>
-                      <span className="font-normal">{rest.join(" ")}</span>
-                    </span>
-                  );
-                })}
-              </div>
-            ) : null}
-            <div className="flex flex-col gap-2">
-              {metric.items.map((item) => (
-                <div
-                  className="flex items-center justify-between gap-2 text-[10px] leading-[14px] text-icr-navy lg:text-xs lg:leading-[18px]"
-                  key={`${metric.title}-${item.label}`}
-                >
-                  <div className="flex items-end gap-1">
-                    <strong className="font-medium">{item.value}</strong>
-                    <span className="font-normal">{item.label}</span>
-                  </div>
-                  {item.right ? (
-                    <div className="flex items-center gap-1 whitespace-nowrap text-right text-[rgba(29,54,80,0.70)]">
-                      {item.trend ? (
-                        <>
-                          <span
-                            className={cn("font-medium", trendColor(item.trend))}
-                          >
-                            {item.right.split(" ")[0]}
-                          </span>
-                          <span className="font-normal">vs last month</span>
-                        </>
-                      ) : item.right.includes("Baseline") ? (
-                        <>
-                          <span className="font-medium">
-                            {item.right.replace(" Baseline", "")}
-                          </span>
-                          <span>Baseline</span>
-                        </>
-                      ) : (
-                        item.right
-                      )}
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </div>
+            {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
+            <BreakdownItems metric={metric} tone="muted" />
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function CollectiveCell({
+  metric,
+  showDivider,
+  isLast,
+}: {
+  metric: Metric;
+  showDivider: boolean;
+  isLast: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "h-full",
+        showDivider && "lg:border-l lg:border-[#DBDDE2]",
+      )}
+    >
+      <div
+        className={cn(
+          "px-0 py-3 lg:px-4 lg:py-3",
+          !showDivider && "lg:pl-0",
+          isLast && "lg:pr-0",
+        )}
+      >
+        {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
+        <BreakdownItems metric={metric} tone="colored" />
       </div>
     </div>
   );
@@ -441,9 +520,11 @@ function SummaryPanel({
   metrics: Metric[];
 }) {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [collectiveOpen, setCollectiveOpen] = useState(false);
   const [breakdown, setBreakdown] = useState<Breakdown>("department");
-  const anyOpen = openKeys.length > 0;
-  const allOpen = openKeys.length === metrics.length;
+  const anyIndividual = openKeys.length > 0;
+  const collectiveRef = useRef<HTMLDivElement>(null);
+  const [collectiveHeight, setCollectiveHeight] = useState(0);
   const breakdownBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [breakdownPill, setBreakdownPill] = useState({
     left: 0,
@@ -453,55 +534,66 @@ function SummaryPanel({
   });
 
   useLayoutEffect(() => {
+    const el = collectiveRef.current;
+    if (!el) return;
+    const measure = () => setCollectiveHeight(el.scrollHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [metrics]);
+
+  useLayoutEffect(() => {
     const idx = breakdown === "department" ? 0 : 1;
     const btn = breakdownBtnRefs.current[idx];
     if (!btn) return;
     const left = btn.offsetLeft;
     const width = btn.offsetWidth;
+    if (width === 0) return;
     setBreakdownPill((prev) => ({
       left,
       width,
       ready: true,
       animate: prev.ready,
     }));
-  }, [breakdown]);
+  }, [breakdown, collectiveOpen, anyIndividual]);
 
   useEffect(() => {
     setOpenKeys([]);
+    setCollectiveOpen(false);
   }, [title]);
 
-  function toggleOne(title: string) {
+  function toggleOne(metricTitle: string) {
     setOpenKeys((curr) =>
-      curr.includes(title) ? curr.filter((t) => t !== title) : [...curr, title],
+      curr.includes(metricTitle)
+        ? curr.filter((t) => t !== metricTitle)
+        : [...curr, metricTitle],
     );
   }
 
-  function toggleAll() {
-    setOpenKeys(allOpen ? [] : metrics.map((m) => m.title));
-  }
-
   return (
-    <div className="flex w-full flex-col rounded-[14px] border border-[#DBDDE2] bg-white pt-3">
-      <div className="flex flex-col gap-2 px-3 pb-2 lg:gap-4">
+    <div className="flex w-full flex-col overflow-hidden rounded-[14px] border border-[#DBDDE2] bg-white pt-3">
+      <div className="flex flex-col gap-2 px-3 lg:gap-4">
         <div className="flex flex-col items-stretch gap-2 lg:h-8 lg:flex-row lg:items-center lg:justify-between lg:gap-3">
           <h3 className="m-0 text-xs font-medium leading-[15px] text-icr-navy lg:text-sm lg:leading-[17.5px]">
             {title}
           </h3>
           <div
             className={cn(
-              "grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-              "grid-rows-[1fr] opacity-100 lg:grid-rows-[1fr]",
-              anyOpen
-                ? "lg:opacity-100"
-                : "lg:pointer-events-none lg:grid-rows-[0fr] lg:opacity-0",
+              collapseGrid,
+              "grid-rows-[1fr] transition-opacity motion-reduce:transition-none",
+              collapseEase,
+              collectiveOpen || anyIndividual
+                ? "opacity-100 lg:opacity-100"
+                : "opacity-100 lg:pointer-events-none lg:grid-rows-[0fr] lg:opacity-0",
             )}
           >
             <div className="min-h-0 overflow-hidden">
-              <div className="relative inline-flex w-full rounded-lg border border-[rgba(13,24,61,0.15)] bg-white p-1 lg:w-auto lg:overflow-hidden lg:p-0">
+              <div className="relative inline-flex w-full rounded-[8px] border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
                 <span
                   aria-hidden
                   className={cn(
-                    "pointer-events-none absolute top-1 bottom-1 rounded-[7px] border border-[#F6861F] bg-icr-tint lg:hidden",
+                    "pointer-events-none absolute top-1 bottom-1 rounded-[6px] border border-[#F6861F] bg-icr-tint",
                     breakdownPill.animate &&
                       "transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
                     breakdownPill.ready ? "opacity-100" : "opacity-0",
@@ -518,9 +610,9 @@ function SummaryPanel({
                   type="button"
                   onClick={() => setBreakdown("department")}
                   className={cn(
-                    "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:px-3 lg:py-0",
+                    "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none lg:px-3",
                     breakdown === "department"
-                      ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]"
+                      ? "text-icr-orange"
                       : "text-[rgba(29,54,80,0.8)]",
                   )}
                 >
@@ -533,9 +625,9 @@ function SummaryPanel({
                   type="button"
                   onClick={() => setBreakdown("region")}
                   className={cn(
-                    "relative z-10 h-auto flex-1 rounded-[7px] px-2.5 py-1 text-xs font-medium leading-[15.6px] lg:h-8 lg:flex-none lg:rounded-none lg:border-l lg:border-[rgba(13,24,61,0.15)] lg:px-3 lg:py-0",
+                    "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none lg:px-3",
                     breakdown === "region"
-                      ? "text-icr-orange lg:bg-[rgba(246,134,31,0.08)]"
+                      ? "text-icr-orange"
                       : "text-[rgba(29,54,80,0.8)]",
                   )}
                 >
@@ -548,32 +640,54 @@ function SummaryPanel({
 
         <div className="grid grid-cols-1 lg:grid-cols-5 lg:items-stretch">
           {metrics.map((m, i) => (
-            <MetricColumn
-              key={m.title}
-              metric={m}
-              open={openKeys.includes(m.title)}
-              onToggle={() => toggleOne(m.title)}
-              showDivider={i > 0}
-              isLast={i === metrics.length - 1}
-            />
+            <div key={m.title} className="min-w-0 lg:h-full">
+              <MetricTop
+                metric={m}
+                individualOpen={openKeys.includes(m.title)}
+                collectiveOpen={collectiveOpen}
+                onToggle={() => toggleOne(m.title)}
+                showDivider={i > 0}
+                isLast={i === metrics.length - 1}
+              />
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.01),rgba(246,134,31,0.01)),white] px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t lg:bg-white">
+      <div
+        className="overflow-hidden motion-reduce:transition-none"
+        style={{
+          height: collectiveOpen ? collectiveHeight : 0,
+          transition: `height ${collapseMs}ms ease-in-out`,
+        }}
+      >
+        <div ref={collectiveRef}>
+          <div className="border-t border-[#DBDDE2] bg-[#F8F9FA]">
+            <div className="grid grid-cols-1 px-3 lg:grid-cols-5 lg:items-stretch">
+              {metrics.map((m, i) => (
+                <CollectiveCell
+                  key={m.title}
+                  metric={m}
+                  showDivider={i > 0}
+                  isLast={i === metrics.length - 1}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex h-9 items-center gap-3 rounded-b-[13px] border-t border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.005),rgba(246,134,31,0.005)),#fff] py-2 pr-0.5 pl-3 lg:h-[49px] lg:rounded-b-[14px]">
         <button
           type="button"
-          onClick={toggleAll}
-          className="inline-flex items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-orange lg:text-xs"
+          onClick={() => setCollectiveOpen((v) => !v)}
+          className="inline-flex items-center gap-1.5 text-[10px] font-[500] leading-[17.44px] text-icr-orange lg:text-xs"
         >
-          {anyOpen ? "Hide Current month breakdown" : "View Current month breakdown"}
-          <span
-            className={cn(
-              "inline-flex transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-              anyOpen && "rotate-180",
-            )}
-          >
-            <IconChevronDown size={14} />
+          {collectiveOpen
+            ? "Hide Current month breakdown"
+            : "View Current month breakdown"}
+          <span className={cn(chevronMotion, collectiveOpen && "rotate-180")}>
+            <IconArrowDown size={14} />
           </span>
         </button>
       </div>

@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { FilterScopeBadge } from "@/components/dashboard/FilterScopeBadge";
 import { IconArrowDown, IconArrowUp, IconChevronDown } from "@/components/icons";
 import { cn } from "@/lib/utils";
+
+const collapseMs = 500;
+const collapseEase = "duration-500 ease-in-out";
+const chevronMotion = cn(
+  "inline-flex origin-center transition-transform motion-reduce:transition-none",
+  collapseEase,
+);
 
 type DetailRow = {
   count: string;
@@ -63,7 +70,6 @@ const departments: Dept[] = [
     baseline: "12d",
     active: 61,
     change: "+13%",
-    
     up: true,
     details: [
       { count: "8", label: "At Risk", avg: "2d" },
@@ -118,7 +124,7 @@ const departments: Dept[] = [
 
 function WorkloadTooltip({ dept }: { dept: Dept }) {
   return (
-    <div className="pointer-events-none absolute top-0 left-1/2 z-30 w-full min-w-[148px] origin-top -translate-x-1/2 scale-[0.98] rounded-2xl border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100">
+    <div className="pointer-events-none absolute top-full left-0 z-30 mt-1 w-max min-w-[148px] origin-top scale-[0.98] rounded-[10px] border border-[#E8EEF4] bg-white px-3 py-2.5 opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/dept:scale-100 group-hover/dept:opacity-100">
       <div className="mb-2 text-[10px] font-medium leading-[14px] tracking-[0.04em] text-[#6A7282] uppercase">
         {dept.name}
       </div>
@@ -163,66 +169,54 @@ function WorkloadTooltip({ dept }: { dept: Dept }) {
   );
 }
 
-function ChevronBtn({
-  open,
-  onClick,
-}: {
-  open: boolean;
-  onClick: () => void;
-}) {
+function ChevronIcon({ open }: { open: boolean }) {
   return (
-    <button
-      type="button"
-      aria-expanded={open}
-      onClick={onClick}
+    <span
+      aria-hidden
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded p-1.5 transition-colors duration-200",
+        "inline-flex shrink-0 items-center justify-center rounded p-1.5",
         open
-          ? "bg-[rgba(246,134,31,0.06)] text-icr-orange ring-1 ring-icr-orange"
+          ? "bg-[rgba(246,134,31,0.12)] text-icr-orange ring-1 ring-icr-orange"
           : "bg-[#F8F9FA] text-icr-navy",
       )}
     >
-      <span
-        className={cn(
-          "inline-flex transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          open && "rotate-180",
-        )}
-      >
+      <span className={cn(chevronMotion, open && "rotate-180")}>
         <IconChevronDown size={12} />
       </span>
-    </button>
+    </span>
   );
+}
+
+function columnPad(isFirst: boolean, isLast: boolean) {
+  return cn(!isFirst && "lg:pl-4", !isLast && "lg:pr-4");
 }
 
 function DeptColumn({
   dept,
-  open,
-  onToggle,
-  showDetails,
+  detailsOpen,
   isFirst,
+  isLast,
   highlighted,
 }: {
   dept: Dept;
-  open: boolean;
-  onToggle: () => void;
-  showDetails: boolean;
+  detailsOpen: boolean;
   isFirst: boolean;
+  isLast: boolean;
   highlighted: boolean;
 }) {
   const Arrow = dept.up ? IconArrowUp : IconArrowDown;
-  const detailsVisible = showDetails && open;
-  const pad = isFirst ? "lg:pr-4" : "lg:px-4";
 
   return (
     <div
       className={cn(
-        "group/dept relative flex min-w-0 flex-1 flex-col rounded-lg transition-colors duration-200",
+        "group/dept relative flex h-full min-w-0 flex-col",
         highlighted && "bg-[rgba(246,134,31,0.06)]",
         "hover:z-30",
+        columnPad(isFirst, isLast),
       )}
     >
       <div className="flex flex-col gap-3">
-        <div className={cn("flex items-center gap-1 py-1", pad)}>
+        <div className="flex items-center gap-1 py-1">
           <span className="inline-flex size-[18px] shrink-0">
             <img
               src={dept.icon}
@@ -242,26 +236,26 @@ function DeptColumn({
           >
             {dept.name}
           </div>
-          <ChevronBtn open={open && showDetails} onClick={onToggle} />
+          <ChevronIcon open={detailsOpen} />
         </div>
 
-        <div className={cn("flex flex-col gap-2", pad)}>
-          <div className="flex flex-col gap-3 lg:gap-2">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <div className="flex items-end gap-1">
-              <span className="text-lg font-medium leading-[14.4px] text-icr-navy lg:text-xl lg:tracking-[-0.6px]">
+              <span className="text-lg font-medium leading-[24.3px] text-icr-navy lg:text-xl lg:leading-[27px] lg:tracking-[-0.6px]">
                 {dept.velocity}
               </span>
-              <span className="pb-px text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+              <span className="pb-0.5 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
                 Velocity Time
               </span>
             </div>
             <div className="flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467]">
-              <span className="font-normal">Baseline Median</span>
-              <span className="font-medium">{dept.baseline}</span>
+              <span className="font-[400]">Baseline Median</span>
+              <span className="font-[500]">{dept.baseline}</span>
             </div>
           </div>
 
-          <div className="relative border-t border-[#DBDDE2] py-2">
+          <div className="relative border-t border-[#DBDDE2] pt-2">
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-end gap-1">
                 <span className="text-xs font-medium leading-[14.4px] tracking-[-0.36px] text-icr-navy">
@@ -271,91 +265,22 @@ function DeptColumn({
                   Active
                 </span>
               </div>
-              <div className="inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]">
-                <span className="inline-flex items-center gap-0.5 font-medium">
+              <div
+                className={cn(
+                  "inline-flex items-center gap-1 text-[10px] leading-[14px] tracking-[-0.4px]",
+                  dept.up ? "text-[#067647]" : "text-[#B3261E]",
+                )}
+              >
+                <span className="inline-flex items-center gap-0.5 font-[500]">
                   <Arrow size={12} />
                   {dept.change}
                 </span>
-                <span className="font-normal">vs last month</span>
-              </div>
-            </div>
-            {!detailsVisible ? <WorkloadTooltip dept={dept} /> : null}
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={cn(
-          "grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          detailsVisible ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
-        )}
-      >
-        <div className="min-h-0 overflow-hidden">
-          <div
-            className={cn(
-              "pt-2 pb-4 transition-opacity duration-300",
-              pad,
-              detailsVisible ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <div className="flex min-h-[145px] flex-col gap-4 rounded-lg bg-[#F8F9F9] p-2">
-              <div className="flex flex-1 flex-col gap-2">
-                {dept.details.map((row) => (
-                  <div
-                    key={row.label}
-                    className="flex items-center justify-between gap-2"
-                  >
-                    <div className="flex items-end gap-1">
-                      <span className="text-[10px] font-medium leading-[14px] text-icr-navy">
-                        {row.count}
-                      </span>
-                      <span className="text-[10px] leading-[14px] text-icr-navy">
-                        {row.label}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1 text-[10px] leading-[14px] text-[#617285]">
-                      <span className="font-medium">{row.avg}</span>
-                      <span className="font-normal">Avg time</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {dept.artifacts ? (
-                <div className="flex flex-col gap-2">
-                  <div className="text-xs font-medium leading-[14.4px] text-icr-navy">
-                    Artifacts
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {dept.artifacts.map((a, i) => (
-                      <div key={a.label} className="flex items-center gap-2">
-                        {i > 0 ? (
-                          <span className="h-[2.5px] w-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]" />
-                        ) : null}
-                        <div className="flex items-end gap-1">
-                          <span className="text-[10px] font-medium leading-[14px] text-icr-navy">
-                            {a.count}
-                          </span>
-                          <span className="text-[10px] leading-[14px] text-icr-navy">
-                            {a.label}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              <button
-                type="button"
-                className="inline-flex w-full items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-navy"
-              >
-                <span className="min-w-0 flex-1 text-left">
-                  Filter in Lead Register
+                <span className="font-[400] text-[rgba(29,54,80,0.70)]">
+                  vs last month
                 </span>
-                <IconChevronDown size={14} />
-              </button>
+              </div>
             </div>
+            {!detailsOpen ? <WorkloadTooltip dept={dept} /> : null}
           </div>
         </div>
       </div>
@@ -363,38 +288,100 @@ function DeptColumn({
   );
 }
 
+function BreakdownCell({
+  dept,
+  isFirst,
+  isLast,
+}: {
+  dept: Dept;
+  isFirst: boolean;
+  isLast: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex min-w-0 flex-col gap-3 py-3",
+        columnPad(isFirst, isLast),
+      )}
+    >
+      <div className="flex flex-col gap-3">
+        {dept.details.map((row) => (
+          <div
+            key={row.label}
+            className="flex items-center justify-between gap-2"
+          >
+            <div className="flex items-end gap-1">
+              <span className="text-[10px] font-medium leading-[14px] tracking-[-0.4px] text-icr-navy">
+                {row.count}
+              </span>
+              <span className="text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+                {row.label}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px] text-[#617285]">
+              <span className="font-[500] text-icr-navy">{row.avg}</span>
+              <span className="font-[400]">Avg time</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {dept.artifacts ? (
+        <div className="flex flex-col gap-3">
+          <div className="text-xs font-medium leading-[14.4px] text-icr-navy">
+            Artifacts
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {dept.artifacts.map((a, i) => (
+              <div key={a.label} className="flex items-center gap-2">
+                {i > 0 ? (
+                  <span className="h-[2.5px] w-[2.5px] rounded-full bg-[rgba(29,54,80,0.45)]" />
+                ) : null}
+                <div className="flex items-end gap-1">
+                  <span className="text-[10px] font-medium leading-[14px] text-icr-navy">
+                    {a.count}
+                  </span>
+                  <span className="text-[10px] leading-[14px] text-icr-navy">
+                    {a.label}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        className="inline-flex w-full items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-navy"
+      >
+        <span className="min-w-0 flex-1 text-left">Filter in Lead Register</span>
+        <IconChevronDown size={14} />
+      </button>
+    </div>
+  );
+}
+
 export function WorkloadByDepartment() {
   const { department, departmentActive } = useDashboardFilters();
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const [detailsHeight, setDetailsHeight] = useState(0);
 
-  function toggleOne(name: string) {
-    if (!detailsOpen) {
-      setDetailsOpen(true);
-      setOpenKeys([name]);
-      return;
-    }
-    setOpenKeys((curr) => {
-      const next = curr.includes(name)
-        ? curr.filter((n) => n !== name)
-        : [...curr, name];
-      if (next.length === 0) setDetailsOpen(false);
-      return next;
-    });
-  }
+  useLayoutEffect(() => {
+    const el = detailsRef.current;
+    if (!el) return;
 
-  function toggleAll() {
-    if (detailsOpen) {
-      setDetailsOpen(false);
-      setOpenKeys([]);
-      return;
-    }
-    setDetailsOpen(true);
-    setOpenKeys(departments.map((d) => d.name));
-  }
+    const measure = () => setDetailsHeight(el.scrollHeight);
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <section className="relative z-0 flex flex-col gap-4 overflow-visible rounded-2xl border border-[#DBDDE2] bg-white pt-4 lg:rounded-2xl">
+    <section className="relative z-0 flex flex-col overflow-visible rounded-[10px] border border-[#DBDDE2] bg-white pt-4">
       <div className="flex flex-col gap-3 px-3 lg:flex-row lg:items-center lg:gap-2.5 lg:px-4">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
           <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
@@ -419,47 +406,73 @@ export function WorkloadByDepartment() {
         </div>
       </div>
 
-      <div className="relative flex flex-col gap-2 overflow-visible">
-        <div className="flex flex-col items-stretch overflow-visible px-0 lg:flex-row lg:items-start lg:px-4">
+      <div className="mt-4 px-3 lg:px-4">
+        <div className="flex flex-col items-stretch lg:flex-row lg:items-stretch">
           {departments.map((dept, i) => (
             <div
               key={dept.name}
               className={cn(
-                "relative min-w-0 flex-1 overflow-visible border-b border-[#DBDDE2] px-3 py-4 last:border-b-0 lg:border-b-0 lg:px-0 lg:py-0",
+                "relative min-w-0 flex-1 border-b border-[#DBDDE2] py-4 last:border-b-0 lg:border-b-0 lg:py-0 lg:pb-3",
                 i > 0 && "lg:border-l lg:border-[#DBDDE2]",
               )}
             >
               <DeptColumn
                 dept={dept}
-                open={openKeys.includes(dept.name)}
-                onToggle={() => toggleOne(dept.name)}
-                showDetails={detailsOpen}
+                detailsOpen={detailsOpen}
                 isFirst={i === 0}
+                isLast={i === departments.length - 1}
                 highlighted={departmentActive && department === dept.name}
               />
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="relative z-0 flex h-9 items-center rounded-b-[13px] border border-[#DBDDE2] bg-white px-3 py-2 lg:h-[49px] lg:rounded-b-[14px] lg:border-0 lg:border-t">
-          <button
-            type="button"
-            onClick={toggleAll}
-            className="inline-flex items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-orange lg:text-xs"
-          >
-            {detailsOpen
-              ? "Hide Current month details"
-              : "View Current month details"}
-            <span
-              className={cn(
-                "inline-flex transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                detailsOpen && "rotate-180",
-              )}
-            >
-              <IconChevronDown size={14} />
-            </span>
-          </button>
+      <div
+        className="overflow-hidden motion-reduce:transition-none"
+        style={{
+          height: detailsOpen ? detailsHeight : 0,
+          transition: `height ${collapseMs}ms ease-in-out`,
+        }}
+      >
+        <div ref={detailsRef}>
+          <div className="rounded-b-[14px] border-t-[0.5px] border-[#DBDDE2] bg-[#F8F9FA]">
+            <div className="px-3 lg:px-4">
+              <div className="flex flex-col lg:flex-row">
+                {departments.map((dept, i) => (
+                  <div
+                    key={dept.name}
+                    className={cn(
+                      "min-w-0 flex-1 border-b border-[#DBDDE2] last:border-b-0 lg:border-b-0",
+                      i > 0 && "lg:border-l lg:border-[#DBDDE2]",
+                    )}
+                  >
+                    <BreakdownCell
+                      dept={dept}
+                      isFirst={i === 0}
+                      isLast={i === departments.length - 1}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div className="flex h-9 items-center gap-3 border-t border-[#DBDDE2] bg-[linear-gradient(0deg,rgba(246,134,31,0.005),rgba(246,134,31,0.005)),#fff] py-2 pr-0.5 pl-3 lg:h-[49px]">
+        <button
+          type="button"
+          onClick={() => setDetailsOpen((v) => !v)}
+          className="inline-flex items-center gap-1.5 text-[10px] font-medium leading-[17.44px] text-icr-orange lg:text-xs"
+        >
+          {detailsOpen
+            ? "Hide Current month details"
+            : "View Current month details"}
+          <span className={cn(chevronMotion, detailsOpen && "rotate-180")}>
+            <IconArrowDown size={14} />
+          </span>
+        </button>
       </div>
     </section>
   );

@@ -46,6 +46,10 @@ export function PageHeader() {
           <IconRefresh size={12} />
           Refresh
         </button>
+        <span
+          aria-hidden
+          className="mx-0.5 h-3 w-px shrink-0 self-center bg-[#DBDDE2]"
+        />
         <span className="font-normal">Updated 11:38 PM</span>
       </div>
       <div className="flex shrink-0 items-start gap-2 lg:hidden">
@@ -173,7 +177,7 @@ export function FilterBar() {
   const [baseline, setBaseline] = useState("Previous 6 months");
   const [fromDate, setFromDate] = useState("09-10-2025");
   const [toDate, setToDate] = useState("09-10-2025");
-  const customOpen = period === "Custom";
+  const [customPanelOpen, setCustomPanelOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const periodTrackRef = useRef<HTMLDivElement>(null);
   const periodBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -207,6 +211,7 @@ export function FilterBar() {
         setDeptOpen(false);
         setProductOpen(false);
         setBaselineOpen(false);
+        setCustomPanelOpen(false);
       }
     }
     document.addEventListener("mousedown", onDoc);
@@ -379,12 +384,17 @@ export function FilterBar() {
                   }}
                   type="button"
                   className={cn(
-                    "relative z-10 flex h-full items-center gap-1 rounded-[7px] px-2.5 text-[12px] font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    "relative z-10 flex h-full items-center gap-1 rounded-[8px] px-2.5 text-[12px] font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
                     active ? "text-[#F6861F]" : "text-[#617385]",
                   )}
                   onClick={() => {
                     setPeriod(p);
                     closeMenus();
+                    if (p === "Custom") {
+                      setCustomPanelOpen(true);
+                    } else {
+                      setCustomPanelOpen(false);
+                    }
                   }}
                 >
                   {p}
@@ -396,7 +406,7 @@ export function FilterBar() {
           <div
             className={cn(
               "absolute top-[calc(100%+8px)] right-0 z-30 origin-top-right transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-              customOpen
+              customPanelOpen
                 ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
                 : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0",
             )}
@@ -415,7 +425,7 @@ export function FilterBar() {
               <button
                 type="button"
                 className="h-10 shrink-0 rounded-lg bg-icr-orange px-4 text-sm font-medium text-white"
-                onClick={() => setPeriod("Custom")}
+                onClick={() => setCustomPanelOpen(false)}
               >
                 Apply
               </button>

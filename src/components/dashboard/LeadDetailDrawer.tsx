@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from "react";
 import {
-  IconBell,
+  IconArrowRight,
   IconChevronDown,
   IconClock,
   IconClose,
   IconDoc,
   IconDownload,
   IconMenu,
+  IconNudge,
   IconPencil,
   IconPin,
+  IconReview,
+  IconSelfAssign,
   IconTagX,
-  IconUpload,
   IconUser,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
@@ -86,7 +88,7 @@ const activities = [
     tag: "Sales → Engineering",
   },
   {
-    icon: "up" as const,
+    icon: "arrow" as const,
     parts: [
       { t: "SAP ID", bold: true },
       { t: "assigned", bold: false },
@@ -96,7 +98,7 @@ const activities = [
     tag: "Sales",
   },
   {
-    icon: "user" as const,
+    icon: "assign" as const,
     parts: [
       { t: "John Doe", bold: true },
       { t: "Self Assigned", bold: false },
@@ -145,8 +147,8 @@ function DocStatusPill({ status }: { status: DocStatus }) {
 
 function ActivityIcon({ type }: { type: (typeof activities)[0]["icon"] }) {
   if (type === "pin") return <IconPin size={16} />;
-  if (type === "user") return <IconUser size={16} />;
-  if (type === "up") return <IconChevronDown size={16} className="rotate-180" />;
+  if (type === "assign") return <IconSelfAssign size={16} />;
+  if (type === "arrow") return <IconArrowRight size={16} />;
   return <IconDoc size={16} />;
 }
 
@@ -206,7 +208,7 @@ export function LeadDetailDrawer({
       />
       <aside
         className={cn(
-          "absolute top-0 right-0 flex h-full w-full max-w-[448px] flex-col overflow-x-hidden overflow-y-auto bg-white p-4 shadow-[-8px_0_32px_rgba(16,24,40,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "absolute top-0 right-0 flex h-full w-full max-w-[448px] flex-col overflow-x-hidden overflow-y-auto bg-white p-4 pb-[90px] shadow-[-8px_0_32px_rgba(16,24,40,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
           visible ? "translate-x-0" : "translate-x-full",
         )}
       >
@@ -224,15 +226,21 @@ export function LeadDetailDrawer({
                   <IconClock size={12} className="text-[#617385]" />
                   Updated 30 mins ago
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-md border border-[rgba(29,54,80,0.15)] bg-white px-2 py-1 text-[10px] font-medium leading-[15px] text-[rgba(29,54,80,0.7)]">
-                  <span className="inline-flex size-2.5 rounded-sm border border-icr-orange" />
+                <span className="inline-flex items-center gap-1 rounded-md border border-[rgba(246,134,31,0.35)] bg-white px-2 py-1 text-[10px] font-medium leading-[15px] text-icr-orange">
+                  <img
+                    src="/assets/icons/revision.svg"
+                    alt=""
+                    width={10}
+                    height={10}
+                    className="size-2.5 shrink-0"
+                  />
                   Revision
                 </span>
               </div>
               <div className="flex shrink-0 items-center gap-1">
                 <button
                   type="button"
-                  className="grid size-[23px] place-items-center rounded-md border border-[#DDE1E5] text-icr-navy"
+                  className="grid size-[23px] place-items-center rounded-[6px] border border-[#DDE1E5] text-icr-navy"
                   aria-label="More"
                 >
                   <IconMenu size={12} />
@@ -240,7 +248,7 @@ export function LeadDetailDrawer({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="grid size-[23px] place-items-center rounded-md border border-[rgba(29,54,80,0.15)] bg-white text-icr-navy"
+                  className="grid size-[23px] place-items-center rounded-[6px] border border-[rgba(29,54,80,0.15)] bg-white text-icr-navy"
                   aria-label="Close"
                 >
                   <IconClose size={12} />
@@ -276,14 +284,14 @@ export function LeadDetailDrawer({
                 type="button"
                 className="inline-flex items-center gap-1 rounded-md border border-[rgba(29,54,80,0.15)] bg-white px-2 py-1 text-xs font-medium leading-[18px] text-[rgba(29,54,80,0.7)]"
               >
-                <IconDoc size={12} />
+                <IconReview size={12} />
                 Review Form
               </button>
               <button
                 type="button"
                 className="inline-flex items-center gap-1 rounded-md border border-[rgba(29,54,80,0.15)] bg-white px-2 py-1 text-xs font-medium leading-[18px] text-[rgba(29,54,80,0.7)]"
               >
-                <IconBell size={12} className="text-[#617385]" />
+                <IconNudge size={12} />
                 Nudge
               </button>
             </div>
@@ -361,9 +369,9 @@ export function LeadDetailDrawer({
             {["Offshore Operations", "High Priority Task"].map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 rounded-md bg-[#FDF1E6] px-1.5 py-1 text-[10px] leading-[14px] text-icr-navy"
+                className="inline-flex items-center gap-1 rounded-md border border-[rgba(246,134,31,0.25)] bg-[#FDF1E6] px-1.5 py-1 text-[10px] leading-[14px] text-icr-navy"
               >
-                {tag}
+                # {tag}
                 <button type="button" aria-label={`Remove ${tag}`}>
                   <IconTagX size={10} className="text-[rgba(29,54,80,0.7)]" />
                 </button>
@@ -409,15 +417,14 @@ export function LeadDetailDrawer({
               ))}
               <button
                 type="button"
-                className="flex min-h-[79px] w-full flex-col items-center justify-center gap-1 rounded-md border border-dashed border-icr-orange bg-[rgba(246,134,31,0.06)] px-3 py-4 text-center"
+                className="block w-full overflow-hidden rounded-md p-0"
+                aria-label="Drop files here or click to upload"
               >
-                <IconUpload className="text-icr-orange" />
-                <span className="text-[10px] font-medium text-icr-navy">
-                  Drop files here or click to upload
-                </span>
-                <span className="text-[9px] text-[rgba(29,54,80,0.55)]">
-                  PDF, DOCX, DWG, XLSX up to 25MB
-                </span>
+                <img
+                  src="/assets/icons/upload.svg"
+                  alt=""
+                  className="h-auto w-full"
+                />
               </button>
             </div>
           </div>
@@ -428,9 +435,9 @@ export function LeadDetailDrawer({
                 type="button"
                 onClick={() => setTab("comments")}
                 className={cn(
-                  "inline-flex flex-1 items-center justify-center gap-1 rounded-[7px] px-2 py-1.5 text-[10px] font-medium",
+                  "inline-flex flex-1 items-center justify-center gap-1 rounded-[7px] px-2 py-1.5 text-[10px] font-medium leading-[15px]",
                   tab === "comments"
-                    ? "bg-white text-icr-orange"
+                    ? "bg-white text-icr-orange shadow-[0_1px_2px_rgba(16,24,40,0.06)]"
                     : "text-[#617385]",
                 )}
               >
@@ -440,9 +447,9 @@ export function LeadDetailDrawer({
                 type="button"
                 onClick={() => setTab("activity")}
                 className={cn(
-                  "inline-flex flex-1 items-center justify-center gap-1 rounded-[7px] px-2 py-1.5 text-[10px] font-medium",
+                  "inline-flex flex-1 items-center justify-center gap-1 rounded-[7px] px-2 py-1.5 text-[10px] font-medium leading-[15px]",
                   tab === "activity"
-                    ? "bg-white text-icr-orange"
+                    ? "bg-white text-icr-orange shadow-[0_1px_2px_rgba(16,24,40,0.06)]"
                     : "text-[#617385]",
                 )}
               >

@@ -18,21 +18,21 @@ const regionItems: BarItem[] = [
   {
     label: "North America",
     current: 91,
-    previous: 78,
+    previous: 96,
     completedLastMonth: 96,
     baselineMedian: 31,
   },
   {
     label: "EMEA",
     current: 79,
-    previous: 72,
+    previous: 63,
     completedLastMonth: 84,
     baselineMedian: 28,
   },
   {
     label: "APAC",
     current: 70,
-    previous: 64,
+    previous: 68,
     completedLastMonth: 73,
     baselineMedian: 24,
   },
@@ -86,6 +86,13 @@ const productItems: BarItem[] = [
   },
 ];
 
+const TICKS = [0, 0.25, 0.5, 0.75, 1] as const;
+const BAR_CURRENT = "#D9AB82";
+const BAR_PREV = "#DCDFE4";
+const GRID_STROKE = "#DBDDE2";
+const LABEL_MUTED = "#667085";
+const GRID_LINE_HEIGHT = 188;
+
 function SnapshotTooltip({ item }: { item: BarItem }) {
   return (
     <div
@@ -112,6 +119,107 @@ function SnapshotTooltip({ item }: { item: BarItem }) {
   );
 }
 
+function ChartGridLines() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-0"
+    >
+      {TICKS.map((tick) => (
+        <span
+          key={tick}
+          className="absolute top-0 bottom-0 -translate-x-1/2"
+          style={{
+            left: `${tick * 100}%`,
+            width: "0.5px",
+            backgroundImage: `repeating-linear-gradient(to bottom, ${GRID_STROKE} 0px, ${GRID_STROKE} 4px, transparent 4px, transparent 8px)`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function AxisLabels({ max }: { max: number }) {
+  return (
+    <div className="relative mt-2.5 h-[18px] overflow-visible">
+      {TICKS.map((tick) => (
+        <span
+          key={tick}
+          className="absolute top-0 -translate-x-1/2 text-[10px] leading-[18px] font-[400]"
+          style={{
+            left: `${tick * 100}%`,
+            color: LABEL_MUTED,
+          }}
+        >
+          {Math.round(max * tick)}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function BarRow({
+  item,
+  max,
+  onBarClick,
+}: {
+  item: BarItem;
+  max: number;
+  onBarClick?: (label: string) => void;
+}) {
+  const currentPct = (item.current / max) * 100;
+
+  return (
+    <button
+      type="button"
+      className={cn(
+        "group relative grid w-full grid-cols-[108px_minmax(0,1fr)] items-center gap-x-3 bg-transparent text-left",
+        onBarClick ? "cursor-pointer" : "cursor-default",
+      )}
+      onClick={() => onBarClick?.(item.label)}
+    >
+      <div className="pointer-events-none invisible absolute bottom-full left-1/2 z-30 mb-2.5 -translate-x-1/2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-visible:visible group-focus-visible:opacity-100">
+        <SnapshotTooltip item={item} />
+      </div>
+      <div
+        className="text-right text-[10px] leading-[18px] font-[400]"
+        style={{ color: LABEL_MUTED }}
+      >
+        {item.label}
+      </div>
+      <div className="relative z-[1] min-w-0">
+        <div className="flex flex-col gap-1">
+          <div className="relative h-1.5 w-full">
+            <span
+              className="absolute top-0 left-0 block h-full rounded-full"
+              style={{
+                width: `${(item.previous / max) * 100}%`,
+                backgroundColor: BAR_PREV,
+              }}
+            />
+          </div>
+          <div className="relative h-1.5 w-full">
+            <span
+              className="absolute top-0 left-0 block h-full rounded-full"
+              style={{
+                width: `${currentPct}%`,
+                backgroundColor: BAR_CURRENT,
+              }}
+            />
+            <span
+              className="absolute top-1/2 z-[2] -translate-y-1/2 pl-1.5 text-[10px] leading-[18px] font-[500]"
+              style={{ left: `${currentPct}%`, color: LABEL_MUTED }}
+            >
+              <span className="bg-white px-0.5">{item.current}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </button>
+  );
+}
+
 function ChartCard({
   title,
   items,
@@ -124,66 +232,112 @@ function ChartCard({
   onBarClick?: (label: string) => void;
 }) {
   return (
-    <div className="overflow-visible rounded-[14px] border border-icr-border bg-icr-surface py-4 lg:rounded-[10px] lg:p-4">
-      <h3 className="mb-4 mt-0 px-3 text-xs font-medium leading-[15px] text-icr-navy lg:mb-3.5 lg:px-0 lg:text-sm lg:font-semibold">
+    <div className="flex h-full flex-col overflow-visible rounded-[14px] border border-[#DBDDE2] bg-white py-4 lg:rounded-[10px] lg:p-4">
+      <h3 className="mb-4 mt-0 px-3 text-xs font-semibold leading-[15px] text-icr-navy lg:px-0 lg:text-sm">
         {title}
       </h3>
-      {items.map((item) => (
-        <button
-          type="button"
-          className={cn(
-            "group relative mb-4 flex w-full flex-col gap-1.5 px-3 text-left last:mb-0 lg:mb-3 lg:grid lg:grid-cols-[110px_1fr_28px] lg:items-center lg:gap-2 lg:px-0",
-            onBarClick && "cursor-pointer rounded-md hover:bg-[#F8F9FA]",
-            !onBarClick && "cursor-default",
-          )}
-          key={item.label}
-          onClick={() => onBarClick?.(item.label)}
-        >
-          <div className="pointer-events-none invisible absolute bottom-full left-1/2 z-30 mb-2.5 -translate-x-1/2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-visible:visible group-focus-visible:opacity-100">
-            <SnapshotTooltip item={item} />
+
+      <div className="px-3 lg:hidden">
+        <div className="relative" style={{ height: GRID_LINE_HEIGHT }}>
+          <div className="absolute inset-0 z-0">
+            <ChartGridLines />
           </div>
-          <div className="text-[10px] leading-[18px] text-[#6D7280] lg:text-xs lg:leading-4 lg:text-icr-navy">
-            {item.label}
+          <div className="relative z-[1] flex h-full flex-col items-stretch justify-center gap-[26px]">
+            {items.map((item) => (
+              <button
+                type="button"
+                key={item.label}
+                className={cn(
+                  "group relative flex w-full flex-col gap-1.5 bg-transparent text-left",
+                  onBarClick ? "cursor-pointer" : "cursor-default",
+                )}
+                onClick={() => onBarClick?.(item.label)}
+              >
+                <div className="pointer-events-none invisible absolute bottom-full left-1/2 z-30 mb-2.5 -translate-x-1/2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-visible:visible group-focus-visible:opacity-100">
+                  <SnapshotTooltip item={item} />
+                </div>
+                <div
+                  className="text-[10px] leading-[18px] font-[400]"
+                  style={{ color: LABEL_MUTED }}
+                >
+                  {item.label}
+                </div>
+                <div className="relative">
+                  <div className="flex flex-col gap-1">
+                    <div className="relative h-1.5 w-full">
+                      <span
+                        className="absolute top-0 left-0 block h-full rounded-full"
+                        style={{
+                          width: `${(item.previous / max) * 100}%`,
+                          backgroundColor: BAR_PREV,
+                        }}
+                      />
+                    </div>
+                    <div className="relative h-1.5 w-full">
+                      <span
+                        className="absolute top-0 left-0 block h-full rounded-full"
+                        style={{
+                          width: `${(item.current / max) * 100}%`,
+                          backgroundColor: BAR_CURRENT,
+                        }}
+                      />
+                      <span
+                        className="absolute top-1/2 z-[2] -translate-y-1/2 pl-1.5 text-[10px] leading-[18px] font-[500]"
+                        style={{
+                          left: `${(item.current / max) * 100}%`,
+                          color: LABEL_MUTED,
+                        }}
+                      >
+                        <span className="bg-white px-0.5">{item.current}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
           </div>
-          <div className="flex min-w-0 items-center gap-2">
-            <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <div className="relative h-[7px] overflow-hidden rounded">
-                <span
-                  className="relative block h-full rounded bg-icr-bar-prev lg:bg-icr-bar-prev"
-                  style={{ width: `${(item.previous / max) * 100}%` }}
-                />
-              </div>
-              <div className="relative h-[7px] overflow-hidden rounded">
-                <span
-                  className="relative block h-full rounded bg-[#D9AB82]"
-                  style={{ width: `${(item.current / max) * 100}%` }}
-                />
-              </div>
-            </div>
-            <div className="w-7 shrink-0 text-right text-[10px] font-medium leading-[18px] text-[#6D7280] lg:hidden">
-              {item.current}
-            </div>
-          </div>
-          <div className="hidden text-right text-xs font-semibold text-icr-navy lg:block">
-            {item.current}
-          </div>
-        </button>
-      ))}
-      <div className="mt-1 flex justify-between px-3 text-[10px] leading-[18px] text-[#6D7280] lg:ml-[110px] lg:px-0 lg:pr-7 lg:text-[11px] lg:text-icr-muted">
-        <span>0</span>
-        <span>{Math.round(max * 0.25)}</span>
-        <span>{Math.round(max * 0.5)}</span>
-        <span>{Math.round(max * 0.75)}</span>
-        <span>{max}</span>
+        </div>
+        <AxisLabels max={max} />
       </div>
-      <div className="mt-4 flex justify-center gap-5 text-[10px] leading-[14px] text-icr-navy lg:mt-3 lg:gap-4 lg:text-xs lg:text-icr-muted">
-        <span className="inline-flex items-center gap-1">
-          <i className="inline-block h-2 w-2 rounded-full bg-[#D9AB82]" /> Current
-          month
+
+      <div className="hidden lg:block">
+        <div
+          className="relative"
+          style={{ height: GRID_LINE_HEIGHT }}
+        >
+          <div className="pointer-events-none absolute inset-y-0 right-0 left-[120px] z-0">
+            <ChartGridLines />
+          </div>
+          <div className="relative z-[1] flex h-full flex-col justify-center gap-[26px]">
+            {items.map((item) => (
+              <BarRow
+                key={item.label}
+                item={item}
+                max={max}
+                onBarClick={onBarClick}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="pl-[120px]">
+          <AxisLabels max={max} />
+        </div>
+      </div>
+
+      <div className="mt-auto flex justify-center gap-5 pt-4 text-[10px] leading-[14px] text-icr-navy lg:gap-4 lg:pt-3.5 lg:text-xs">
+        <span className="inline-flex items-center gap-1.5">
+          <i
+            className="inline-block h-[3px] w-3 rounded-full"
+            style={{ backgroundColor: BAR_CURRENT }}
+          />
+          Current month
         </span>
-        <span className="inline-flex items-center gap-1">
-          <i className="inline-block h-2 w-2 rounded-full bg-[#D9D9D9]" /> Previous
-          month
+        <span className="inline-flex items-center gap-1.5">
+          <i
+            className="inline-block h-[3px] w-3 rounded-full"
+            style={{ backgroundColor: BAR_PREV }}
+          />
+          Previous month
         </span>
       </div>
     </div>
@@ -217,7 +371,7 @@ export function PortfolioOverview() {
   );
 
   return (
-    <section className="overflow-visible rounded-[14px] border border-[#DBDDE2] bg-white p-4 lg:rounded-xl lg:border-icr-border lg:p-5 lg:shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
+    <section className="overflow-visible rounded-[14px] border border-[#DBDDE2] bg-white p-4 lg:rounded-xl lg:p-5">
       <div className="mb-3 flex items-start justify-between gap-3 lg:mb-4">
         <div>
           <div className="flex flex-wrap items-center gap-2">
@@ -226,11 +380,11 @@ export function PortfolioOverview() {
             </h2>
             <FilterScopeBadge />
           </div>
-          <p className="mt-0.5 mb-0 text-xs leading-[16.8px] text-[rgba(29,54,80,0.65)] lg:text-[13px] lg:text-icr-muted">
+          <p className="mt-0.5 mb-0 text-xs leading-[16.8px] text-[rgba(29,54,80,0.65)] lg:text-[13px] lg:text-[#667085]">
             Current vs previous month workload
           </p>
         </div>
-        <div className="hidden items-center gap-1.5 text-xs text-icr-muted lg:inline-flex">
+        <div className="hidden items-center gap-1.5 text-xs text-[#667085] lg:inline-flex">
           <IconInfo />
           Click bar to filter leads in the register below.
         </div>

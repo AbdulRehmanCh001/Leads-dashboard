@@ -5,13 +5,13 @@ import { useMemo, useState } from "react";
 import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
 import type { LeadDetail } from "@/components/dashboard/LeadDetailDrawer";
 import {
+  IconBreached,
   IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
   IconSearch,
   IconSort,
   IconWarning,
-  IconXCircle,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -168,7 +168,7 @@ function StatusBadge({ status }: { status: LeadDetail["status"] }) {
   if (status === "Breached") {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FCE0E0] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#EC0004]">
-        <IconXCircle size={9} />
+        <IconBreached size={9} />
         Breached
       </span>
     );
@@ -416,7 +416,7 @@ export function LeadRegister() {
                       <button
                         type="button"
                         onClick={() => openLead(lead)}
-                        className="inline-flex size-8 items-center justify-center rounded-2xl bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
+                        className="inline-flex h-9 w-12 items-center justify-center gap-2 rounded-[8px] bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
                         aria-label={`Open ${lead.id}`}
                       >
                         <IconChevronRight size={12} />

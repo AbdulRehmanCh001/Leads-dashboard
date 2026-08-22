@@ -2,11 +2,7 @@
 
 @font-face {
   font-family: "Gotham";
-  src:
-    local("Gotham Book"),
-    local("Gotham"),
-    url("/fonts/Gotham-Book.woff2") format("woff2"),
-    url("/fonts/Gotham-Book.woff") format("woff");
+  src: local("Gotham Book"), local("Gotham");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -14,11 +10,7 @@
 
 @font-face {
   font-family: "Gotham";
-  src:
-    local("Gotham Medium"),
-    local("Gotham"),
-    url("/fonts/Gotham-Medium.woff2") format("woff2"),
-    url("/fonts/Gotham-Medium.woff") format("woff");
+  src: local("Gotham Medium"), local("Gotham");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -26,11 +18,7 @@
 
 @font-face {
   font-family: "Gotham";
-  src:
-    local("Gotham Bold"),
-    local("Gotham"),
-    url("/fonts/Gotham-Bold.woff2") format("woff2"),
-    url("/fonts/Gotham-Bold.woff") format("woff");
+  src: local("Gotham Bold"), local("Gotham");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -39,8 +27,8 @@
 :root {
   --background: #f9fafb;
   --foreground: #1d3650;
-  --font-gotham: "Gotham", "Gotham Book", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
+  --font-gotham: var(--font-inter), "Gotham", "Gotham Book", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
 }
 
 @theme inline {
