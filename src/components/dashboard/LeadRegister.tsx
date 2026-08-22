@@ -106,15 +106,51 @@ const deptDot: Record<string, string> = {
 };
 
 const columns = [
-  { key: "lead", label: "Lead", className: "min-w-[196px] lg:min-w-[226px]" },
-  { key: "customer", label: "Customer", className: "min-w-[200px]" },
-  { key: "product", label: "Product", className: "min-w-[200px]" },
-  { key: "region", label: "Region", className: "min-w-[200px] text-left" },
-  { key: "department", label: "Department", className: "min-w-[200px]" },
-  { key: "state", label: "State", className: "min-w-[100px] text-center" },
-  { key: "age", label: "Age / Cycle", className: "min-w-[100px] text-center" },
-  { key: "status", label: "Status", className: "min-w-[120px] text-center" },
-  { key: "action", label: "Action", className: "w-[80px] text-center" },
+  {
+    key: "lead",
+    label: "Lead",
+    className: "min-w-[196px] lg:min-w-0 lg:w-[18%]",
+  },
+  {
+    key: "customer",
+    label: "Customer",
+    className: "min-w-[200px] lg:min-w-0 lg:w-[14%]",
+  },
+  {
+    key: "product",
+    label: "Product",
+    className: "min-w-[200px] lg:min-w-0 lg:w-[11%]",
+  },
+  {
+    key: "region",
+    label: "Region",
+    className: "min-w-[200px] lg:min-w-0 lg:w-[10%] text-left",
+  },
+  {
+    key: "department",
+    label: "Department",
+    className: "min-w-[200px] lg:min-w-0 lg:w-[13%]",
+  },
+  {
+    key: "state",
+    label: "State",
+    className: "min-w-[100px] lg:min-w-0 lg:w-[9%] text-center",
+  },
+  {
+    key: "age",
+    label: "Age / Cycle",
+    className: "min-w-[100px] lg:min-w-0 lg:w-[8%] text-center",
+  },
+  {
+    key: "status",
+    label: "Status",
+    className: "min-w-[120px] lg:min-w-0 lg:w-[10%] text-center",
+  },
+  {
+    key: "action",
+    label: "Action",
+    className: "w-[80px] min-w-[80px] shrink-0 text-center",
+  },
 ] as const;
 
 const actionStickyClass =
@@ -273,8 +309,8 @@ export function LeadRegister() {
           </div>
         ) : null}
 
-        <div className="min-w-0 overflow-x-auto">
-          <table className="w-full min-w-[1100px] border-collapse">
+        <div className="min-w-0 overflow-x-auto lg:overflow-x-hidden">
+          <table className="w-full min-w-[1100px] border-collapse lg:min-w-0 lg:table-fixed">
             <thead>
               <tr>
                 {columns.map((col) => (
@@ -284,8 +320,10 @@ export function LeadRegister() {
                       "h-[39px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-3 text-left text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385]",
                       col.key === "lead" || col.key === "customer"
                         ? "px-4"
-                        : "px-3",
-                      col.key === "action" && "px-4 text-center",
+                        : col.key === "action"
+                          ? "px-2"
+                          : "px-3",
+                      col.key === "action" && "text-center",
                       col.className,
                       col.key === "action" &&
                         cn(
@@ -326,27 +364,27 @@ export function LeadRegister() {
               ) : (
                 filtered.map((lead) => (
                   <tr key={lead.id} className="group">
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
-                      <div className="flex h-9 flex-col justify-start gap-0">
-                        <span className="text-xs font-medium leading-[17.4px] text-icr-navy lg:text-sm lg:leading-[20.3px]">
+                    <td className="h-[68px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
+                      <div className="flex min-w-0 flex-col justify-start gap-0">
+                        <span className="truncate text-xs font-medium leading-[17.4px] text-icr-navy lg:text-sm lg:leading-[20.3px]">
                           {lead.id}
                         </span>
-                        <span className="text-xs leading-[16.8px] text-[#9AA1A8]">
+                        <span className="truncate text-xs leading-[16.8px] text-[#9AA1A8]">
                           {lead.title}
                         </span>
                       </div>
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
                       {lead.customer}
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
                       {lead.product}
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
                       {lead.region}
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
-                      <span className="inline-flex items-center gap-1.5">
+                    <td className="h-[68px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                      <span className="inline-flex max-w-full items-center gap-1.5">
                         <span
                           className="size-1.5 shrink-0 rounded-full lg:hidden"
                           style={{
@@ -354,7 +392,7 @@ export function LeadRegister() {
                               deptDot[lead.department] ?? "#617385",
                           }}
                         />
-                        {lead.department}
+                        <span className="truncate">{lead.department}</span>
                       </span>
                     </td>
                     <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle">
@@ -372,13 +410,13 @@ export function LeadRegister() {
                     <td
                       className={cn(
                         actionStickyClass,
-                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-4 py-4 text-center align-middle shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#fff] after:bg-white lg:shadow-none",
+                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-2 py-4 text-center align-middle shadow-[-4px_0_11px_rgba(0,0,0,0.12),12px_0_0_0_#fff] after:bg-white lg:shadow-none",
                       )}
                     >
                       <button
                         type="button"
                         onClick={() => openLead(lead)}
-                        className="inline-flex h-8 w-12 items-center justify-center rounded-xl bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
+                        className="inline-flex size-8 items-center justify-center rounded-2xl bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
                         aria-label={`Open ${lead.id}`}
                       >
                         <IconChevronRight size={12} />

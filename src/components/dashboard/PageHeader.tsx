@@ -93,24 +93,34 @@ function FilterDropdown({
   onToggle,
   children,
   active,
+  alwaysActive,
   leading,
+  chevronSize = 14,
+  id,
 }: {
   label: ReactNode;
   open: boolean;
   onToggle: () => void;
   children: ReactNode;
   active?: boolean;
+  alwaysActive?: boolean;
   leading?: ReactNode;
+  chevronSize?: number;
+  id?: string;
 }) {
+  const highlighted = alwaysActive || active;
+
   return (
     <div className="relative">
       <button
+        id={id}
         type="button"
         aria-expanded={open}
         onClick={onToggle}
         className={cn(
           chipClass,
-          active && "border-icr-orange bg-icr-orange-soft",
+          highlighted &&
+            "border-icr-orange bg-icr-orange-soft shadow-[0_4px_14px_rgba(246,134,31,0.22)]",
         )}
       >
         {leading}
@@ -121,7 +131,7 @@ function FilterDropdown({
             open && "rotate-180",
           )}
         >
-          <IconChevronDown />
+          <IconChevronDown size={chevronSize} />
         </span>
       </button>
       <div
@@ -219,7 +229,9 @@ export function FilterBar() {
     >
       <div className="flex flex-wrap items-center gap-2.5">
         <FilterDropdown
-          active={regionActive}
+          id="dashboard-region-filter"
+          alwaysActive
+          chevronSize={16}
           open={regionOpen}
           onToggle={() => {
             setDeptOpen(false);
@@ -228,10 +240,7 @@ export function FilterBar() {
             setRegionOpen((v) => !v);
           }}
           leading={
-            <IconGlobe
-              size={14}
-              className={regionActive ? "text-icr-orange" : "text-icr-muted"}
-            />
+            <IconGlobe size={16} className="text-icr-orange" />
           }
           label={
             <>
@@ -261,7 +270,9 @@ export function FilterBar() {
         </FilterDropdown>
 
         <FilterDropdown
+          id="dashboard-department-filter"
           active={departmentActive}
+          chevronSize={24}
           open={deptOpen}
           onToggle={() => {
             setRegionOpen(false);
@@ -292,7 +303,9 @@ export function FilterBar() {
         </FilterDropdown>
 
         <FilterDropdown
+          id="dashboard-product-filter"
           active={productActive}
+          chevronSize={24}
           open={productOpen}
           onToggle={() => {
             setRegionOpen(false);

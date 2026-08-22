@@ -116,6 +116,43 @@ export function IconSearch(props: IconProps) {
 }
 
 export function IconGlobe(props: IconProps) {
+  const { size: s = 16, ...rest } = props;
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M9.99935 11.3333L10.666 10L8.70068 8.67935L7.40535 8.59668L6.66602 9.33335L7.99935 11.3333H9.99935Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.54227 2.02361C4.79294 1.69761 1.69761 4.79294 2.02361 8.54227C2.27161 11.3949 4.60494 13.7283 7.45761 13.9763C11.2069 14.3023 14.3023 11.2076 13.9763 7.45761C13.7283 4.60561 11.3949 2.27227 8.54227 2.02361Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2.63477 5.30697L5.3341 7.33297L6.0041 6.00297L8.66743 5.33297L9.45543 2.18164"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function IconGlobeOutline(props: IconProps) {
   return (
     <svg {...base(props, 16)} stroke="currentColor" strokeWidth="1.6">
       <circle cx="12" cy="12" r="9" />

@@ -194,7 +194,7 @@ export function LeadDetailDrawer({
   if (!mounted || !lead) return null;
 
   return (
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-50 overflow-x-hidden" role="dialog" aria-modal="true">
       <button
         type="button"
         aria-label="Close overlay"
@@ -206,7 +206,7 @@ export function LeadDetailDrawer({
       />
       <aside
         className={cn(
-          "absolute top-0 right-0 flex h-full w-full max-w-[448px] flex-col overflow-y-auto bg-white p-4 shadow-[-8px_0_32px_rgba(16,24,40,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "absolute top-0 right-0 flex h-full w-full max-w-[448px] flex-col overflow-x-hidden overflow-y-auto bg-white p-4 shadow-[-8px_0_32px_rgba(16,24,40,0.12)] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
           visible ? "translate-x-0" : "translate-x-full",
         )}
       >

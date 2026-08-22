@@ -5,18 +5,19 @@ import { useEffect, useRef, useState } from "react";
 import { useMobileNav } from "@/components/dashboard/MobileNav";
 import {
   IconChevronDown,
-  IconGlobe,
+  IconGlobeOutline,
   IconHelp,
   IconSearch,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-const regions = ["Global", "North America", "EMEA", "APAC"] as const;
+const topRegions = ["Global", "North America", "EMEA", "APAC"] as const;
 
 export function TopBar() {
   const { toggleSidebar } = useMobileNav();
   const [open, setOpen] = useState(false);
-  const [region, setRegion] = useState<(typeof regions)[number]>("Global");
+  const [topRegion, setTopRegion] =
+    useState<(typeof topRegions)[number]>("Global");
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,17 +61,16 @@ export function TopBar() {
 
       <div ref={ref} className="relative hidden lg:block">
         <button
+          id="top-region-filter"
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-2 rounded-[10px] border border-[#E9EBEE] bg-white px-3 py-2 text-icr-navy"
         >
-          <IconGlobe size={20} />
-          <span className="text-sm font-semibold text-[#6A7282]">
-            REGION
-          </span>
+          <IconGlobeOutline size={14} className="text-icr-navy" />
+          <span className="text-sm font-semibold text-[#6A7282]">REGION</span>
           <span className="text-base font-semibold text-icr-navy">
-            {region}
+            {topRegion}
           </span>
           <span
             className={cn(
@@ -90,18 +90,18 @@ export function TopBar() {
           )}
         >
           <div className="overflow-hidden rounded-lg border border-icr-border bg-white py-1 shadow-[0_8px_24px_rgba(16,24,40,0.12)]">
-            {regions.map((item) => (
+            {topRegions.map((item) => (
               <button
                 key={item}
                 type="button"
                 className={cn(
                   "flex w-full px-3 py-2 text-left text-sm hover:bg-[#F8F9FA]",
-                  item === region
+                  item === topRegion
                     ? "font-medium text-icr-orange"
                     : "text-icr-navy",
                 )}
                 onClick={() => {
-                  setRegion(item);
+                  setTopRegion(item);
                   setOpen(false);
                 }}
               >
