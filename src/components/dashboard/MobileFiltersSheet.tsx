@@ -145,12 +145,24 @@ export function MobileFiltersSheet() {
   const [baselineMenu, setBaselineMenu] = useState(false);
   const [regionMenu, setRegionMenu] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [customShown, setCustomShown] = useState(false);
   const periodBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [periodPill, setPeriodPill] = useState({
     left: 0,
     width: 0,
     ready: false,
   });
+
+  const customOpen = period === "Custom";
+
+  useEffect(() => {
+    if (!customOpen) {
+      setCustomShown(false);
+      return;
+    }
+    const id = window.setTimeout(() => setCustomShown(true), 20);
+    return () => window.clearTimeout(id);
+  }, [customOpen]);
 
   function measurePeriodPill() {
     const idx = periods.indexOf(period);
@@ -297,23 +309,37 @@ export function MobileFiltersSheet() {
                   );
                 })}
               </div>
-              {period === "Custom" ? (
-                <div className="mt-2 grid grid-cols-2 gap-3">
-                  <FilterDatePicker
-                    stacked
-                    label="From"
-                    value={fromDate}
-                    onChange={setFromDate}
-                  />
-                  <FilterDatePicker
-                    stacked
-                    align="right"
-                    label="To"
-                    value={toDate}
-                    onChange={setToDate}
-                  />
+              <div
+                className={cn(
+                  "grid transition-[grid-template-rows] duration-500 ease-out motion-reduce:transition-none",
+                  customOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                )}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div
+                    className={cn(
+                      "mt-2 grid grid-cols-2 gap-3 will-change-transform transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none",
+                      customShown
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-[10px] opacity-0",
+                    )}
+                  >
+                    <FilterDatePicker
+                      stacked
+                      label="From"
+                      value={fromDate}
+                      onChange={setFromDate}
+                    />
+                    <FilterDatePicker
+                      stacked
+                      align="right"
+                      label="To"
+                      value={toDate}
+                      onChange={setToDate}
+                    />
+                  </div>
                 </div>
-              ) : null}
+              </div>
             </div>
 
             <div className="flex flex-col gap-1">

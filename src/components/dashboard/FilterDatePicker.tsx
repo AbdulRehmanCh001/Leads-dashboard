@@ -66,35 +66,6 @@ function buildCalendarDays(viewDate: Date) {
   });
 }
 
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden
-      className={className}
-    >
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="16"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <path
-        d="M3 9h18M8 3v4M16 3v4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export function FilterDatePicker({
   value,
   onChange,
@@ -168,18 +139,28 @@ export function FilterDatePicker({
         )}
       >
         <span className="min-w-0 flex-1 text-left">{value}</span>
-        <CalendarIcon className="shrink-0 text-[#617385]" />
+        <img
+          src="/assets/icons/calendar.svg"
+          alt=""
+          width={16}
+          height={16}
+          className="size-4 shrink-0"
+        />
       </button>
 
       <div
         className={cn(
-          "absolute top-[calc(100%+8px)] z-40 w-[min(292px,calc(100vw-2rem))] rounded-xl border border-[#DBDDE2] bg-white p-3 shadow-[0_8px_24px_rgba(16,24,40,0.12)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          align === "right"
-            ? "right-0 left-auto origin-top-right"
-            : "left-0 right-auto origin-top-left",
-          open
-            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-            : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0",
+          "absolute top-[calc(100%+8px)] z-40 w-[min(292px,calc(100vw-2rem))] rounded-xl border border-[#DBDDE2] bg-white p-3 shadow-[0_8px_24px_rgba(16,24,40,0.12)] transition-[transform,opacity] duration-500 ease-out",
+          align === "right" ? "right-0 left-auto" : "left-0 right-auto",
+          stacked
+            ? open
+              ? "pointer-events-auto translate-y-0 opacity-100"
+              : "pointer-events-none translate-y-[10px] opacity-0"
+            : open
+              ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+              : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0",
+          !stacked &&
+            (align === "right" ? "origin-top-right" : "origin-top-left"),
         )}
       >
         <div className="flex items-center justify-between gap-2">
