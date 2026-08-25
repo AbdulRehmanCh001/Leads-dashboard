@@ -117,3 +117,7 @@
       rgba(255, 255, 255, 0.95) 100%),
     #f6861f;
 }
+
+@utility font-inter {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}

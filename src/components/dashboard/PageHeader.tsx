@@ -23,6 +23,9 @@ const periods = ["Week", "Month", "Quarter", "Year", "Custom"] as const;
 const chipClass =
   "inline-flex h-8 items-center gap-1.5 rounded-lg border border-icr-border bg-icr-surface px-2 text-[11px] text-icr-navy 2xl:h-10 2xl:gap-2 2xl:px-3 2xl:text-sm";
 
+const menuItemClass =
+  "flex w-full px-2.5 py-1.5 text-left text-[11px] hover:bg-[#F8F9FA] 2xl:px-3 2xl:py-2 2xl:text-sm";
+
 export function PageHeader() {
   const { toggleFilters, filtersOpen, activeCount } = usePageHeaderMobile();
 
@@ -294,7 +297,7 @@ export function FilterBar() {
               key={item}
               type="button"
               className={cn(
-                "flex w-full px-3 py-2 text-left text-sm hover:bg-[#F8F9FA]",
+                menuItemClass,
                 item === region
                   ? "bg-icr-orange-soft font-medium text-icr-orange"
                   : "text-icr-navy",
@@ -312,7 +315,7 @@ export function FilterBar() {
         <FilterDropdown
           id="dashboard-department-filter"
           active={departmentActive}
-          chevronSize={16}
+          chevronSize={14}
           open={deptOpen}
           onToggle={() => {
             setRegionOpen(false);
@@ -327,7 +330,7 @@ export function FilterBar() {
               key={item}
               type="button"
               className={cn(
-                "flex w-full px-3 py-2 text-left text-sm hover:bg-[#F8F9FA]",
+                menuItemClass,
                 item === department
                   ? "bg-icr-orange-soft font-medium text-icr-orange"
                   : "text-icr-navy",
@@ -345,7 +348,7 @@ export function FilterBar() {
         <FilterDropdown
           id="dashboard-product-filter"
           active={productActive}
-          chevronSize={16}
+          chevronSize={14}
           open={productOpen}
           onToggle={() => {
             setRegionOpen(false);
@@ -360,7 +363,7 @@ export function FilterBar() {
               key={item}
               type="button"
               className={cn(
-                "flex w-full px-3 py-2 text-left text-sm hover:bg-[#F8F9FA]",
+                menuItemClass,
                 item === product
                   ? "bg-icr-orange-soft font-medium text-icr-orange"
                   : "text-icr-navy",
@@ -535,7 +538,7 @@ export function FilterBar() {
                   key={item}
                   type="button"
                   className={cn(
-                    "flex w-full px-3 py-2 text-left text-sm hover:bg-[#F8F9FA]",
+                    menuItemClass,
                     item === baseline
                       ? "bg-icr-orange-soft font-medium text-icr-orange"
                       : "text-icr-navy",

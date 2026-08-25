@@ -159,6 +159,12 @@ const actionStickyClass =
 const actionStickyShadow =
   "before:pointer-events-none before:absolute before:inset-y-0 before:right-full before:w-3 before:bg-gradient-to-l before:from-[rgba(16,24,40,0.14)] before:to-transparent shadow-[-4px_0_11px_rgba(0,0,0,0.12)] lg:before:hidden lg:shadow-none";
 
+const tableHeadingClass =
+  "font-sans text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385]";
+
+const tableSubfieldClass =
+  "font-inter text-[10px] font-medium leading-[15px] text-[#696C70]";
+
 function StatusBadge({ status }: { status: LeadDetail["status"] }) {
   if (status === "At Risk") {
     return (
@@ -344,7 +350,8 @@ export function LeadRegister() {
                   <th
                     key={col.key}
                     className={cn(
-                      "h-[36px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-2.5 text-left text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385] 2xl:h-[39px] 2xl:py-3",
+                      "h-[36px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-2.5 text-left 2xl:h-[39px] 2xl:py-3",
+                      tableHeadingClass,
                       col.key === "lead" || col.key === "customer"
                         ? "px-3 2xl:px-4"
                         : col.key === "action"
@@ -393,7 +400,7 @@ export function LeadRegister() {
                 filtered.map((lead) => (
                   <tr key={lead.id} className="group">
                     <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-3 py-3 align-middle 2xl:h-[68px] 2xl:px-4 2xl:py-4">
-                      <div className="flex min-w-0 flex-col justify-start gap-0">
+                      <div className="flex min-w-0 flex-col justify-start gap-0 font-sans">
                         <span className="truncate text-xs font-medium leading-[17.4px] text-icr-navy 2xl:text-sm 2xl:leading-[20.3px]">
                           {lead.id}
                         </span>
@@ -402,16 +409,36 @@ export function LeadRegister() {
                         </span>
                       </div>
                     </td>
-                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-3 py-3 align-middle whitespace-nowrap text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:max-w-0 2xl:truncate 2xl:px-4 2xl:py-4">
+                    <td
+                      className={cn(
+                        "h-[56px] border-b border-[rgba(13,24,61,0.1)] px-3 py-3 align-middle whitespace-nowrap 2xl:h-[68px] 2xl:max-w-0 2xl:truncate 2xl:px-4 2xl:py-4",
+                        tableSubfieldClass,
+                      )}
+                    >
                       {lead.customer}
                     </td>
-                    <td className="h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
+                    <td
+                      className={cn(
+                        "h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4",
+                        tableSubfieldClass,
+                      )}
+                    >
                       {lead.product}
                     </td>
-                    <td className="h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
+                    <td
+                      className={cn(
+                        "h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-left align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4",
+                        tableSubfieldClass,
+                      )}
+                    >
                       {lead.region}
                     </td>
-                    <td className="h-[56px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
+                    <td
+                      className={cn(
+                        "h-[56px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4",
+                        tableSubfieldClass,
+                      )}
+                    >
                       <span className="inline-flex max-w-full items-center gap-1.5">
                         <span
                           className="size-1.5 shrink-0 rounded-full lg:hidden"
@@ -429,7 +456,12 @@ export function LeadRegister() {
                         Active
                       </span>
                     </td>
-                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
+                    <td
+                      className={cn(
+                        "h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4",
+                        tableSubfieldClass,
+                      )}
+                    >
                       {lead.age}
                     </td>
                     <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4">
