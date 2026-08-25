@@ -1,9 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { FilterScopeBadge } from "@/components/dashboard/FilterScopeBadge";
-import { IconInfo } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 type BarItem = {
@@ -344,6 +343,59 @@ function ChartCard({
   );
 }
 
+function PortfolioHelpTip() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e: MouseEvent) {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  return (
+    <span ref={ref} className="group/portfolio-help relative inline-flex">
+      <button
+        type="button"
+        aria-label="About Past Average"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex cursor-help border-0 bg-transparent p-0"
+      >
+        <img
+          src="/assets/icons/help.svg"
+          alt=""
+          width={14}
+          height={14}
+          className="size-3.5"
+        />
+      </button>
+      <span
+        role="tooltip"
+        className={cn(
+          "pointer-events-none absolute right-0 bottom-[calc(100%+10px)] z-50 w-[280px] transition-opacity duration-150",
+          "invisible opacity-0 group-hover/portfolio-help:visible group-hover/portfolio-help:opacity-100",
+          open && "visible opacity-100",
+        )}
+      >
+        <span className="relative block rounded-2xl bg-white px-4 py-3 text-left text-[12px] font-normal leading-[18px] text-icr-navy shadow-[0_8px_28px_rgba(16,24,40,0.18)]">
+          <span
+            className="absolute top-full right-2 -mt-px border-x-[7px] border-t-[8px] border-x-transparent border-t-white"
+            aria-hidden
+          />
+          Past Average shows the middle value of the period selected for all
+          metrics, not including the current time period. It provides a
+          comparison against today&apos;s number to see if current performance
+          is normal or unusual.
+        </span>
+      </span>
+    </span>
+  );
+}
+
 export function PortfolioOverview() {
   const {
     region,
@@ -385,7 +437,7 @@ export function PortfolioOverview() {
           </p>
         </div>
         <div className="hidden items-center gap-1.5 text-xs text-[#667085] lg:inline-flex">
-          <IconInfo />
+          <PortfolioHelpTip />
           Click bar to filter leads in the register below.
         </div>
       </div>

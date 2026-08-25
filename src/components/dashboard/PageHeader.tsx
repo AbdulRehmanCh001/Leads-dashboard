@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 const periods = ["Week", "Month", "Quarter", "Year", "Custom"] as const;
 
 const chipClass =
-  "inline-flex h-10 items-center gap-2 rounded-lg border border-icr-border bg-icr-surface px-3 text-sm text-icr-navy";
+  "inline-flex h-8 items-center gap-1.5 rounded-lg border border-icr-border bg-icr-surface px-2 text-[11px] text-icr-navy 2xl:h-10 2xl:gap-2 2xl:px-3 2xl:text-sm";
 
 export function PageHeader() {
   const { toggleFilters, filtersOpen, activeCount } = usePageHeaderMobile();
@@ -185,9 +185,11 @@ export function FilterBar() {
   const [fromDate, setFromDate] = useState("09-10-2025");
   const [toDate, setToDate] = useState("09-10-2025");
   const [customPanelOpen, setCustomPanelOpen] = useState(false);
+  const [periodPillVisible, setPeriodPillVisible] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
   const periodTrackRef = useRef<HTMLDivElement>(null);
   const periodBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const periodFadeTimer = useRef<number | null>(null);
   const [periodPill, setPeriodPill] = useState({ left: 0, width: 0, ready: false });
 
   function measurePeriodPill() {
@@ -212,6 +214,12 @@ export function FilterBar() {
   }, [period]);
 
   useEffect(() => {
+    return () => {
+      if (periodFadeTimer.current) window.clearTimeout(periodFadeTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
     function onDoc(e: MouseEvent) {
       if (!rootRef.current?.contains(e.target as Node)) {
         setRegionOpen(false);
@@ -232,18 +240,36 @@ export function FilterBar() {
     setBaselineOpen(false);
   }
 
+  function selectPeriod(p: (typeof periods)[number]) {
+    if (p === period) {
+      if (p === "Custom") setCustomPanelOpen(true);
+      return;
+    }
+    if (periodFadeTimer.current) window.clearTimeout(periodFadeTimer.current);
+    setPeriodPillVisible(false);
+    setCustomPanelOpen(false);
+    closeMenus();
+    periodFadeTimer.current = window.setTimeout(() => {
+      setPeriod(p);
+      periodFadeTimer.current = window.setTimeout(() => {
+        setPeriodPillVisible(true);
+        if (p === "Custom") setCustomPanelOpen(true);
+      }, 20);
+    }, 280);
+  }
+
   return (
     <div
       ref={rootRef}
       className={cn(
-        "relative hidden flex-wrap items-start justify-between gap-4 lg:flex",
+        "relative hidden items-center justify-between gap-2 lg:flex lg:flex-nowrap 2xl:gap-4",
       )}
     >
-      <div className="flex flex-wrap items-center gap-2.5">
+      <div className="flex min-w-0 flex-nowrap items-center gap-1.5 2xl:gap-2.5">
         <FilterDropdown
           id="dashboard-region-filter"
           alwaysActive
-          chevronSize={16}
+          chevronSize={14}
           open={regionOpen}
           onToggle={() => {
             setDeptOpen(false);
@@ -252,11 +278,13 @@ export function FilterBar() {
             setRegionOpen((v) => !v);
           }}
           leading={
-            <IconGlobe size={16} className="text-icr-orange" />
+            <IconGlobe size={14} className="text-icr-orange" />
           }
           label={
             <>
-              <span className="text-[13px] text-icr-muted">Region:</span>
+              <span className="text-[11px] text-icr-muted 2xl:text-[13px]">
+                Region:
+              </span>
               {regionActive ? region : "All"}
             </>
           }
@@ -284,7 +312,7 @@ export function FilterBar() {
         <FilterDropdown
           id="dashboard-department-filter"
           active={departmentActive}
-          chevronSize={24}
+          chevronSize={16}
           open={deptOpen}
           onToggle={() => {
             setRegionOpen(false);
@@ -317,7 +345,7 @@ export function FilterBar() {
         <FilterDropdown
           id="dashboard-product-filter"
           active={productActive}
-          chevronSize={24}
+          chevronSize={16}
           open={productOpen}
           onToggle={() => {
             setRegionOpen(false);
@@ -354,7 +382,7 @@ export function FilterBar() {
               clearFilters();
               closeMenus();
             }}
-            className="text-[13px] font-medium text-icr-orange"
+            className="text-[11px] font-medium text-icr-orange 2xl:text-[13px]"
           >
             {activeCount === 1
               ? "Clear filters"
@@ -363,11 +391,11 @@ export function FilterBar() {
         ) : null}
       </div>
 
-      <div className="relative flex flex-wrap items-center gap-2">
+      <div className="relative flex shrink-0 flex-nowrap items-center gap-1.5 2xl:gap-2">
         <div className="relative">
           <div
             ref={periodTrackRef}
-            className="relative inline-flex h-[42px] items-center rounded-[10px] bg-white p-1"
+            className="relative inline-flex h-8 items-center rounded-[8px] bg-white p-0.5 2xl:h-[42px] 2xl:rounded-[10px] 2xl:p-1"
             style={{
               outline: "1px solid rgba(13, 24, 61, 0.15)",
               outlineOffset: "-1px",
@@ -376,8 +404,10 @@ export function FilterBar() {
             <span
               aria-hidden
               className={cn(
-                "pointer-events-none absolute top-1 bottom-1 rounded-lg bg-icr-tint outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)] transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                periodPill.ready ? "opacity-100" : "opacity-0",
+                "pointer-events-none absolute top-0.5 bottom-0.5 rounded-md bg-icr-tint outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)] transition-opacity duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)] 2xl:top-1 2xl:bottom-1 2xl:rounded-lg",
+                periodPill.ready && periodPillVisible
+                  ? "opacity-100"
+                  : "opacity-0",
               )}
               style={{ left: periodPill.left, width: periodPill.width }}
             />
@@ -391,18 +421,10 @@ export function FilterBar() {
                   }}
                   type="button"
                   className={cn(
-                    "relative z-10 flex h-full items-center gap-1 rounded-[8px] px-2.5 text-[12px] font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    "relative z-10 flex h-full items-center gap-1 rounded-[6px] px-1.5 text-[10px] font-medium leading-[14px] transition-colors duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)] 2xl:rounded-[8px] 2xl:px-2.5 2xl:text-[12px] 2xl:leading-[15.6px]",
                     active ? "text-[#F6861F]" : "text-[#617385]",
                   )}
-                  onClick={() => {
-                    setPeriod(p);
-                    closeMenus();
-                    if (p === "Custom") {
-                      setCustomPanelOpen(true);
-                    } else {
-                      setCustomPanelOpen(false);
-                    }
-                  }}
+                  onClick={() => selectPeriod(p)}
                 >
                   {p}
                 </button>
@@ -412,10 +434,10 @@ export function FilterBar() {
 
           <div
             className={cn(
-              "absolute top-[calc(100%+8px)] right-0 z-30 origin-top-right transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+              "absolute top-[calc(100%+8px)] right-0 z-30 origin-top-right transition-opacity duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
               customPanelOpen
-                ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0",
+                ? "pointer-events-auto opacity-100"
+                : "pointer-events-none opacity-0",
             )}
           >
             <div className="inline-flex items-center gap-3 whitespace-nowrap rounded-xl border border-[#DBDDE2] bg-white px-3 py-2.5 shadow-[0_8px_24px_rgba(16,24,40,0.12)]">
@@ -441,14 +463,15 @@ export function FilterBar() {
         </div>
 
         <div
-          className="relative inline-flex h-[44px] items-stretch rounded-[10px] bg-white"
+          className="relative inline-flex h-8 items-stretch rounded-[8px] bg-white 2xl:h-[44px] 2xl:rounded-[10px]"
           style={{
             outline: "1px solid rgba(13, 24, 61, 0.15)",
             outlineOffset: "-1px",
           }}
         >
-          <span className="group/baseline relative inline-flex items-center gap-1 rounded-l-[10px] bg-[#E8EEF4] py-[14px] pr-3 pl-[14px] text-[12px] font-medium leading-4 text-[#617385]">
-            Baseline Median
+          <span className="group/baseline relative inline-flex items-center gap-1 rounded-l-[8px] bg-[#E9EBEE] px-2 text-[10px] font-medium leading-4 text-[#617385] 2xl:rounded-l-[10px] 2xl:py-[14px] 2xl:pr-3 2xl:pl-[14px] 2xl:text-[12px]">
+            <span className="2xl:hidden">Baseline</span>
+            <span className="hidden 2xl:inline">Baseline Median</span>
             <span className="relative inline-flex">
               <img
                 src="/assets/icons/help.svg"
@@ -480,9 +503,11 @@ export function FilterBar() {
               setProductOpen(false);
               setBaselineOpen((v) => !v);
             }}
-            className="inline-flex items-center gap-2 rounded-r-[10px] border-l border-[rgba(13,24,61,0.15)] bg-white px-3 text-[12px] font-medium leading-4 text-[#617385]"
+            className="inline-flex items-center gap-1 rounded-r-[8px] border-l border-[rgba(13,24,61,0.15)] bg-white px-2 text-[10px] font-medium leading-4 text-[#617385] 2xl:gap-2 2xl:rounded-r-[10px] 2xl:px-3 2xl:text-[12px]"
           >
-            {baseline}
+            <span className="max-w-[88px] truncate 2xl:max-w-none">
+              {baseline}
+            </span>
             <span
               className={cn(
                 "inline-flex transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",

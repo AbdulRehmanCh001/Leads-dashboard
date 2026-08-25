@@ -2,7 +2,15 @@
 
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Book"), local("Gotham");
+  src: url("/font/Gotham-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("/font/Gotham-Book.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +18,7 @@
 
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Medium"), local("Gotham");
+  src: url("/font/Gotham-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -18,7 +26,7 @@
 
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Bold"), local("Gotham");
+  src: url("/font/Gotham-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -27,8 +35,7 @@
 :root {
   --background: #f9fafb;
   --foreground: #1d3650;
-  --font-gotham: var(--font-inter), "Gotham", "Gotham Book", "Helvetica Neue",
-    Helvetica, Arial, sans-serif;
+  --font-gotham: "Gotham";
 }
 
 @theme inline {
@@ -53,7 +60,6 @@
   --color-icr-bar-prev: #e5e7eb;
 
   --font-sans: var(--font-gotham);
-  --font-geist: var(--font-gotham);
 
   --radius-sm: 8px;
   --radius-md: 10px;
@@ -61,6 +67,7 @@
 }
 
 @layer base {
+
   *,
   *::before,
   *::after {
@@ -105,10 +112,8 @@
 }
 
 @utility bg-icr-tint {
-  background: linear-gradient(
-      0deg,
+  background: linear-gradient(0deg,
       rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0.95) 100%
-    ),
+      rgba(255, 255, 255, 0.95) 100%),
     #f6861f;
 }

@@ -95,7 +95,7 @@ export function DashboardFiltersProvider({ children }: { children: ReactNode }) 
       clearDepartment: () => setDepartment(DEPARTMENT_ALL),
       clearProduct: () => setProduct(PRODUCT_ALL),
       activeCount,
-      scopeLabel: parts.length ? parts.join(" - ") : null,
+      scopeLabel: parts.length ? parts.join(" · ") : null,
       regionActive,
       departmentActive,
       productActive,

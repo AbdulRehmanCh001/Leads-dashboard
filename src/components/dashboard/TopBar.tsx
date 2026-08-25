@@ -29,7 +29,7 @@ export function TopBar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex h-auto min-h-[56px] items-center justify-between gap-4 border-b border-[#E6EBF1] bg-white px-4 py-2 lg:h-[61px] lg:px-5 lg:py-3">
+    <header className="sticky top-0 z-30 flex h-auto min-h-[56px] items-center justify-between gap-3 border-b border-[#E6EBF1] bg-white px-4 py-2 lg:h-[52px] lg:px-4 lg:py-2 2xl:h-[61px] 2xl:gap-4 2xl:px-5 2xl:py-3">
       <div className="flex items-center gap-0 lg:hidden">
         <button
           type="button"
@@ -65,11 +65,13 @@ export function TopBar() {
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-2 rounded-[10px] border border-[#E9EBEE] bg-white px-3 py-2 text-icr-navy"
+          className="flex items-center gap-1.5 rounded-[8px] border border-[#E9EBEE] bg-white px-2.5 py-1.5 text-icr-navy 2xl:gap-2 2xl:rounded-[10px] 2xl:px-3 2xl:py-2"
         >
-          <IconGlobeOutline size={14} className="text-icr-navy" />
-          <span className="text-sm font-semibold text-[#6A7282]">REGION</span>
-          <span className="text-base font-semibold text-icr-navy">
+          <IconGlobeOutline size={13} className="text-icr-navy" />
+          <span className="text-[11px] font-semibold text-[#6A7282] 2xl:text-sm">
+            REGION
+          </span>
+          <span className="text-[13px] font-semibold text-icr-navy 2xl:text-base">
             {topRegion}
           </span>
           <span
@@ -78,7 +80,7 @@ export function TopBar() {
               open && "rotate-180",
             )}
           >
-            <IconChevronDown size={16} className="text-[#6A7282]" />
+            <IconChevronDown size={14} className="text-[#6A7282]" />
           </span>
         </button>
         <div
@@ -112,8 +114,8 @@ export function TopBar() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 lg:gap-3">
-        <label className="hidden h-9 w-[280px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:flex">
+      <div className="flex items-center gap-3 lg:gap-2 2xl:gap-3">
+        <label className="hidden h-8 w-[220px] items-center gap-2 rounded-lg border border-[#E6EBF1] bg-white px-2.5 text-[11px] text-[#6C7C8D] lg:flex 2xl:h-9 2xl:w-[280px] 2xl:text-xs">
           <IconSearch size={14} />
           <input
             type="search"
@@ -123,10 +125,10 @@ export function TopBar() {
         </label>
         <button
           type="button"
-          className="hidden size-8 place-items-center rounded-[10px] text-[#6A7282] lg:grid"
+          className="hidden size-7 place-items-center rounded-[10px] text-[#6A7282] lg:grid 2xl:size-8"
           aria-label="Help"
         >
-          <IconHelp size={16} />
+          <IconHelp size={15} />
         </button>
         <div className="flex items-center gap-1 lg:hidden">
           <button
@@ -161,7 +163,7 @@ export function TopBar() {
           alt=""
           width={40}
           height={40}
-          className="size-10 rounded-full object-cover outline outline-1 outline-[rgba(29,54,80,0.10)] lg:size-8"
+          className="size-10 rounded-full object-cover outline outline-1 outline-[rgba(29,54,80,0.10)] lg:size-7 2xl:size-8"
           priority
         />
       </div>

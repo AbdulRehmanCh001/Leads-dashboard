@@ -11,7 +11,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const collapseMs = 500;
+const fadeMs = 600;
 const collapseEase = "duration-500 ease-in-out";
+const fadeEase = "duration-[600ms] ease-[cubic-bezier(0.4,0,0.2,1)]";
 const collapseGrid = cn(
   "grid transition-[grid-template-rows] motion-reduce:transition-none",
   collapseEase,
@@ -20,6 +22,8 @@ const chevronMotion = cn(
   "inline-flex origin-center transition-transform motion-reduce:transition-none",
   collapseEase,
 );
+
+type ExpandAnim = "height" | "fade";
 
 type LeadMode = "open" | "closed" | "both";
 type Breakdown = "department" | "region";
@@ -40,7 +44,10 @@ type Metric = {
   trendKind: TrendKind;
   baseline: string;
   hint?: string;
-  items: BreakdownItem[];
+  collectiveHint?: string;
+  footnote?: string;
+  individualItems: BreakdownItem[];
+  collectiveItems: BreakdownItem[];
 };
 
 const openMetrics: Metric[] = [
@@ -50,7 +57,7 @@ const openMetrics: Metric[] = [
     trend: "+75%",
     trendKind: "up",
     baseline: "173",
-    items: [
+    individualItems: [
       { label: "Intake", value: "8", right: "+33% vs last month", trend: "up" },
       { label: "Sales", value: "34", right: "+10% vs last month", trend: "up" },
       { label: "Engineering", value: "61", right: "+13% vs last month", trend: "up" },
@@ -58,6 +65,7 @@ const openMetrics: Metric[] = [
       { label: "Collaborative review", value: "30", right: "+50% vs last month", trend: "up" },
       { label: "Commercial", value: "28", right: "-33% vs last month", trend: "bad" },
     ],
+    collectiveItems: [],
   },
   {
     title: "Median Lead Age",
@@ -65,7 +73,15 @@ const openMetrics: Metric[] = [
     trend: "-29%",
     trendKind: "down-good",
     baseline: "9d",
-    items: [
+    individualItems: [
+      { label: "Intake", value: "0.5d", right: "8d Baseline" },
+      { label: "Sales", value: "2d", right: "9d Baseline" },
+      { label: "Engineering", value: "12d", right: "12.5d Baseline" },
+      { label: "Operations", value: "3.5d", right: "9d Baseline" },
+      { label: "Collaborative review", value: "4d", right: "10d Baseline" },
+      { label: "Commercial", value: "9d", right: "9d Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "0.5d", right: "8d Baseline" },
       { label: "Sales", value: "2d", right: "9d Baseline" },
       { label: "Engineering", value: "12d", right: "12.5d Baseline" },
@@ -81,7 +97,15 @@ const openMetrics: Metric[] = [
     trend: "+5%",
     trendKind: "up",
     baseline: "95%",
-    items: [
+    individualItems: [
+      { label: "Intake", value: "100%", right: "25% Baseline" },
+      { label: "Sales", value: "94%", right: "81% Baseline" },
+      { label: "Engineering", value: "79%", right: "82% Baseline" },
+      { label: "Operations", value: "186%", right: "58% Baseline" },
+      { label: "Collaborative review", value: "80%", right: "93% Baseline" },
+      { label: "Commercial", value: "96%", right: "79% Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "100%", right: "25% Baseline" },
       { label: "Sales", value: "94%", right: "81% Baseline" },
       { label: "Engineering", value: "79%", right: "82% Baseline" },
@@ -96,7 +120,15 @@ const openMetrics: Metric[] = [
     trend: "+33%",
     trendKind: "bad",
     baseline: "9",
-    items: [
+    individualItems: [
+      { label: "Intake", value: "0", right: "1 Baseline" },
+      { label: "Sales", value: "2", right: "1 Baseline" },
+      { label: "Engineering", value: "13", right: "1 Baseline" },
+      { label: "Operations", value: "2", right: "1 Baseline" },
+      { label: "Collaborative review", value: "6", right: "0 Baseline" },
+      { label: "Commercial", value: "1", right: "1 Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "0", right: "1 Baseline" },
       { label: "Sales", value: "2", right: "1 Baseline" },
       { label: "Engineering", value: "13", right: "1 Baseline" },
@@ -113,7 +145,16 @@ const openMetrics: Metric[] = [
     trendKind: "down-good",
     baseline: "31",
     hint: "12 Blocked on ICR · 10 Blocked on Customer",
-    items: [
+    collectiveHint: "12 Blocked on ICR · 10 Blocked on Customer",
+    individualItems: [
+      { label: "Intake", value: "2" },
+      { label: "Sales", value: "5" },
+      { label: "Engineering", value: "7" },
+      { label: "Operations", value: "0" },
+      { label: "Collaborative review", value: "7" },
+      { label: "Commercial", value: "1" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "2" },
       { label: "Sales", value: "5" },
       { label: "Engineering", value: "7" },
@@ -131,9 +172,13 @@ const closedMetrics: Metric[] = [
     trend: "+13%",
     trendKind: "up",
     baseline: "27",
-    items: [
+    individualItems: [
       { label: "Completed", value: "55" },
       { label: "Abandoned this month", value: "5" },
+    ],
+    collectiveItems: [
+      { label: "Blocked on ICR", value: "55" },
+      { label: "Blocked on Customer", value: "10" },
     ],
   },
   {
@@ -142,13 +187,23 @@ const closedMetrics: Metric[] = [
     trend: "+100%",
     trendKind: "bad",
     baseline: "9d",
-    items: [
+    footnote:
+      "Velocity time includes only completed leads. Abandoned leads excluded.",
+    individualItems: [
+      { label: "Intake", value: "0.5d", right: "8d Baseline" },
+      { label: "Sales", value: "2d", right: "9d Baseline" },
+      { label: "Engineering", value: "14d", right: "12d Baseline" },
+      { label: "Operations", value: "3.5d", right: "7.5d Baseline" },
+      { label: "Collaborative review", value: "4d", right: "9d Baseline" },
+      { label: "Commercial", value: "9d", right: "10d Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "0.5d", right: "8d Baseline" },
       { label: "Sales", value: "2d", right: "9d Baseline" },
       { label: "Engineering", value: "12d", right: "12.5d Baseline" },
-      { label: "Operations", value: "3.5d", right: "9d Baseline" },
-      { label: "Collaborative review", value: "4d", right: "10d Baseline" },
-      { label: "Commercial", value: "9d", right: "7.9d Baseline" },
+      { label: "Operations", value: "0", right: "9d Baseline" },
+      { label: "Collaborative review", value: "7", right: "10d Baseline" },
+      { label: "Commercial", value: "1", right: "9d Baseline" },
     ],
   },
   {
@@ -158,11 +213,19 @@ const closedMetrics: Metric[] = [
     trend: "+21%",
     trendKind: "up",
     baseline: "72%",
-    items: [
+    individualItems: [
+      { label: "Intake", value: "75%", right: "25% Baseline" },
+      { label: "Sales", value: "67%", right: "81% Baseline" },
+      { label: "Engineering", value: "96%", right: "82% Baseline" },
+      { label: "Operations", value: "100%", right: "58% Baseline" },
+      { label: "Collaborative review", value: "77%", right: "93% Baseline" },
+      { label: "Commercial", value: "91%", right: "79% Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "100%", right: "25% Baseline" },
       { label: "Sales", value: "94%", right: "81% Baseline" },
       { label: "Engineering", value: "79%", right: "82% Baseline" },
-      { label: "Operations", value: "85%", right: "58% Baseline" },
+      { label: "Operations", value: "186%", right: "58% Baseline" },
       { label: "Collaborative review", value: "80%", right: "93% Baseline" },
       { label: "Commercial", value: "96%", right: "79% Baseline" },
     ],
@@ -173,12 +236,20 @@ const closedMetrics: Metric[] = [
     trend: "-47%",
     trendKind: "down-good",
     baseline: "7",
-    items: [
+    individualItems: [
+      { label: "Intake", value: "1", right: "0 Baseline" },
+      { label: "Sales", value: "2", right: "1 Baseline" },
+      { label: "Engineering", value: "1", right: "1 Baseline" },
+      { label: "Operations", value: "0", right: "0 Baseline" },
+      { label: "Collaborative review", value: "3", right: "0 Baseline" },
+      { label: "Commercial", value: "1", right: "0 Baseline" },
+    ],
+    collectiveItems: [
       { label: "Intake", value: "0", right: "0 Baseline" },
       { label: "Sales", value: "2", right: "1 Baseline" },
-      { label: "Engineering", value: "3", right: "1 Baseline" },
-      { label: "Operations", value: "1", right: "0 Baseline" },
-      { label: "Collaborative review", value: "1", right: "0 Baseline" },
+      { label: "Engineering", value: "13", right: "1 Baseline" },
+      { label: "Operations", value: "2", right: "0 Baseline" },
+      { label: "Collaborative review", value: "6", right: "0 Baseline" },
       { label: "Commercial", value: "1", right: "0 Baseline" },
     ],
   },
@@ -188,13 +259,35 @@ const closedMetrics: Metric[] = [
     trend: "+29%",
     trendKind: "up",
     baseline: "101",
-    items: [
+    individualItems: [
+      { label: "Calculations", value: "55", right: "12 Revised" },
+      { label: "Drawings", value: "50", right: "4 Revised" },
+      { label: "Quotations", value: "25", right: "0 Revised" },
+    ],
+    collectiveItems: [
       { label: "Calculations", value: "55", right: "12 Revised" },
       { label: "Drawings", value: "50", right: "4 Revised" },
       { label: "Quotations", value: "25", right: "0 Revised" },
     ],
   },
 ];
+
+const breakdownBoxPad =
+  "px-3 pt-2 pb-[22px] lg:px-2 lg:pt-2 lg:pb-3";
+
+const breakdownCellPad =
+  "px-0 py-3 lg:pr-2 lg:pt-2 lg:pb-3";
+
+function BreakdownFootnote({ text }: { text: string }) {
+  return (
+    <div className="mt-2 flex items-stretch gap-2">
+      <span className="w-[2px] shrink-0 bg-[#DBDDE2]" aria-hidden />
+      <p className="min-w-0 text-[10px] leading-[140%] tracking-[-0.04em] text-[rgba(29,54,80,0.65)]">
+        {text}
+      </p>
+    </div>
+  );
+}
 
 function trendColor(kind: TrendKind) {
   return kind === "bad" ? "text-[#B3261E]" : "text-[#067647]";
@@ -205,15 +298,17 @@ function Trend({ value, kind }: { value: string; kind: TrendKind }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center gap-0.5 self-end whitespace-nowrap text-[10px] leading-[14px] tracking-[-0.4px] lg:gap-1",
+        "inline-flex shrink-0 items-end gap-0.5 self-end text-[10px] leading-[14px] tracking-[-0.4px] lg:gap-0.5 min-[1700px]:gap-1",
         trendColor(kind),
       )}
     >
-      <span className="inline-flex items-center gap-0.5 font-[500]">
+      <span className="inline-flex items-center gap-0.5 whitespace-nowrap font-[500]">
         <Arrow size={12} />
         {value}
       </span>
-      <span className="font-[400]">vs last month</span>
+      <span className="hidden whitespace-nowrap font-[400] min-[1700px]:inline">
+        vs last month
+      </span>
     </span>
   );
 }
@@ -231,36 +326,50 @@ function ModeToggle({
     { id: "both", label: "Both" },
   ];
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const fadeTimer = useRef<number | null>(null);
   const [pill, setPill] = useState({
     left: 0,
     width: 0,
     ready: false,
-    animate: false,
   });
+  const [pillVisible, setPillVisible] = useState(true);
+  const [displayMode, setDisplayMode] = useState(mode);
 
   useLayoutEffect(() => {
-    const idx = options.findIndex((o) => o.id === mode);
+    const idx = options.findIndex((o) => o.id === displayMode);
     const btn = btnRefs.current[idx];
     if (!btn) return;
-    const left = btn.offsetLeft;
-    const width = btn.offsetWidth;
-    setPill((prev) => ({
-      left,
-      width,
+    setPill({
+      left: btn.offsetLeft,
+      width: btn.offsetWidth,
       ready: true,
-      animate: prev.ready,
-    }));
-  }, [mode]);
+    });
+  }, [displayMode]);
+
+  useEffect(() => {
+    return () => {
+      if (fadeTimer.current) window.clearTimeout(fadeTimer.current);
+    };
+  }, []);
+
+  function selectMode(next: LeadMode) {
+    if (next === mode) return;
+    if (fadeTimer.current) window.clearTimeout(fadeTimer.current);
+    setPillVisible(false);
+    onChange(next);
+    fadeTimer.current = window.setTimeout(() => {
+      setDisplayMode(next);
+      fadeTimer.current = window.setTimeout(() => setPillVisible(true), 30);
+    }, 280);
+  }
 
   return (
     <div className="relative inline-flex w-full rounded-[8px] border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute top-1 bottom-1 rounded-[6px] border border-[#F6861F] bg-icr-tint",
-          pill.animate &&
-            "transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          pill.ready ? "opacity-100" : "opacity-0",
+          "pointer-events-none absolute top-1 bottom-1 rounded-[6px] border border-[#F6861F] bg-icr-tint transition-opacity duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+          pill.ready && pillVisible ? "opacity-100" : "opacity-0",
         )}
         style={{ left: pill.left, width: pill.width }}
       />
@@ -271,10 +380,12 @@ function ModeToggle({
             btnRefs.current[i] = el;
           }}
           type="button"
-          onClick={() => onChange(opt.id)}
+          onClick={() => selectMode(opt.id)}
           className={cn(
-            "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none",
-            mode === opt.id ? "text-icr-orange" : "text-[rgba(29,54,80,0.8)]",
+            "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none",
+            displayMode === opt.id
+              ? "text-icr-orange"
+              : "text-[rgba(29,54,80,0.8)]",
           )}
         >
           {opt.label}
@@ -284,18 +395,10 @@ function ModeToggle({
   );
 }
 
-function CollapseToggle({
-  open,
-  onClick,
-}: {
-  open: boolean;
-  onClick: () => void;
-}) {
+function CollapseToggle({ open }: { open: boolean }) {
   return (
-    <button
-      type="button"
-      aria-expanded={open}
-      onClick={onClick}
+    <span
+      aria-hidden
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded text-icr-navy",
         "p-0 lg:bg-[#F8F9FA] lg:p-1.5",
@@ -319,13 +422,13 @@ function CollapseToggle({
       >
         <IconChevronDown size={12} />
       </span>
-    </button>
+    </span>
   );
 }
 
 function BreakdownHint({ hint }: { hint: string }) {
   return (
-    <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy">
+    <div className="mb-2 flex flex-wrap items-center gap-2 text-[10px] leading-[140%] tracking-[-0.04em] text-icr-navy">
       {hint.split(" · ").map((part, i) => {
         const [count, ...rest] = part.split(" ");
         return (
@@ -343,25 +446,27 @@ function BreakdownHint({ hint }: { hint: string }) {
 }
 
 function BreakdownItems({
-  metric,
+  items,
+  metricTitle,
   tone = "colored",
 }: {
-  metric: Metric;
+  items: BreakdownItem[];
+  metricTitle: string;
   tone?: "muted" | "colored";
 }) {
   return (
     <div className="flex flex-col gap-2">
-      {metric.items.map((item) => (
+      {items.map((item) => (
         <div
-          className="flex items-center justify-between gap-2 text-[10px] leading-[14px] tracking-[-0.4px] text-icr-navy lg:text-xs lg:leading-[18px]"
-          key={`${metric.title}-${item.label}`}
+          className="flex items-start justify-between gap-2 text-[10px] leading-[140%] tracking-[-0.04em] text-icr-navy"
+          key={`${metricTitle}-${item.label}`}
         >
-          <div className="flex items-end gap-1">
-            <span className="font-[500]">{item.value}</span>
-            <span className="font-[400]">{item.label}</span>
+          <div className="flex min-w-0 flex-1 items-end gap-1">
+            <span className="shrink-0 font-[500]">{item.value}</span>
+            <span className="min-w-0 font-[400]">{item.label}</span>
           </div>
           {item.right ? (
-            <div className="flex items-center gap-1 whitespace-nowrap text-right">
+            <div className="flex shrink-0 items-center gap-1 whitespace-nowrap text-right">
               {item.trend ? (
                 tone === "muted" ? (
                   <span className="font-[400] text-[rgba(29,54,80,0.70)]">
@@ -405,76 +510,196 @@ function BreakdownItems({
   );
 }
 
+function MetricHoverTooltip({
+  metric,
+  align = "start",
+}: {
+  metric: Metric;
+  align?: "start" | "end";
+}) {
+  if (metric.individualItems.length === 0) return null;
+  return (
+    <div
+      className={cn(
+        "pointer-events-none absolute top-full z-[60] mt-1 hidden w-max origin-top",
+        "rounded-[12px] border border-[#E8EEF4] bg-white py-2.5 pl-4 pr-2",
+        "opacity-0 shadow-[0_8px_28px_rgba(16,24,40,0.14)]",
+        "transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
+        "group-hover/metric:opacity-100",
+        "lg:block lg:min-w-[148px] lg:max-w-[min(320px,calc(100vw-4rem))]",
+        "2xl:left-0 2xl:right-auto 2xl:min-w-full 2xl:max-w-none 2xl:origin-top-left",
+        align === "end"
+          ? "right-0 left-auto origin-top-right 2xl:left-0 2xl:right-auto"
+          : "left-0 origin-top-left",
+      )}
+    >
+      <div className="mb-2 text-[10px] font-medium tracking-wide text-[#6A7282] uppercase">
+        Current month breakdown
+      </div>
+      {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
+      <BreakdownItems
+        items={metric.individualItems}
+        metricTitle={`hover-${metric.title}`}
+        tone="colored"
+      />
+    </div>
+  );
+}
+
 function MetricTop({
   metric,
   individualOpen,
   collectiveOpen,
+  animMode,
+  isFadingOut,
   onToggle,
   showDivider,
   isLast,
+  tooltipAlign = "start",
 }: {
   metric: Metric;
   individualOpen: boolean;
   collectiveOpen: boolean;
+  animMode: ExpandAnim;
+  isFadingOut: boolean;
   onToggle: () => void;
   showDivider: boolean;
   isLast: boolean;
+  tooltipAlign?: "start" | "end";
 }) {
+  const showPanel = individualOpen || isFadingOut;
+  const [fadeVisible, setFadeVisible] = useState(false);
+
+  useEffect(() => {
+    if (!showPanel) {
+      setFadeVisible(false);
+      return;
+    }
+    if (animMode !== "fade") {
+      setFadeVisible(true);
+      return;
+    }
+    if (isFadingOut) {
+      setFadeVisible(false);
+      return;
+    }
+    setFadeVisible(false);
+    const t = window.setTimeout(() => setFadeVisible(true), 20);
+    return () => window.clearTimeout(t);
+  }, [showPanel, animMode, isFadingOut, metric.title]);
+
+  const useHeight = animMode === "height";
+  const panelOpacity =
+    useHeight || fadeVisible ? "opacity-100" : "opacity-0";
+  const headerShifted = useHeight ? showPanel : fadeVisible;
+
   return (
     <div
       className={cn(
-        "flex h-full min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:gap-3 lg:border-b-0 lg:px-4 lg:pt-2",
+        "group/metric relative flex h-full min-w-0 flex-col gap-1.5 border-b border-[#DBDDE2] px-0 py-2 lg:gap-2 lg:border-b-0 lg:pr-2 lg:pt-2 2xl:gap-3 2xl:pr-4",
         "transition-[padding] motion-reduce:transition-none",
         collapseEase,
         collectiveOpen ? "pb-0 lg:pb-0" : "pb-3 lg:pb-4",
-        showDivider && "lg:border-l lg:border-[#DBDDE2]",
+        showDivider ? "lg:pl-2.5 2xl:pl-4" : "lg:pl-3 2xl:pl-3",
         isLast && "border-b-0",
+        "lg:hover:z-50",
       )}
     >
-      <div className="flex items-center gap-1.5 lg:justify-between lg:gap-2">
-        <div className="min-w-0 text-xs font-medium leading-[16.2px] text-[rgba(29,54,80,0.8)] lg:flex-1 lg:text-sm lg:leading-[18.9px]">
+      {showDivider ? (
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute top-0 left-0 hidden w-px bg-[#DBDDE2] lg:block",
+            collectiveOpen ? "bottom-0" : "bottom-3 lg:bottom-4",
+          )}
+        />
+      ) : null}
+      <button
+        type="button"
+        aria-expanded={showPanel}
+        onClick={onToggle}
+        className={cn(
+          "flex w-full cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-left transition-transform motion-reduce:transition-none lg:justify-between lg:gap-1 2xl:gap-2",
+          fadeEase,
+          headerShifted && "lg:translate-x-[5px]",
+        )}
+      >
+        <span className="min-w-0 text-xs font-medium leading-[16.2px] text-[rgba(29,54,80,0.8)] lg:flex-1 lg:text-[11px] lg:leading-[15px] 2xl:text-sm 2xl:leading-[18.9px]">
           {metric.title}
-        </div>
-        <CollapseToggle open={individualOpen} onClick={onToggle} />
-      </div>
+        </span>
+        <CollapseToggle open={showPanel} />
+      </button>
 
-      <div className="flex min-w-0 flex-col gap-3">
-        <div className="flex min-w-0 flex-wrap items-end gap-2 lg:flex-nowrap lg:gap-1">
-          <div className="shrink-0 text-lg font-medium leading-[24.3px] tracking-normal text-icr-navy lg:text-2xl lg:leading-[32.4px] lg:tracking-[-0.05em]">
-            {metric.value}
-          </div>
-          {metric.aside ? (
-            <div className="shrink pb-0.5 text-xs leading-3 whitespace-nowrap text-[#475467] lg:text-sm lg:leading-none lg:tracking-[-0.05em]">
-              {metric.aside}
+      <div className="relative">
+        <button
+          type="button"
+          onClick={onToggle}
+          className="flex w-full min-w-0 cursor-pointer flex-col gap-2 border-0 bg-transparent p-0 text-left 2xl:gap-3"
+        >
+          <div className="flex w-full min-w-0 flex-wrap items-end gap-x-1.5 gap-y-1 min-[1700px]:gap-1">
+            <div className="shrink-0 text-lg font-medium leading-[24.3px] tracking-normal text-icr-navy lg:text-xl lg:leading-[28px] lg:tracking-[-0.04em] 2xl:text-2xl 2xl:leading-[32.4px] 2xl:tracking-[-0.05em]">
+              {metric.value}
             </div>
-          ) : null}
-          <Trend value={metric.trend} kind={metric.trendKind} />
-        </div>
-        <div className="flex items-center gap-1 pb-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467] lg:pb-0">
-          <span className="font-[400]">Baseline Median</span>
-          <span className="font-[500]">{metric.baseline}</span>
-        </div>
+            {metric.aside ? (
+              <div className="shrink-0 pb-0.5 text-[10px] leading-3 whitespace-nowrap text-[#475467] lg:text-[10px] lg:leading-[12px] 2xl:text-sm 2xl:leading-none 2xl:tracking-[-0.05em]">
+                {metric.aside}
+              </div>
+            ) : null}
+            <Trend value={metric.trend} kind={metric.trendKind} />
+          </div>
+          <div className="flex items-center gap-1 pb-1 text-[10px] leading-[14px] tracking-[-0.4px] text-[#475467] lg:pb-0">
+            <span className="font-[400]">Baseline Median</span>
+            <span className="font-[500]">{metric.baseline}</span>
+          </div>
+        </button>
+        {!showPanel ? (
+          <MetricHoverTooltip metric={metric} align={tooltipAlign} />
+        ) : null}
       </div>
 
       <div
         className={cn(
-          collapseGrid,
-          individualOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          "lg:-mr-2",
+          useHeight
+            ? cn(
+                collapseGrid,
+                showPanel ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+              )
+            : cn(
+                "grid",
+                showPanel ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+              ),
         )}
       >
         <div className="min-h-0 overflow-hidden">
-          <div
+          <button
+            type="button"
+            onClick={onToggle}
             className={cn(
-              "bg-[#F8F9FA] px-3 pt-2 pb-[22px] lg:px-4",
+              "w-full cursor-pointer border-0 bg-[#F8F9FA] text-left",
+              breakdownBoxPad,
               collectiveOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg",
+              !useHeight &&
+                cn(
+                  "transition-opacity motion-reduce:transition-none",
+                  fadeEase,
+                ),
+              panelOpacity,
             )}
           >
             <div className="mb-2 text-[10px] font-medium tracking-wide text-[#6A7282] uppercase">
               Current month breakdown
             </div>
             {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
-            <BreakdownItems metric={metric} tone="muted" />
-          </div>
+            <BreakdownItems
+              items={metric.individualItems}
+              metricTitle={metric.title}
+              tone="muted"
+            />
+            {metric.footnote ? (
+              <BreakdownFootnote text={metric.footnote} />
+            ) : null}
+          </button>
         </div>
       </div>
     </div>
@@ -485,25 +710,38 @@ function CollectiveCell({
   metric,
   showDivider,
   isLast,
+  fading,
 }: {
   metric: Metric;
   showDivider: boolean;
   isLast: boolean;
+  fading: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "h-full",
-        showDivider && "lg:border-l lg:border-[#DBDDE2]",
-      )}
-    >
+    <div className="relative h-full">
+      {showDivider ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute top-0 bottom-3 left-0 hidden w-px bg-[#DBDDE2] lg:block"
+        />
+      ) : null}
       <div
         className={cn(
-          "px-0 py-3 lg:px-4 lg:py-3",
+          breakdownCellPad,
+          showDivider ? "lg:pl-2.5 2xl:pl-4" : "lg:pl-3",
+          "transition-opacity motion-reduce:transition-none",
+          fadeEase,
+          fading ? "opacity-0" : "opacity-100",
         )}
       >
-        {metric.hint ? <BreakdownHint hint={metric.hint} /> : null}
-        <BreakdownItems metric={metric} tone="colored" />
+        {metric.collectiveHint ? (
+          <BreakdownHint hint={metric.collectiveHint} />
+        ) : null}
+        <BreakdownItems
+          items={metric.collectiveItems}
+          metricTitle={metric.title}
+          tone="colored"
+        />
       </div>
     </div>
   );
@@ -517,13 +755,16 @@ function SummaryPanel({
   metrics: Metric[];
 }) {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [animModes, setAnimModes] = useState<Record<string, ExpandAnim>>({});
+  const [fadingKeys, setFadingKeys] = useState<string[]>([]);
   const [collectiveOpen, setCollectiveOpen] = useState(false);
   const [breakdown, setBreakdown] = useState<Breakdown>("department");
+  const [breakdownFading, setBreakdownFading] = useState(false);
   const anyIndividual = openKeys.length > 0;
   const mobileAllOpen =
     metrics.length > 0 && openKeys.length === metrics.length;
   const showBreakdownTabs = mobileAllOpen;
-  const showBreakdownTabsDesktop = collectiveOpen || anyIndividual;
+  const showBreakdownTabsDesktop = collectiveOpen;
   const collectiveRef = useRef<HTMLDivElement>(null);
   const [collectiveHeight, setCollectiveHeight] = useState(0);
   const breakdownBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -561,15 +802,45 @@ function SummaryPanel({
 
   useEffect(() => {
     setOpenKeys([]);
+    setAnimModes({});
+    setFadingKeys([]);
     setCollectiveOpen(false);
+    setBreakdown("department");
+    setBreakdownFading(false);
   }, [title]);
 
+  function selectBreakdown(next: Breakdown) {
+    if (next === breakdown || breakdownFading) return;
+    setBreakdownFading(true);
+    window.setTimeout(() => {
+      setBreakdown(next);
+      window.setTimeout(() => setBreakdownFading(false), 20);
+    }, fadeMs);
+  }
+
   function toggleOne(metricTitle: string) {
-    setOpenKeys((curr) =>
-      curr.includes(metricTitle)
-        ? curr.filter((t) => t !== metricTitle)
-        : [...curr, metricTitle],
-    );
+    if (fadingKeys.includes(metricTitle)) return;
+    const desktop = window.matchMedia("(min-width: 1024px)").matches;
+
+    if (openKeys.includes(metricTitle)) {
+      if (openKeys.length === 1 || !desktop) {
+        setAnimModes((m) => ({ ...m, [metricTitle]: "height" }));
+        setOpenKeys((curr) => curr.filter((t) => t !== metricTitle));
+        return;
+      }
+      setAnimModes((m) => ({ ...m, [metricTitle]: "fade" }));
+      setFadingKeys((keys) => [...keys, metricTitle]);
+      window.setTimeout(() => {
+        setOpenKeys((curr) => curr.filter((t) => t !== metricTitle));
+        setFadingKeys((keys) => keys.filter((t) => t !== metricTitle));
+      }, fadeMs);
+      return;
+    }
+
+    const mode: ExpandAnim =
+      !desktop || openKeys.length === 0 ? "height" : "fade";
+    setAnimModes((m) => ({ ...m, [metricTitle]: mode }));
+    setOpenKeys((curr) => [...curr, metricTitle]);
   }
 
   function toggleFooterBreakdown() {
@@ -578,32 +849,46 @@ function SummaryPanel({
       setCollectiveOpen((v) => !v);
       return;
     }
-    setOpenKeys((curr) =>
-      curr.length === metrics.length ? [] : metrics.map((m) => m.title),
-    );
+    setOpenKeys((curr) => {
+      if (curr.length === metrics.length) {
+        const nextModes: Record<string, ExpandAnim> = {};
+        metrics.forEach((m) => {
+          nextModes[m.title] = "height";
+        });
+        setAnimModes(nextModes);
+        setFadingKeys([]);
+        return [];
+      }
+      const nextModes: Record<string, ExpandAnim> = {};
+      metrics.forEach((m) => {
+        nextModes[m.title] = "height";
+      });
+      setAnimModes(nextModes);
+      setFadingKeys([]);
+      return metrics.map((m) => m.title);
+    });
   }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-[14px] border border-[#DBDDE2] bg-white pt-3">
-      <div className="flex flex-col gap-2 px-3 lg:gap-4 lg:px-0">
-        <div className="flex flex-col items-stretch gap-2 lg:h-8 lg:flex-row lg:items-center lg:justify-between lg:gap-3 lg:px-4">
+    <div className="flex w-full flex-col overflow-hidden rounded-[14px] border border-[#DBDDE2] bg-white pt-3 lg:overflow-visible">
+      <div className="relative z-10 flex flex-col gap-2 overflow-visible px-3 lg:gap-4 lg:px-0">
+        <div className="flex flex-col items-stretch gap-2 lg:h-8 lg:flex-row lg:items-center lg:justify-between lg:gap-3 lg:px-3">
           <h3 className="m-0 text-xs font-medium leading-[15px] text-icr-navy lg:text-sm lg:leading-[17.5px]">
             {title}
           </h3>
           <div
             className={cn(
-              collapseGrid,
-              "transition-opacity motion-reduce:transition-none",
-              collapseEase,
+              "overflow-hidden transition-opacity motion-reduce:transition-none",
+              fadeEase,
               showBreakdownTabs
-                ? "grid-rows-[1fr] opacity-100"
-                : "pointer-events-none grid-rows-[0fr] opacity-0",
+                ? "pointer-events-auto max-h-20 opacity-100"
+                : "pointer-events-none max-h-0 opacity-0",
               showBreakdownTabsDesktop
-                ? "lg:pointer-events-auto lg:grid-rows-[1fr] lg:opacity-100"
-                : "lg:pointer-events-none lg:grid-rows-[0fr] lg:opacity-0",
+                ? "lg:pointer-events-auto lg:max-h-20 lg:opacity-100"
+                : "lg:pointer-events-none lg:max-h-0 lg:opacity-0",
             )}
           >
-            <div className="min-h-0 overflow-hidden">
+            <div className="min-h-0">
               <div className="relative inline-flex w-full rounded-[8px] border border-[rgba(13,24,61,0.10)] bg-white p-1 lg:w-auto lg:border-[rgba(13,24,61,0.15)]">
                 <span
                   aria-hidden
@@ -623,7 +908,7 @@ function SummaryPanel({
                     breakdownBtnRefs.current[0] = el;
                   }}
                   type="button"
-                  onClick={() => setBreakdown("department")}
+                  onClick={() => selectBreakdown("department")}
                   className={cn(
                     "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none lg:px-3",
                     breakdown === "department"
@@ -638,7 +923,7 @@ function SummaryPanel({
                     breakdownBtnRefs.current[1] = el;
                   }}
                   type="button"
-                  onClick={() => setBreakdown("region")}
+                  onClick={() => selectBreakdown("region")}
                   className={cn(
                     "relative z-10 flex-1 rounded-[6px] px-2.5 py-1 text-xs font-medium leading-[15.6px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex-none lg:px-3",
                     breakdown === "region"
@@ -655,15 +940,21 @@ function SummaryPanel({
 
         <div className="grid grid-cols-1 lg:grid-cols-5 lg:items-stretch">
           {metrics.map((m, i) => (
-            <div key={m.title} className="min-w-0 lg:h-full">
+            <div
+              key={m.title}
+              className="relative z-0 min-w-0 overflow-visible lg:h-full lg:hover:z-50"
+            >
               <MetricTop
-              metric={m}
+                metric={m}
                 individualOpen={openKeys.includes(m.title)}
                 collectiveOpen={collectiveOpen}
-              onToggle={() => toggleOne(m.title)}
-              showDivider={i > 0}
-              isLast={i === metrics.length - 1}
-            />
+                animMode={animModes[m.title] ?? "height"}
+                isFadingOut={fadingKeys.includes(m.title)}
+                onToggle={() => toggleOne(m.title)}
+                showDivider={i > 0}
+                isLast={i === metrics.length - 1}
+                tooltipAlign={i >= metrics.length - 2 ? "end" : "start"}
+              />
             </div>
           ))}
         </div>
@@ -685,6 +976,7 @@ function SummaryPanel({
                   metric={m}
                   showDivider={i > 0}
                   isLast={i === metrics.length - 1}
+                  fading={breakdownFading}
                 />
               ))}
             </div>
@@ -734,6 +1026,8 @@ function SummaryPanel({
 
 export function SummarySection() {
   const [mode, setMode] = useState<LeadMode>("open");
+  const showOpen = mode === "open" || mode === "both";
+  const showClosed = mode === "closed" || mode === "both";
 
   return (
     <section className="flex flex-col gap-3 rounded-[14px] border border-[#DBDDE2] bg-white p-3 lg:gap-4 lg:p-4">
@@ -763,28 +1057,47 @@ export function SummarySection() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        {mode === "both" ? (
-          <>
-            <SummaryPanel
-              title="Open Leads this month"
-              metrics={openMetrics}
-            />
+      <div className="flex flex-col">
+        <div
+          className={cn(
+            collapseGrid,
+            showOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+        >
+          <div
+            className={cn(
+              "min-h-0",
+              showOpen ? "overflow-visible" : "overflow-hidden",
+            )}
+          >
+            <div
+              className={cn(showOpen && showClosed && "mb-4 lg:mb-6")}
+            >
+              <SummaryPanel
+                title="Open Leads this month"
+                metrics={openMetrics}
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className={cn(
+            collapseGrid,
+            showClosed ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+        >
+          <div
+            className={cn(
+              "min-h-0",
+              showClosed ? "overflow-visible" : "overflow-hidden",
+            )}
+          >
             <SummaryPanel
               title="Closed Leads this month"
               metrics={closedMetrics}
             />
-          </>
-        ) : (
-          <SummaryPanel
-            title={
-              mode === "open"
-                ? "Open Leads this month"
-                : "Closed Leads this month"
-            }
-            metrics={mode === "open" ? openMetrics : closedMetrics}
-          />
-        )}
+          </div>
+        </div>
       </div>
     </section>
   );

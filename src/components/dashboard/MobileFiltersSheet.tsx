@@ -138,6 +138,9 @@ export function MobileFiltersSheet() {
   } = useDashboardFilters();
 
   const [period, setPeriod] = useState<Period>("Month");
+  const [displayPeriod, setDisplayPeriod] = useState<Period>("Month");
+  const [periodPillVisible, setPeriodPillVisible] = useState(true);
+  const periodFadeTimer = useRef<number | null>(null);
   const [baseline, setBaseline] = useState<string>(baselines[0]);
   const [draftRegion, setDraftRegion] = useState<RegionFilter>(region);
   const [draftDept, setDraftDept] = useState<DepartmentFilter>(department);
@@ -169,7 +172,7 @@ export function MobileFiltersSheet() {
   }, [customOpen]);
 
   function measurePeriodPill() {
-    const idx = periods.indexOf(period);
+    const idx = periods.indexOf(displayPeriod);
     const btn = periodBtnRefs.current[idx];
     if (!btn) return;
     setPeriodPill({
@@ -182,13 +185,33 @@ export function MobileFiltersSheet() {
   useLayoutEffect(() => {
     if (!filtersOpen) return;
     measurePeriodPill();
-  }, [period, filtersOpen, visible]);
+  }, [displayPeriod, filtersOpen, visible]);
 
   useEffect(() => {
     if (!filtersOpen) return;
     window.addEventListener("resize", measurePeriodPill);
     return () => window.removeEventListener("resize", measurePeriodPill);
-  }, [period, filtersOpen]);
+  }, [displayPeriod, filtersOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (periodFadeTimer.current) window.clearTimeout(periodFadeTimer.current);
+    };
+  }, []);
+
+  function selectPeriod(p: Period) {
+    if (p === period) return;
+    if (periodFadeTimer.current) window.clearTimeout(periodFadeTimer.current);
+    setPeriodPillVisible(false);
+    setPeriod(p);
+    periodFadeTimer.current = window.setTimeout(() => {
+      setDisplayPeriod(p);
+      periodFadeTimer.current = window.setTimeout(
+        () => setPeriodPillVisible(true),
+        30,
+      );
+    }, 280);
+  }
 
   useEffect(() => {
     if (filtersOpen) {
@@ -298,13 +321,15 @@ export function MobileFiltersSheet() {
                 <span
                   aria-hidden
                   className={cn(
-                    "pointer-events-none absolute top-0.5 bottom-0.5 rounded-lg bg-icr-tint outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)] transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                    periodPill.ready ? "opacity-100" : "opacity-0",
+                    "pointer-events-none absolute top-0.5 bottom-0.5 rounded-lg bg-icr-tint outline outline-1 outline-offset-[-1px] outline-[rgba(246,134,31,0.55)] transition-opacity duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    periodPill.ready && periodPillVisible
+                      ? "opacity-100"
+                      : "opacity-0",
                   )}
                   style={{ left: periodPill.left, width: periodPill.width }}
                 />
                 {periods.map((p, i) => {
-                  const active = period === p;
+                  const active = displayPeriod === p;
                   return (
                     <button
                       key={p}
@@ -312,9 +337,9 @@ export function MobileFiltersSheet() {
                         periodBtnRefs.current[i] = el;
                       }}
                       type="button"
-                      onClick={() => setPeriod(p)}
+                      onClick={() => selectPeriod(p)}
                       className={cn(
-                        "relative z-10 flex h-[30px] flex-1 items-center justify-center rounded-lg px-1 text-center text-xs font-medium leading-[16.8px] transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                        "relative z-10 flex h-[30px] flex-1 items-center justify-center rounded-lg px-1 text-center text-xs font-medium leading-[16.8px] transition-colors duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
                         active
                           ? "text-icr-orange"
                           : "text-[rgba(29,54,80,0.65)]",

@@ -109,42 +109,42 @@ const columns = [
   {
     key: "lead",
     label: "Lead",
-    className: "min-w-[164px] w-[164px] lg:min-w-0 lg:w-[18%]",
+    className: "min-w-[164px] w-[164px] 2xl:min-w-0 2xl:w-[18%]",
   },
   {
     key: "customer",
     label: "Customer",
-    className: "min-w-[200px] lg:min-w-0 lg:w-[14%]",
+    className: "min-w-[200px] 2xl:min-w-0 2xl:w-[14%]",
   },
   {
     key: "product",
     label: "Product",
-    className: "min-w-[200px] lg:min-w-0 lg:w-[11%]",
+    className: "min-w-[200px] 2xl:min-w-0 2xl:w-[11%]",
   },
   {
     key: "region",
     label: "Region",
-    className: "min-w-[200px] lg:min-w-0 lg:w-[10%] text-left",
+    className: "min-w-[200px] 2xl:min-w-0 2xl:w-[10%] text-left",
   },
   {
     key: "department",
     label: "Department",
-    className: "min-w-[200px] lg:min-w-0 lg:w-[13%]",
+    className: "min-w-[200px] 2xl:min-w-0 2xl:w-[13%]",
   },
   {
     key: "state",
     label: "State",
-    className: "min-w-[100px] lg:min-w-0 lg:w-[9%] text-center",
+    className: "min-w-[100px] 2xl:min-w-0 2xl:w-[9%] text-center",
   },
   {
     key: "age",
     label: "Age / Cycle",
-    className: "min-w-[100px] lg:min-w-0 lg:w-[8%] text-center",
+    className: "min-w-[100px] 2xl:min-w-0 2xl:w-[8%] text-center",
   },
   {
     key: "status",
     label: "Status",
-    className: "min-w-[120px] lg:min-w-0 lg:w-[10%] text-center",
+    className: "min-w-[120px] 2xl:min-w-0 2xl:w-[10%] text-center",
   },
   {
     key: "action",
@@ -154,7 +154,7 @@ const columns = [
 ] as const;
 
 const actionStickyClass =
-  "relative sticky right-0 z-20 lg:static lg:z-auto";
+  "relative sticky right-0 z-20 2xl:static 2xl:z-auto";
 
 const actionStickyShadow =
   "before:pointer-events-none before:absolute before:inset-y-0 before:right-full before:w-3 before:bg-gradient-to-l before:from-[rgba(16,24,40,0.14)] before:to-transparent shadow-[-4px_0_11px_rgba(0,0,0,0.12)] lg:before:hidden lg:shadow-none";
@@ -287,10 +287,10 @@ export function LeadRegister() {
 
   return (
     <>
-      <section className="flex min-w-0 flex-col gap-6 overflow-hidden rounded-[14px] border border-[rgba(13,24,61,0.15)] bg-white py-3 lg:py-4">
-        <div className="flex flex-col gap-2.5 px-[10px] lg:flex-row lg:items-start lg:gap-2.5 lg:px-4">
+      <section className="flex min-w-0 flex-col gap-4 overflow-hidden rounded-[14px] border border-[rgba(13,24,61,0.15)] bg-white py-3 lg:gap-5 lg:py-3.5 2xl:gap-6 2xl:py-4">
+        <div className="flex flex-col gap-2.5 px-[10px] lg:flex-row lg:items-start lg:gap-2.5 lg:px-3 2xl:px-4">
           <div className="min-w-0 flex-1">
-            <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-base lg:leading-5">
+            <h2 className="m-0 text-sm font-medium leading-[17.5px] text-icr-navy lg:text-[15px] lg:leading-[19px] 2xl:text-base 2xl:leading-5">
               Lead register
             </h2>
             <p className="m-0 text-xs leading-[16.8px] text-[rgba(29,54,80,0.65)]">
@@ -298,7 +298,7 @@ export function LeadRegister() {
               automatically.
             </p>
           </div>
-          <label className="flex h-8 w-full shrink-0 items-center gap-2 overflow-hidden rounded-[7px] border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:h-9 lg:w-[280px] lg:rounded-lg">
+          <label className="flex h-8 w-full shrink-0 items-center gap-2 overflow-hidden rounded-[7px] border border-[#E6EBF1] bg-white px-2.5 text-xs text-[#6C7C8D] lg:h-8 lg:w-[220px] lg:rounded-lg lg:text-[11px] 2xl:h-9 2xl:w-[280px] 2xl:text-xs">
             <IconSearch size={14} />
             <input
               type="search"
@@ -335,21 +335,21 @@ export function LeadRegister() {
 
         <div
           ref={tableScrollRef}
-          className="min-w-0 overflow-x-auto lg:overflow-x-hidden"
+          className="min-w-0 overflow-x-auto 2xl:overflow-x-hidden"
         >
-          <table className="w-full min-w-[1100px] border-collapse lg:min-w-0 lg:table-fixed">
+          <table className="w-full min-w-[1100px] border-collapse 2xl:min-w-0 2xl:table-fixed">
             <thead>
               <tr>
                 {columns.map((col) => (
                   <th
                     key={col.key}
                     className={cn(
-                      "h-[39px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-3 text-left text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385]",
+                      "h-[36px] border-b border-[rgba(13,24,61,0.1)] bg-[#F8F9FA] py-2.5 text-left text-[10px] font-medium uppercase leading-[15px] tracking-[0.25px] text-[#617385] 2xl:h-[39px] 2xl:py-3",
                       col.key === "lead" || col.key === "customer"
-                        ? "px-4"
+                        ? "px-3 2xl:px-4"
                         : col.key === "action"
-                          ? "px-2"
-                          : "px-3",
+                          ? "px-1.5 2xl:px-2"
+                          : "px-2.5 2xl:px-3",
                       col.key === "action" && "text-center",
                       col.className,
                       col.key === "action" &&
@@ -392,26 +392,26 @@ export function LeadRegister() {
               ) : (
                 filtered.map((lead) => (
                   <tr key={lead.id} className="group">
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle">
+                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-3 py-3 align-middle 2xl:h-[68px] 2xl:px-4 2xl:py-4">
                       <div className="flex min-w-0 flex-col justify-start gap-0">
-                        <span className="truncate text-xs font-medium leading-[17.4px] text-icr-navy lg:text-sm lg:leading-[20.3px]">
+                        <span className="truncate text-xs font-medium leading-[17.4px] text-icr-navy 2xl:text-sm 2xl:leading-[20.3px]">
                           {lead.id}
                         </span>
-                        <span className="truncate text-xs leading-[16.8px] text-[#9AA1A8]">
+                        <span className="truncate text-[11px] leading-[15px] text-[#9AA1A8] 2xl:text-xs 2xl:leading-[16.8px]">
                           {lead.title}
                         </span>
                       </div>
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-4 py-4 align-middle whitespace-nowrap text-[10px] font-medium leading-[15px] text-icr-navy lg:max-w-0 lg:truncate">
+                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-3 py-3 align-middle whitespace-nowrap text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:max-w-0 2xl:truncate 2xl:px-4 2xl:py-4">
                       {lead.customer}
                     </td>
-                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       {lead.product}
                     </td>
-                    <td className="h-[68px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[56px] max-w-0 truncate border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-left align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       {lead.region}
                     </td>
-                    <td className="h-[68px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-3 py-4 align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[56px] max-w-0 border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       <span className="inline-flex max-w-full items-center gap-1.5">
                         <span
                           className="size-1.5 shrink-0 rounded-full lg:hidden"
@@ -423,29 +423,29 @@ export function LeadRegister() {
                         <span className="truncate">{lead.department}</span>
                       </span>
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle">
+                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E9FDF3] px-[7px] py-0.5 text-[10px] font-medium leading-[15px] text-[#0D9B91]">
                         <span className="size-1.5 rounded-full bg-[#0D9B91]" />
                         Active
                       </span>
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy">
+                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle text-[10px] font-medium leading-[15px] text-icr-navy 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       {lead.age}
                     </td>
-                    <td className="h-[68px] border-b border-[rgba(13,24,61,0.1)] px-3 py-4 text-center align-middle">
+                    <td className="h-[56px] border-b border-[rgba(13,24,61,0.1)] px-2.5 py-3 text-center align-middle 2xl:h-[68px] 2xl:px-3 2xl:py-4">
                       <StatusBadge status={lead.status} />
                     </td>
                     <td
                       className={cn(
                         actionStickyClass,
-                        "h-[68px] border-b border-[rgba(13,24,61,0.1)] bg-white px-2 py-4 text-center align-middle",
+                        "h-[56px] border-b border-[rgba(13,24,61,0.1)] bg-white px-1.5 py-3 text-center align-middle 2xl:h-[68px] 2xl:px-2 2xl:py-4",
                         showActionShadow && actionStickyShadow,
                       )}
                     >
                       <button
                         type="button"
                         onClick={() => openLead(lead)}
-                        className="inline-flex h-9 w-12 items-center justify-center gap-2 rounded-[8px] bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5]"
+                        className="inline-flex h-8 w-10 items-center justify-center gap-2 rounded-[8px] bg-[#F8F9FA] text-icr-navy transition-colors hover:bg-[#ECF0F5] 2xl:h-9 2xl:w-12"
                         aria-label={`Open ${lead.id}`}
                       >
                         <IconChevronRight size={12} />
@@ -458,21 +458,21 @@ export function LeadRegister() {
           </table>
         </div>
 
-        <div className="flex min-w-0 flex-col items-stretch gap-3 px-2 lg:flex-row lg:items-center lg:justify-between lg:px-4 lg:py-3 lg:pr-3">
-          <div className="hidden items-center gap-2.5 text-base text-[#434343] lg:inline-flex">
+        <div className="flex min-w-0 flex-col items-stretch gap-3 px-2 lg:flex-row lg:items-center lg:justify-between lg:px-3 lg:py-2.5 lg:pr-2 2xl:px-4 2xl:py-3 2xl:pr-3">
+          <div className="hidden items-center gap-2 text-[13px] text-[#434343] lg:inline-flex 2xl:gap-2.5 2xl:text-base">
             Show by:
             <button
               type="button"
-              className="inline-flex h-10 w-[122px] items-center justify-between rounded-xl border border-[#E9EBEE] bg-[#F8FAFB] px-3 text-base text-[#7E848A] opacity-75"
+              className="inline-flex h-8 w-[100px] items-center justify-between rounded-lg border border-[#E9EBEE] bg-[#F8FAFB] px-2.5 text-[13px] text-[#7E848A] opacity-75 2xl:h-10 2xl:w-[122px] 2xl:rounded-xl 2xl:px-3 2xl:text-base"
             >
               7 items
               <IconChevronDown size={12} />
             </button>
           </div>
-          <div className="mx-auto flex h-11 max-w-full items-center justify-center gap-2 overflow-x-auto px-2 lg:mx-0">
+          <div className="mx-auto flex h-9 max-w-full items-center justify-center gap-1.5 overflow-x-auto px-2 lg:mx-0 2xl:h-11 2xl:gap-2">
             <button
               type="button"
-              className="grid size-10 shrink-0 place-items-center text-[#5C5F6A]"
+              className="grid size-8 shrink-0 place-items-center text-[#5C5F6A] 2xl:size-10"
               aria-label="Previous page"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
             >
@@ -484,14 +484,14 @@ export function LeadRegister() {
                 type="button"
                 onClick={() => setPage(n)}
                 className={cn(
-                  "grid size-10 shrink-0 place-items-center rounded-full text-xs font-medium capitalize leading-6",
+                  "grid size-8 shrink-0 place-items-center rounded-full text-[11px] font-medium capitalize leading-5 2xl:size-10 2xl:text-xs 2xl:leading-6",
                   page === n ? "bg-icr-navy text-white" : "text-[#474B57]",
                 )}
               >
                 {n}
               </button>
             ))}
-            <span className="grid size-10 shrink-0 place-items-center text-sm font-medium text-[#474B57]">
+            <span className="grid size-8 shrink-0 place-items-center text-xs font-medium text-[#474B57] 2xl:size-10 2xl:text-sm">
               …
             </span>
             {[23, 24].map((n) => (
@@ -500,7 +500,7 @@ export function LeadRegister() {
                 type="button"
                 onClick={() => setPage(n)}
                 className={cn(
-                  "grid size-10 shrink-0 place-items-center rounded-full text-xs font-medium capitalize leading-6",
+                  "grid size-8 shrink-0 place-items-center rounded-full text-[11px] font-medium capitalize leading-5 2xl:size-10 2xl:text-xs 2xl:leading-6",
                   page === n ? "bg-icr-navy text-white" : "text-[#474B57]",
                 )}
               >
@@ -509,7 +509,7 @@ export function LeadRegister() {
             ))}
             <button
               type="button"
-              className="grid size-10 shrink-0 place-items-center text-[#0E1422]"
+              className="grid size-8 shrink-0 place-items-center text-[#0E1422] 2xl:size-10"
               aria-label="Next page"
               onClick={() => setPage((p) => Math.min(24, p + 1))}
             >

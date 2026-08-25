@@ -19,8 +19,8 @@ import {
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-const DRAWER_MS = 400;
-const DRAWER_EASE = "cubic-bezier(0.32, 0.72, 0, 1)";
+const DRAWER_MS = 450;
+const DRAWER_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 export type LeadDetail = {
   id: string;
@@ -181,8 +181,10 @@ export function LeadDetailDrawer({
 
   useEffect(() => {
     if (!mounted || !open) return;
-    const id = window.setTimeout(() => setVisible(true), 16);
-    return () => window.clearTimeout(id);
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setVisible(true));
+    });
+    return () => window.cancelAnimationFrame(id);
   }, [mounted, open]);
 
   useEffect(() => {
@@ -191,11 +193,20 @@ export function LeadDetailDrawer({
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
+
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const prevOverflow = document.body.style.overflow;
+    const prevPadding = document.body.style.paddingRight;
     document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPadding;
     };
   }, [mounted, onClose]);
 
@@ -210,7 +221,10 @@ export function LeadDetailDrawer({
           "absolute inset-0 bg-[rgba(29,54,80,0.28)] transition-opacity",
           visible ? "opacity-100" : "opacity-0",
         )}
-        style={{ transitionDuration: `${DRAWER_MS}ms`, transitionTimingFunction: DRAWER_EASE }}
+        style={{
+          transitionDuration: `${DRAWER_MS}ms`,
+          transitionTimingFunction: DRAWER_EASE,
+        }}
         onClick={onClose}
       />
       <aside
@@ -219,7 +233,10 @@ export function LeadDetailDrawer({
           "transition-transform",
           visible ? "translate-x-0" : "translate-x-full",
         )}
-        style={{ transitionDuration: `${DRAWER_MS}ms`, transitionTimingFunction: DRAWER_EASE }}
+        style={{
+          transitionDuration: `${DRAWER_MS}ms`,
+          transitionTimingFunction: DRAWER_EASE,
+        }}
       >
         <div className="flex w-full flex-col items-center gap-3.5">
           <div className="flex w-full max-w-[416px] flex-col gap-2">

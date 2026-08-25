@@ -15,14 +15,14 @@ const allLeadsSubs = [
 const userSubs = ["Overview", "Users", "Groups", "Policies"] as const;
 
 const navRow =
-  "flex w-full items-center gap-2.5 py-2.5 pr-3 pl-4 text-left";
+  "flex w-full items-center gap-2 py-2 pr-2 pl-3 text-left 2xl:gap-2.5 2xl:py-2.5 2xl:pr-3 2xl:pl-4";
 const navLabel =
-  "text-[14px] font-[350] leading-5 whitespace-nowrap text-[#6C7C8D]";
+  "text-[12px] font-[350] leading-4 whitespace-nowrap text-[#6C7C8D] 2xl:text-[14px] 2xl:leading-5";
 const subLabel =
-  "text-[14px] font-[350] leading-5 whitespace-nowrap text-[rgba(29,54,80,0.65)]";
+  "text-[12px] font-[350] leading-4 whitespace-nowrap text-[rgba(29,54,80,0.65)] 2xl:text-[14px] 2xl:leading-5";
 const chevron =
-  "h-4 w-4 shrink-0 object-contain transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]";
-const navIcon = "size-5 shrink-0 object-contain";
+  "h-3.5 w-3.5 shrink-0 object-contain transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 2xl:h-4 2xl:w-4";
+const navIcon = "size-4 shrink-0 object-contain 2xl:size-5";
 
 function NavLabel({
   children,
@@ -63,11 +63,11 @@ function Submenu({
       <div className="min-h-0 overflow-hidden">
         <div
           className={cn(
-            "pl-6 transition-[padding,opacity] duration-300",
-            open ? "py-2.5 opacity-100" : "py-0 opacity-0",
+            "pl-5 transition-[padding,opacity] duration-300 2xl:pl-6",
+            open ? "py-2 opacity-100 2xl:py-2.5" : "py-0 opacity-0",
           )}
         >
-          <div className="flex w-full flex-col border-l border-[rgba(13,24,61,0.15)] pl-6">
+          <div className="flex w-full flex-col border-l border-[rgba(13,24,61,0.15)] pl-4 2xl:pl-6">
             {children}
           </div>
         </div>
@@ -95,21 +95,21 @@ function SidebarNav({
   return (
     <>
       <div
-        className={cn(
-          "box-border flex h-10 w-full shrink-0 items-center justify-between self-stretch",
-          collapsed ? "justify-center pl-0" : "pl-5",
-        )}
-      >
+          className={cn(
+            "box-border flex h-9 w-full shrink-0 items-center justify-between self-stretch 2xl:h-10",
+            collapsed ? "justify-center pl-0" : "pl-3 2xl:pl-5",
+          )}
+        >
         <div
           className={cn(
-            "relative h-5 w-[51.9px] shrink-0 overflow-hidden transition-[width,opacity] duration-200",
+            "relative h-4 w-[44px] shrink-0 overflow-hidden transition-[width,opacity] duration-200 2xl:h-5 2xl:w-[51.9px]",
             collapsed && "w-0 opacity-0",
           )}
         >
           <img
             src="/assets/images/logo.svg"
             alt="ICR"
-            className="h-5 w-auto max-w-none"
+            className="h-full w-auto max-w-none"
           />
         </div>
         <button
@@ -125,10 +125,10 @@ function SidebarNav({
             if (mobile) onNavigate?.();
             else setCollapsed(!collapsed);
           }}
-          className="grid size-9 shrink-0 place-items-center rounded-md"
+          className="grid size-8 shrink-0 place-items-center rounded-md 2xl:size-9"
         >
           <img
-            className="h-5 w-5"
+            className="h-4 w-4 2xl:h-5 2xl:w-5"
             src="/assets/icons/sidebarHumberger.svg"
             alt=""
           />
@@ -138,8 +138,8 @@ function SidebarNav({
       <div className="flex w-full flex-1 flex-col">
         <div
           className={cn(
-            "w-full py-4",
-            collapsed ? "flex justify-center px-0" : "pr-3 pl-4",
+            "w-full py-3 2xl:py-4",
+            collapsed ? "flex justify-center px-0" : "pr-2 pl-3 2xl:pr-3 2xl:pl-4",
           )}
         >
           <button
@@ -149,8 +149,8 @@ function SidebarNav({
             className={cn(
               "inline-flex items-center justify-center gap-1 overflow-hidden rounded-[10px] bg-icr-orange text-white transition-colors hover:bg-[#e57818]",
               collapsed
-                ? "size-10"
-                : "w-full px-4 py-2.5 text-[12px] font-[350] leading-[17.4px]",
+                ? "size-9 2xl:size-10"
+                : "w-full px-3 py-2 text-[11px] font-[350] leading-[16px] 2xl:px-4 2xl:py-2.5 2xl:text-[12px] 2xl:leading-[17.4px]",
             )}
           >
             <img
@@ -190,7 +190,7 @@ function SidebarNav({
               <button
                 key={item}
                 type="button"
-                className="flex h-10 w-full flex-col justify-center rounded-lg px-3 py-2.5 text-left"
+                className="flex h-8 w-full flex-col justify-center rounded-lg px-2.5 py-2 text-left 2xl:h-10 2xl:px-3 2xl:py-2.5"
                 onClick={onNavigate}
               >
                 <span className={subLabel}>{item}</span>
@@ -252,7 +252,7 @@ function SidebarNav({
               <button
                 key={item}
                 type="button"
-                className="flex h-10 w-full flex-col justify-center px-3 py-2.5 text-left"
+                className="flex h-8 w-full flex-col justify-center px-2.5 py-2 text-left 2xl:h-10 2xl:px-3 2xl:py-2.5"
                 onClick={onNavigate}
               >
                 <span className={subLabel}>{item}</span>
@@ -305,8 +305,10 @@ export function Sidebar() {
     <>
       <aside
         className={cn(
-          "sticky top-0 hidden h-screen min-h-screen w-60 shrink-0 flex-col items-start overflow-x-hidden overflow-y-auto border-r border-[#e6ebf1] bg-white text-[14px] text-[#6C7C8D] transition-[width,padding] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex",
-          collapsed ? "w-[72px] p-3" : "w-60 p-3",
+          "sticky top-0 hidden h-screen min-h-screen shrink-0 flex-col items-start overflow-x-hidden overflow-y-auto border-r border-[#e6ebf1] bg-white text-[12px] text-[#6C7C8D] transition-[width,padding] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] lg:flex 2xl:text-[14px]",
+          collapsed
+            ? "w-16 p-2 2xl:w-[72px] 2xl:p-3"
+            : "w-52 p-2 2xl:w-60 2xl:p-3",
         )}
       >
         <SidebarNav collapsed={collapsed} setCollapsed={setCollapsed} />
